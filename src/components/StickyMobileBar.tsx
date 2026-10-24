@@ -8,22 +8,26 @@ interface StickyMobileBarProps {
 
 export const StickyMobileBar: React.FC<StickyMobileBarProps> = ({ onOpenCallback }) => {
   return (
-    <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 px-3 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] shadow-2xl">
-      <div className="grid grid-cols-2 gap-2">
+    <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-md border-t border-emerald-900/60 px-3 pt-2.5 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-2xl">
+      <div className="grid grid-cols-2 gap-2.5">
         <a
           href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-          className="flex items-center justify-center gap-2 py-3 px-2 bg-blue-600 active:bg-blue-700 text-white font-black text-xs rounded-xl shadow-md"
+          className="flex items-center justify-center gap-2 py-3 px-2 bg-emerald-700 active:bg-emerald-800 text-white font-black text-xs rounded-xl shadow-md min-h-[46px]"
         >
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-400"></span>
+          </span>
           <Phone className="w-4 h-4" />
-          <span>Call 1800 623 252</span>
+          <span>Call 0416 388 777</span>
         </a>
 
         <button
           onClick={onOpenCallback}
-          className="flex items-center justify-center gap-1.5 py-3 px-2 bg-amber-400 active:bg-amber-500 text-slate-950 font-black text-xs rounded-xl shadow-md cursor-pointer"
+          className="flex items-center justify-center gap-1.5 py-3 px-2 bg-amber-400 active:bg-amber-500 text-slate-950 font-black text-xs rounded-xl shadow-md min-h-[46px] cursor-pointer"
         >
           <Sparkles className="w-4 h-4 text-slate-950" />
-          <span>$50 Off Voucher</span>
+          <span>Free Quote ($50 Off)</span>
         </button>
       </div>
     </div>

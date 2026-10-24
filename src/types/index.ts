@@ -7,12 +7,12 @@ export interface PestService {
   signsOfInfestation: string[];
   treatmentProcess: string[];
   warranty: string;
-  priceFrom: number;
-  promoPrice: number;
   popular?: boolean;
   iconName: string;
   imageHint: string;
-  keyFeatures: string[];
+  keyFeatures?: string[];
+  safetyNote?: string;
+  turnaroundTime?: string;
 }
 
 export interface SuburbArea {

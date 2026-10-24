@@ -7,7 +7,9 @@ interface HeaderProps {
   onOpenCallback: (service?: string) => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenCallback }) => {
+export const Header: React.FC<HeaderProps> = ({ 
+  onOpenCallback,
+}) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -21,7 +23,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCallback }) => {
 
   const navLinks = [
     { label: 'Services', href: '#services' },
-    { label: 'Pricing Calculator', href: '#calculator' },
+    { label: 'Free Quote Assessment', href: '#assessment' },
     { label: 'Service Areas', href: '#areas' },
     { label: 'Why Legend', href: '#why-us' },
     { label: 'Reviews', href: '#reviews' },
@@ -32,29 +34,29 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCallback }) => {
   return (
     <>
       {/* Top Notification Bar */}
-      <div className="bg-slate-900 text-slate-200 text-xs py-2 px-4 border-b border-slate-800">
+      <div className="bg-slate-950 text-slate-200 text-xs py-2 px-4 border-b border-emerald-950">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1.5 text-amber-400 font-semibold">
+          <div className="flex items-center gap-3">
+            <span className="flex items-center gap-1.5 text-amber-400 font-bold">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Special Offer: $50 OFF For New Customers</span>
             </span>
-            <span className="hidden md:inline-flex items-center gap-1 text-slate-400">
-              <Shield className="w-3.5 h-3.5 text-blue-400" />
-              <span>6-Month Treatment Re-spray Warranty</span>
+            <span className="hidden md:inline-flex items-center gap-1 text-emerald-300 font-medium">
+              <Shield className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Every pest problem, one legendary solution</span>
             </span>
           </div>
 
-          <div className="flex items-center gap-4 ml-auto">
+          <div className="flex items-center gap-3 ml-auto">
             <span className="hidden sm:inline-flex items-center gap-1.5 text-slate-300">
               <Clock className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Available 7 Days • Same-Day Dispatch</span>
+              <span>Available 7 Days</span>
             </span>
             <a
               href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-              className="flex items-center gap-1 font-bold text-white hover:text-amber-400 transition"
+              className="flex items-center gap-1 font-extrabold text-white hover:text-amber-400 transition"
             >
-              <Phone className="w-3.5 h-3.5 text-blue-400" />
+              <Phone className="w-3.5 h-3.5 text-emerald-400" />
               <span>Free Rapid Quote: {COMPANY_DETAILS.phone}</span>
             </a>
           </div>
@@ -65,13 +67,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCallback }) => {
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${
           isScrolled
-            ? 'bg-white/95 backdrop-blur-md shadow-md py-2.5'
+            ? 'bg-white/95 backdrop-blur-md shadow-md py-2.5 border-b border-emerald-100'
             : 'bg-white py-3.5 border-b border-slate-100'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-2 group">
+          {/* Logo with official brand design */}
+          <a href="#" className="flex items-center gap-2 group" aria-label="Legend Pest Control Home">
             <LegendLogo />
           </a>
 
@@ -81,7 +83,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCallback }) => {
               <a
                 key={link.label}
                 href={link.href}
-                className="hover:text-blue-600 transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-blue-600 hover:after:w-full after:transition-all"
+                className="hover:text-emerald-700 transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-emerald-600 hover:after:w-full after:transition-all"
               >
                 {link.label}
               </a>
@@ -92,18 +94,18 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCallback }) => {
           <div className="hidden sm:flex items-center gap-3">
             <button
               onClick={() => onOpenCallback()}
-              className="px-4 py-2 text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-full border border-blue-200 transition shadow-xs cursor-pointer"
+              className="px-4 py-2 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-full border border-emerald-200 transition shadow-xs cursor-pointer"
             >
-              Get a Callback
+              Request Free Quote
             </button>
 
             <a
               href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-extrabold text-sm rounded-full shadow-md shadow-blue-600/25 transition-transform hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 active:bg-emerald-900 text-white font-extrabold text-sm rounded-full shadow-md shadow-emerald-700/25 transition-transform hover:scale-[1.02] active:scale-[0.98]"
             >
               <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-400"></span>
               </span>
               <Phone className="w-4 h-4" />
               <span>Call {COMPANY_DETAILS.phone}</span>
@@ -114,14 +116,14 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCallback }) => {
           <div className="flex sm:hidden items-center gap-2">
             <a
               href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-              className="p-2 bg-blue-600 text-white rounded-full shadow-sm"
+              className="p-2.5 bg-emerald-700 text-white rounded-full shadow-sm"
               aria-label="Call Now"
             >
               <Phone className="w-4 h-4" />
             </a>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-slate-700 hover:text-blue-600 hover:bg-slate-100 rounded-lg transition"
+              className="p-2 text-slate-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg transition cursor-pointer"
               aria-label="Toggle Navigation"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -131,15 +133,15 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCallback }) => {
 
         {/* Mobile Dropdown Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-3 animate-in slide-in-from-top-2 duration-200">
+          <div className="lg:hidden bg-white border-b border-emerald-100 px-4 pt-3 pb-6 space-y-3 animate-in slide-in-from-top-2 duration-200 shadow-xl">
             <div className="flex items-center justify-between pb-2 border-b border-slate-100 text-xs text-slate-500">
-              <span className="flex items-center gap-1 text-emerald-600 font-semibold">
+              <span className="flex items-center gap-1.5 text-emerald-700 font-bold">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
-                Technicians on duty today
+                Local Technicians On Road Today
               </span>
               <span className="flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5 text-blue-600" />
-                Geelong & Melbourne West
+                <MapPin className="w-3.5 h-3.5 text-emerald-600" />
+                Geelong &amp; Melbourne West
               </span>
             </div>
 
@@ -149,7 +151,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCallback }) => {
                   key={link.label}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between py-2.5 px-3 rounded-lg text-slate-800 font-semibold hover:bg-blue-50 hover:text-blue-600 transition"
+                  className="flex items-center justify-between py-2.5 px-3 rounded-lg text-slate-800 font-semibold hover:bg-emerald-50 hover:text-emerald-700 transition"
                 >
                   <span>{link.label}</span>
                   <ChevronRight className="w-4 h-4 text-slate-400" />
@@ -160,7 +162,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCallback }) => {
             <div className="pt-2 space-y-2">
               <a
                 href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-                className="w-full flex items-center justify-center gap-2 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-md"
+                className="w-full flex items-center justify-center gap-2 py-3.5 bg-emerald-700 active:bg-emerald-800 text-white font-black rounded-xl shadow-md"
               >
                 <Phone className="w-4 h-4" />
                 Call {COMPANY_DETAILS.phone}
@@ -170,9 +172,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCallback }) => {
                   setMobileMenuOpen(false);
                   onOpenCallback();
                 }}
-                className="w-full py-2.5 bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold rounded-xl text-sm transition"
+                className="w-full py-3 bg-amber-400 hover:bg-amber-500 active:bg-amber-600 text-slate-950 font-black rounded-xl text-sm transition shadow-sm cursor-pointer"
               >
-                ⚡ Get a Callback ($50 Off Voucher)
+                ⚡ Get Free Quote ($50 Off Voucher)
               </button>
             </div>
           </div>

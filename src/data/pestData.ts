@@ -20,17 +20,36 @@ export const SERVICES: PestService[] = [
       'Targeted gel placements in hidden moisture areas and weep holes'
     ],
     warranty: '6-Month Free Re-treatment Warranty',
-    priceFrom: 249,
-    promoPrice: 199,
     popular: true,
     iconName: 'ShieldAlert',
     imageHint: 'spiders-ants-perimeter',
-    keyFeatures: [
-      'Covers Spiders, Ants, Cockroaches & Silverfish',
-      'Roof cavity & weep hole dusting included',
-      '100% Pet & Child Safe after 2 hours drying time',
-      'Australian Department of Health compliant'
-    ]
+    safetyNote: '100% Pet & Child Safe after 1.5–2 hours drying time',
+    turnaroundTime: 'Same-Day or Next-Day Service Available'
+  },
+  {
+    id: 'dead-animal-removal',
+    name: 'Dead Animal & Carcass Removal',
+    category: 'specialist',
+    shortDesc: 'Emergency sanitary extraction of dead possums, rodents & birds from roof cavities, subfloors & walls with hospital-grade deodorisation.',
+    fullDesc: 'Deceased animals inside roof spaces, wall cavities, or subfloors create unbearable foul odours, attract blowflies, maggots, and harmful airborne bacteria. Our licensed technicians locate the carcass, safely extract it following biohazard disposal protocols, and apply industrial-grade enzymatic deodorisers and antibacterial sanitiser.',
+    signsOfInfestation: [
+      'Foul, sickening, or rotting smell emanating from ceiling vents or wall cavities',
+      'Sudden swarm of large blowflies or flesh flies inside the house',
+      'Ceiling plaster discolouration, damp patches, or fluid staining',
+      'Pets persistently scratching or sniffing frantically at a specific wall section'
+    ],
+    treatmentProcess: [
+      'Thermal imaging and acoustic localization inside roof void, wall cavities, or subfloor',
+      'Safe, sanitary containment and biohazard removal of the carcass',
+      'Medical-grade hospital disinfectant spray to eliminate bacteria, maggots, and pathogens',
+      'Heavy-duty botanical enzymatic fogging to permanently neutralize biological odours'
+    ],
+    warranty: '100% Odour Neutralisation & Sanitisation Guarantee',
+    popular: true,
+    iconName: 'Sparkles',
+    imageHint: 'dead-animal-possum-roof',
+    safetyNote: 'Biohazard compliant with hospital-grade non-toxic disinfectants',
+    turnaroundTime: '⚡ Priority Emergency Dispatch within 1–3 Hours'
   },
   {
     id: 'german-cockroach-eradication',
@@ -39,7 +58,7 @@ export const SERVICES: PestService[] = [
     shortDesc: 'Targeted multi-visit eradication designed to break the 21-day egg hatching cycle in kitchens & appliances.',
     fullDesc: 'German cockroaches carry pathogens and breed at an exponential rate inside motor compartments of fridges, dishwashers, and ovens. Over-the-counter sprays scatter them deeper. We deploy professional bait matrix gels, insect growth regulators (IGR), and sticky monitor traps to eradicate the entire colony.',
     signsOfInfestation: [
-      'Small tan cockroaches hiding behind fridge seals or microwave',
+      'Small tan cockroaches hiding behind fridge seals or microwave motors',
       'Pepper-like droppings inside pantry hinges and under sinks',
       'Egg capsules (ootheca) visible in drawers or dark warm corners',
       'Musty oily odour in kitchen or laundry cabinetry'
@@ -51,17 +70,11 @@ export const SERVICES: PestService[] = [
       'Mandatory secondary follow-up to eliminate newly hatched nymphs'
     ],
     warranty: 'Colony Eradication Guarantee with 2-Stage Protocol',
-    priceFrom: 299,
-    promoPrice: 249,
     popular: false,
     iconName: 'Bug',
     imageHint: 'german-cockroach-kitchen',
-    keyFeatures: [
-      'Zero need to completely empty your food cupboards',
-      'Targets electrical motors where pests nest',
-      'Insect Growth Regulators halt reproduction',
-      'Includes follow-up booster inspection'
-    ]
+    safetyNote: 'No need to empty food cupboards; non-spray gel application',
+    turnaroundTime: 'Same-Day Dispatch Available'
   },
   {
     id: 'rodent-rat-mouse-control',
@@ -82,122 +95,95 @@ export const SERVICES: PestService[] = [
       'Entry point identification report with proofing recommendations'
     ],
     warranty: '6-Month Rodent Re-treatment Guarantee',
-    priceFrom: 269,
-    promoPrice: 219,
     popular: true,
     iconName: 'Rat',
     imageHint: 'rodent-control-melbourne',
-    keyFeatures: [
-      'Lockable tamper-proof stations safe for dogs & cats',
-      'Ceiling cavity & crawl space baiting',
-      'Rapid colony elimination within 4–7 days',
-      'Prevents structural wiring damage'
-    ]
+    safetyNote: 'Lockable tamper-proof stations safe for dogs & cats',
+    turnaroundTime: 'Same-Day Dispatch for Roof Noise Emergencies'
   },
   {
-    id: 'termite-inspection-barriers',
-    name: 'Termite Inspections & Chemical Barriers',
+    id: 'termite-inspection',
+    name: 'Termite Inspection',
     category: 'specialist',
-    shortDesc: 'AS 3660 & AS 4349.3 compliant visual & thermal imaging inspections + Termidor soil barrier installations.',
-    fullDesc: '1 in 3 Australian homes face subterranean termite risk. Termites cause millions in undetected structural timber damage. We use FLIR thermal imaging cameras, moisture meters, and acoustic sounding to detect active termites without damaging walls, followed by leading Termidor HE barrier protection.',
+    shortDesc: 'Comprehensive AS 4349.3 Timber Pest Inspection utilizing thermal imaging, moisture meters & sounding probes.',
+    fullDesc: '1 in 3 Australian properties will face subterranean termite activity in their lifetime. Our certified inspectors conduct thorough, non-invasive examinations of subfloors, roof voids, internal timber walls, and yard perimeters, generating an Australian Standard AS 4349.3 digital report with high-resolution imagery and prevention advice.',
     signsOfInfestation: [
-      'Mud tubes along foundation walls or subfloor stumps',
-      'Hollow sounding timber door frames or springy floorboards',
-      'Discarded winged alates (swarmers) near window sills in spring',
-      'Tight-fitting doors or hairline cracks in cornices'
+      'Hollow-sounding timber skirting boards or door jambs',
+      'Mud tubes or shelter tracks leading from ground to brick weep holes',
+      'Tight-fitting doors or warped timber floorboards',
+      'Fine papery wood or discarded translucent wings on window sills'
     ],
     treatmentProcess: [
-      'Comprehensive inspection covering internal timbers, roof void & subfloor',
-      'FLIR thermal imaging and Tramex moisture meter scanning',
-      'Detailed 20+ page timber pest report with photographic evidence',
-      'Trenching and sub-slab injection of Termidor non-repellent chemical barrier'
+      'Non-invasive inspection of subfloors, wall framing, roof void, and yard perimeters',
+      'FLIR thermal imaging scan to detect internal nest temperature differentials',
+      'Tramex moisture meter detection to uncover concealed moisture pockets',
+      'Detailed 25+ page AS 4349.3 compliance report delivered same day'
     ],
-    warranty: 'Up to 8-Year Termidor Structural Warranty Available',
-    priceFrom: 280,
-    promoPrice: 230,
+    warranty: 'Certified AS 4349.3 Compliance Report',
     popular: false,
     iconName: 'Building2',
-    imageHint: 'termite-barrier-inspection',
-    keyFeatures: [
-      'AS 3660.2 & AS 4349.3 certified timber pest report',
-      'Thermal imaging inspection equipment used',
-      'Same-day digital report for pre-purchase property buyers',
-      'Accredited Termidor applicator'
-    ]
+    imageHint: 'termite-inspection-melbourne',
+    safetyNote: '100% non-invasive thermal & acoustic diagnostic technology',
+    turnaroundTime: 'Comprehensive Same-Day Digital Reporting'
   },
   {
-    id: 'wasp-bee-nest-removal',
-    name: 'Wasp & Bee Nest Removal',
+    id: 'end-of-lease-flea-treatment',
+    name: 'End of Lease Flea Treatment',
     category: 'residential',
-    shortDesc: 'Same-day urgent neutralization of European wasps, paper wasps, and bee swarms with safety gear.',
-    fullDesc: 'European wasps and paper wasps present a painful sting hazard for children and pets, nesting aggressively under roof eaves, inside wall cavities, and in garden retaining walls. We offer fast same-day response with protective bee gear and fast-acting aerosol and dust knockdowns.',
+    shortDesc: 'Certified vacate flea & pest treatments for tenants with pets, including official digital certificate for full bond return.',
+    fullDesc: 'Victorian rental agreements mandate a professional pest and flea spray when vacating a property with pets. We treat internal carpets, skirting, and outdoor entertaining areas with rapid-drying insect growth regulators and immediately issue your compliant real estate invoice and certificate.',
     signsOfInfestation: [
-      'Continuous stream of wasps entering a hole in brickwork or eaves',
-      'Grey papery football-shaped nest visible under porch or tree branch',
-      'Buzzing sounds inside plasterboard walls or window frames',
-      'Aggressive stinging insects hovering around barbecue or pet bowls'
+      'Mandatory requirement in your residential tenancy vacate agreement',
+      'Flea bites around ankles or pets scratching excessively',
+      'Small black flea dirt visible in carpet pile or pet bedding'
     ],
     treatmentProcess: [
-      'Protective bee suit gear deployment',
-      'High-pressure pyrethrin knockdown into nest entrance',
-      'Insecticidal dust injection for complete cavity saturation',
-      'Safe physical nest removal and disposal (where accessible)'
+      'Comprehensive internal carpet and skirting flea eradication spray',
+      'Targeted outdoor patio, deck, and kennel misting',
+      'Insect growth regulator (IGR) application to eliminate dormant pupae',
+      'Instant digital compliance certificate issued for your property manager'
     ],
-    warranty: '100% Nest Kill Guarantee',
-    priceFrom: 199,
-    promoPrice: 149,
-    popular: false,
-    iconName: 'Flame',
-    imageHint: 'wasp-removal-geelong',
-    keyFeatures: [
-      'Emergency same-day callout available',
-      'Safe removal from second-storey rooflines',
-      'Guaranteed elimination of entire nest',
-      'Child & pet safety isolation advice provided'
-    ]
-  },
-  {
-    id: 'end-of-lease-pest-treatment',
-    name: 'End-of-Lease Flea & Pest Treatment',
-    category: 'residential',
-    shortDesc: 'Guaranteed real estate bond release with official compliance certificate issued within 2 hours of completion.',
-    fullDesc: 'If you had pets during your tenancy, Victorian residential tenancy agreements require a professional flea spray before hand-over. We perform a thorough internal and external flea spray and email you an official Real Estate Approved Certificate on the spot for full bond refund.',
-    signsOfInfestation: [
-      'Flea bites on ankles after walking on carpets',
-      'Upcoming lease handover with dog or cat clauses',
-      'Real estate property manager requires receipt & certificate',
-      'Vacated property needing fast, hassle-free spray'
-    ],
-    treatmentProcess: [
-      'Internal carpet and hard floor insecticidal broadcast spray',
-      'Skirting board and door frame residual barrier application',
-      'Targeted outdoor treatment of patios, dog kennels, and decks',
-      'Immediate digital certificate generated and emailed for your agent'
-    ],
-    warranty: '100% Bond Return Pest Compliance Guarantee',
-    priceFrom: 220,
-    promoPrice: 170,
+    warranty: '100% Real Estate Bond Back Guarantee',
     popular: true,
     iconName: 'KeyRound',
-    imageHint: 'end-of-lease-bond',
-    keyFeatures: [
-      '100% Real Estate Agent Approved Certificate',
-      'Digital certificate sent directly to you & property manager',
-      'Fast turnaround for tight move-out schedules',
-      'Non-staining, pet-safe formulations'
-    ]
+    imageHint: 'end-of-lease-pest',
+    safetyNote: 'Rapid 1-hour drying time so cleaners or inspectors can enter',
+    turnaroundTime: 'Priority Same-Day Real Estate Booking'
   },
   {
-    id: 'commercial-pest-management',
-    name: 'Commercial & Hospitality Pest Control',
-    category: 'commercial',
-    shortDesc: 'HACCP compliant pest management for cafes, restaurants, warehouses & medical clinics with digital logbooks.',
-    fullDesc: 'We protect Geelong and Melbourne businesses from health inspector closures and brand damage. From food handling facilities to corporate offices, we establish proactive monthly or quarterly pest defence programs backed by full documentation and compliance logs.',
+    id: 'wasp-bee-removal',
+    name: 'Wasp & Bee Nest Removal',
+    category: 'residential',
+    shortDesc: 'Same-day emergency removal of European wasps, mud daubers & beehives from eaves, roofs, and wall cavities.',
+    fullDesc: 'European wasps and bees can be extremely aggressive and dangerous to children and pets if their nest is disturbed. We provide same-day emergency knockdown and safe removal of nests from eaves, weep holes, chimneys, and garden sheds with protective suits and high-impact knockdown formulations.',
     signsOfInfestation: [
-      'Health inspector audit approaching',
-      'Rodent droppings in stock storage or commercial kitchen',
-      'Flies or fruit flies around prep counters and beer lines',
-      'Need for scheduled quarterly pest compliance service'
+      'Constant stream of wasps entering under roof tiles or brick weep holes',
+      'Visible paper-like or mud nests on eaves, window sills, or sheds',
+      'Loud buzzing vibrating through ceiling plaster or hollow walls'
+    ],
+    treatmentProcess: [
+      'Technician dons full protective bee/wasp containment suit',
+      'Direct pressure injection into nest core for instant colony knockdown',
+      'Physical removal and sanitary disposal of the hive where accessible',
+      'Residual barrier treatment to stop re-nesting in the same cavity'
+    ],
+    warranty: 'Colony Elimination Guarantee',
+    popular: false,
+    iconName: 'Flame',
+    imageHint: 'wasp-nest-removal',
+    safetyNote: 'Immediate threat neutralization for family and pet safety',
+    turnaroundTime: '⚡ 1–2 Hour Priority Dispatch Available'
+  },
+  {
+    id: 'commercial-pest-control',
+    name: 'Commercial Pest Management',
+    category: 'commercial',
+    shortDesc: 'HACCP & Council Health compliant pest maintenance programs for cafes, restaurants, warehouses & corporate offices.',
+    fullDesc: 'Pest sightings can destroy a commercial hospitality reputation and result in severe council fines. We design tailored Integrated Pest Management (IPM) programs for Victorian businesses with barcoded bait stations, trend analytics, and complete audit documentation.',
+    signsOfInfestation: [
+      'Cockroach or fly activity near food preparation surfaces',
+      'Rodent droppings in dry storage rooms or loading docks',
+      'Need for scheduled quarterly pest compliance service for food audits'
     ],
     treatmentProcess: [
       'Full facility hazard and risk assessment',
@@ -206,17 +192,11 @@ export const SERVICES: PestService[] = [
       'Digital service logbook and compliance certificates for council health officers'
     ],
     warranty: 'HACCP & Council Audit Pass Guarantee',
-    priceFrom: 350,
-    promoPrice: 299,
     popular: false,
     iconName: 'Building',
     imageHint: 'commercial-kitchen-pest',
-    keyFeatures: [
-      'HACCP, Food Safety & Council Health compliant',
-      'Discreet servicing (unmarked vehicles on request)',
-      'Digital reporting & trend analysis',
-      'Flexible ongoing maintenance contracts'
-    ]
+    safetyNote: 'Food safety grade APVMA formulations with zero residue',
+    turnaroundTime: 'Discreet After-Hours Servicing'
   }
 ];
 
@@ -231,8 +211,8 @@ export const SUBURBS: SuburbArea[] = [
   { name: 'Corio', postcode: '3214', region: 'Geelong & Surf Coast', sameDayAvailable: true },
   { name: 'Norlane', postcode: '3214', region: 'Geelong & Surf Coast', sameDayAvailable: true },
   { name: 'Waurn Ponds', postcode: '3216', region: 'Geelong & Surf Coast', sameDayAvailable: true },
-  { name: 'Ocean Grove', postcode: '3226', region: 'Geelong & Surf Coast', sameDayAvailable: false },
-  { name: 'Torquay', postcode: '3228', region: 'Geelong & Surf Coast', sameDayAvailable: false },
+  { name: 'Ocean Grove', postcode: '3226', region: 'Geelong & Surf Coast', sameDayAvailable: true },
+  { name: 'Torquay', postcode: '3228', region: 'Geelong & Surf Coast', sameDayAvailable: true },
 
   // Melbourne West
   { name: 'Werribee', postcode: '3030', region: 'Melbourne West', sameDayAvailable: true },
@@ -256,13 +236,23 @@ export const SUBURBS: SuburbArea[] = [
 
 export const TESTIMONIALS: Testimonial[] = [
   {
+    id: 't-dead-animal',
+    author: 'Rebecca Thorne',
+    suburb: 'Werribee, VIC',
+    service: 'Dead Animal & Carcass Removal',
+    rating: 5,
+    date: '3 days ago',
+    text: 'A horrific smell broke out above our hallway ceiling on a warm afternoon. Sahithi arranged a priority technician who arrived within 90 minutes. He located a deceased possum trapped near the eaves, removed it hygienically, disinfected the cavity, and treated the roof space with heavy-duty enzyme deodoriser. The smell was 100% gone that evening. Can’t thank Legend Pest Control enough!',
+    verified: true
+  },
+  {
     id: 't-1',
     author: 'Mark Henderson',
     suburb: 'Werribee, VIC',
     service: 'General Pest & Spider Treatment',
     rating: 5,
     date: '2 weeks ago',
-    text: 'Called Sahithi and the team at Legend Pest Control after redbacks and white-tails started appearing in our kids outdoor play area. The technician arrived right on time, explained every chemical used, and did an incredibly thorough job inside, outside and in the roof. Haven\'t seen a single spider since. The $50 off promo made it the best value in Melbourne\'s west!',
+    text: 'Called Sahithi and the team at Legend Pest Control after redbacks and white-tails started appearing in our kids outdoor play area. The technician arrived right on time, explained every chemical used, and did an incredibly thorough job inside, outside and in the roof. Haven\'t seen a single spider since. The $50 voucher made it incredible value!',
     verified: true
   },
   {
@@ -291,7 +281,7 @@ export const TESTIMONIALS: Testimonial[] = [
     suburb: 'Belmont, Geelong',
     service: 'End of Lease Flea Treatment',
     rating: 5,
-    date: 'Yesterday',
+    date: '1 week ago',
     text: 'Needed urgent end-of-lease flea treatment for our real estate handover in Geelong. They slotted us in same-day, did the job swiftly, and emailed the compliance certificate directly to our property manager. Full bond returned without a hitch!',
     verified: true
   },
@@ -301,8 +291,8 @@ export const TESTIMONIALS: Testimonial[] = [
     suburb: 'Hoppers Crossing, VIC',
     service: 'Wasp Nest Removal',
     rating: 5,
-    date: '3 days ago',
-    text: 'A nasty European wasp nest was growing under our porch roof. Legend Pest Control answered the phone immediately on 1800 623 252, quoted $149 upfront, and removed it safely within 2 hours. Couldn\'t ask for better service.',
+    date: '4 days ago',
+    text: 'A nasty European wasp nest was growing under our porch roof. Legend Pest Control answered the phone immediately on 0416 388 777, quoted upfront with no surprises, and removed it safely within 2 hours. Couldn\'t ask for better service.',
     verified: true
   }
 ];
@@ -316,12 +306,22 @@ export const FAQS: FaqItem[] = [
   {
     category: 'warranty',
     question: 'How does your 6-month treatment warranty work?',
-    answer: 'If covered pests return to your treated home within 6 months, simply call us on 1800 623 252. A licensed technician will return to your property and re-treat the affected areas completely free of charge. No quibbles, no hidden fees.'
+    answer: 'If covered pests return to your treated home within 6 months, simply call us on 0416 388 777. A licensed technician will return to your property and re-treat the affected areas completely free of charge. No quibbles, no hidden fees.'
   },
   {
     category: 'pricing',
-    question: 'What is included in the $199 new customer special?',
-    answer: 'Our $199 new customer package (discounted from $249) covers a comprehensive internal and external general pest barrier for standard residential homes. This includes internal skirting boards, full exterior walls and eaves, subfloor access, weep hole injection, and roof cavity dusting for spiders, common cockroaches, ants, and silverfish.'
+    question: 'How do your quotes work without hidden fees?',
+    answer: 'We provide completely transparent, upfront fixed quotes over the phone or online based on your property type and pest severity before any work begins. Every quote includes your $50 new customer discount voucher automatically, and we never add surprise callout or travel surcharges.'
+  },
+  {
+    category: 'general',
+    question: 'How quickly can you remove a dead animal or deceased possum from my roof?',
+    answer: 'Dead animal carcass removal is treated as an urgent priority emergency. In most cases across Geelong, Lara, Werribee, Point Cook, and Melbourne’s West, we can dispatch a licensed technician within 1 to 3 hours to locate the carcass, extract it safely, disinfect the space against bacteria/maggots, and fog with heavy-duty enzymatic odour neutralisers.'
+  },
+  {
+    category: 'general',
+    question: 'What is involved in a professional Termite Inspection?',
+    answer: 'Our timber pest inspections strictly follow Australian Standard AS 4349.3. We conduct a thorough examination of subfloors, roof cavities, internal timber walls, and yard perimeters using non-invasive FLIR thermal imaging cameras, electronic moisture meters, and sounding probes. You receive a comprehensive photographic digital report delivered the same day.'
   },
   {
     category: 'general',
@@ -329,29 +329,25 @@ export const FAQS: FaqItem[] = [
     answer: 'For standard general pest sprays, you only need to step outside for 1.5 to 2 hours while the liquid dries. For German cockroach gel treatments, you do NOT need to empty your pantry or cupboards, because our specialized gel baits are applied with precision droplets behind hinges and appliance voids without messy sprays.'
   },
   {
-    category: 'general',
-    question: 'How quickly can a technician come out to Geelong or Melbourne West?',
-    answer: 'We have mobile technicians stationed daily across Geelong, Lara, Werribee, Point Cook, and surrounding suburbs. In urgent cases (such as aggressive wasp nests or severe rodent invasions), we can frequently offer same-day or next-morning priority appointments.'
-  },
-  {
     category: 'warranty',
     question: 'Are your technicians licensed and insured in Victoria?',
-    answer: 'Yes. Every Legend Pest Control technician holds a current Victorian Department of Health Pest Control Licence and is fully insured with $20 Million Public Liability insurance. All treatments strictly comply with Australian Standards AS 3660 (Termites) and AS 4349.3 (Timber Inspections).'
+    answer: 'Yes. Every Legend Pest Control technician holds a current Victorian Department of Health Pest Control Licence and is fully insured with $20 Million Public Liability insurance. All treatments strictly comply with Australian Standards.'
   }
 ];
 
 export const COMPANY_DETAILS = {
-  name: 'Legend Pest Control Melbourne',
+  name: 'Legend Pest Control Melbourne & Geelong',
   owner: 'Sahithi',
-  tagline: 'Pest Control in Geelong & Melbourne\'s West',
-  phone: '1800 623 252',
-  phoneDisplay: '1800 623 252',
-  email: 'info@legendpestcontrolmelbourne.com.au',
+  tagline: 'Every pest problem, one legendary solution',
+  headline: 'Every pest problem, one legendary solution',
+  subheadline: "Professional, Same-Day Pest Control Across Melbourne's West & Geelong",
+  phone: '0416 388 777',
+  phoneDisplay: '0416 388 777',
+  email: 'Help@legendpestcontrolmelbourne.com.au',
   abn: '74 819 203 114',
   licence: 'Vic Dept of Health Lic #L012894',
   insurance: '$20M Public & Products Liability',
   hours: 'Mon – Sun: 7:00 AM – 7:00 PM (24/7 Emergency Line)',
-  address: 'Servicing Greater Melbourne West, Geelong & Bellarine Peninsula',
-  baseStartingPrice: 199,
+  address: "Servicing Greater Melbourne's West, Geelong & Bellarine Peninsula",
   promoDiscount: 50
 };

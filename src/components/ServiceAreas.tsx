@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapPin, Search, Shield } from 'lucide-react';
+import { MapPin, Search, Phone, CheckCircle2, Sparkles } from 'lucide-react';
 import { SUBURBS, COMPANY_DETAILS } from '../data/pestData';
 
 interface ServiceAreasProps {
@@ -8,21 +8,13 @@ interface ServiceAreasProps {
 
 export const ServiceAreas: React.FC<ServiceAreasProps> = ({ onOpenCallback }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedRegion, setSelectedRegion] = useState<string>('all');
+  const [selectedRegion, setSelectedRegion] = useState<'All' | 'Geelong & Surf Coast' | 'Melbourne West' | 'Inner West & Metro'>('All');
 
   const filteredSuburbs = SUBURBS.filter((sub) => {
-    const matchesSearch = sub.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          sub.postcode.includes(searchTerm);
-    const matchesRegion = selectedRegion === 'all' || sub.region === selectedRegion;
+    const matchesSearch = sub.name.toLowerCase().includes(searchTerm.toLowerCase()) || sub.postcode.includes(searchTerm);
+    const matchesRegion = selectedRegion === 'All' || sub.region === selectedRegion;
     return matchesSearch && matchesRegion;
   });
-
-  const regions = [
-    { id: 'all', label: 'All Areas' },
-    { id: 'Geelong & Surf Coast', label: 'Geelong & Bellarine' },
-    { id: 'Melbourne West', label: 'Melbourne West (Wyndham)' },
-    { id: 'Inner West & Metro', label: 'Inner West & Melton' },
-  ];
 
   return (
     <section id="areas" className="py-16 sm:py-24 bg-white relative">
@@ -30,133 +22,120 @@ export const ServiceAreas: React.FC<ServiceAreasProps> = ({ onOpenCallback }) =>
         
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider">
             <MapPin className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Local Geelong & Melbourne West Coverage</span>
+            <span>Local Victorian Dispatch Coverage</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Suburbs We Protect Daily
+            Servicing Greater Geelong & Melbourne's West
           </h2>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-            With fully stocked mobile units dispatched across Geelong, Lara, Werribee, Point Cook, and Melbourne's West, we provide fast response times with <strong>zero travel surcharges</strong>.
+            With fully stocked mobile units dispatched daily, our licensed technicians provide rapid response and same-day emergency callouts throughout the western corridor and Bellarine Peninsula.
           </p>
         </div>
 
-        {/* Search & Region Selector */}
-        <div className="max-w-2xl mx-auto mt-10 space-y-4">
+        {/* Search & Region Filter Bar */}
+        <div className="mt-10 max-w-2xl mx-auto space-y-4">
           <div className="relative">
             <Search className="w-5 h-5 text-slate-400 absolute left-4 top-3.5" />
             <input
               type="text"
-              placeholder="Search your suburb or postcode (e.g. Geelong, 3030, Lara, Point Cook)..."
+              placeholder="Search your suburb or postcode (e.g. Werribee, Belmont, 3030)..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 rounded-2xl border border-slate-300 text-sm focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 shadow-xs"
+              className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/20 shadow-xs transition"
             />
-            {searchTerm && (
-              <button
-                onClick={() => setSearchTerm('')}
-                className="absolute right-3.5 top-3 text-xs font-semibold text-slate-400 hover:text-slate-600 p-1"
-              >
-                Clear
-              </button>
-            )}
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            {regions.map((reg) => (
+          <div className="flex flex-wrap justify-center gap-2">
+            {(['All', 'Geelong & Surf Coast', 'Melbourne West', 'Inner West & Metro'] as const).map((region) => (
               <button
-                key={reg.id}
-                onClick={() => setSelectedRegion(reg.id)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
-                  selectedRegion === reg.id
-                    ? 'bg-slate-900 text-white shadow-xs'
+                key={region}
+                type="button"
+                onClick={() => setSelectedRegion(region)}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                  selectedRegion === region
+                    ? 'bg-emerald-700 text-white shadow-xs'
                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 }`}
               >
-                {reg.label}
+                {region}
               </button>
             ))}
           </div>
         </div>
 
         {/* Suburbs Grid */}
-        <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+        <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
           {filteredSuburbs.map((sub) => (
             <div
               key={sub.name}
-              onClick={() => onOpenCallback(`Service in ${sub.name} (${sub.postcode})`)}
-              className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-blue-400 hover:bg-blue-50/50 transition-all cursor-pointer group flex flex-col justify-between"
+              onClick={() => onOpenCallback(sub.name)}
+              className="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-emerald-400 hover:bg-emerald-50/40 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group"
             >
               <div>
-                <div className="flex items-center justify-between text-xs font-semibold text-slate-500 mb-1">
-                  <span>{sub.postcode}</span>
-                  {sub.sameDayAvailable && (
-                    <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">
-                      ⚡ Same-day
-                    </span>
-                  )}
+                <div className="flex items-start justify-between gap-1">
+                  <h4 className="font-bold text-slate-900 text-sm sm:text-base group-hover:text-emerald-700 transition">
+                    {sub.name}
+                  </h4>
+                  <span className="text-[11px] font-mono text-slate-400">
+                    {sub.postcode}
+                  </span>
                 </div>
-                <h4 className="font-bold text-slate-900 text-sm group-hover:text-blue-600 transition-colors">
-                  {sub.name}
-                </h4>
+                <span className="text-[10px] text-slate-500 block mt-0.5">
+                  {sub.region}
+                </span>
               </div>
 
-              <span className="text-[11px] text-blue-600 font-semibold mt-2 group-hover:underline flex items-center gap-1">
-                Book for {sub.name} →
-              </span>
+              <div className="mt-3 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[11px]">
+                <span className="text-emerald-700 font-bold flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  Same-Day Dispatch
+                </span>
+                <span className="text-slate-400 group-hover:text-emerald-700 transition font-bold">
+                  Quote →
+                </span>
+              </div>
             </div>
           ))}
         </div>
 
         {filteredSuburbs.length === 0 && (
-          <div className="text-center py-10 bg-slate-50 rounded-2xl border border-dashed border-slate-300 space-y-2 mt-6">
-            <p className="text-slate-600 font-semibold text-sm">
-              Don't see your suburb listed? We cover most of Greater Melbourne and regional Geelong!
-            </p>
-            <p className="text-xs text-slate-500">
-              Call our team on <strong className="text-slate-900">{COMPANY_DETAILS.phone}</strong> and we'll confirm dispatch availability in under 30 seconds.
+          <div className="text-center py-12 text-slate-500 space-y-2">
+            <p className="font-medium">Can't find your specific suburb?</p>
+            <p className="text-xs">
+              We service all surrounding areas within 50km of Geelong and Melbourne West. Call us directly on{' '}
+              <a href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`} className="text-emerald-700 font-bold underline">
+                {COMPANY_DETAILS.phone}
+              </a>
+              .
             </p>
           </div>
         )}
 
-        {/* Regional Highlight Strip */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 border-t border-slate-100">
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center shrink-0">
-              <MapPin className="w-5 h-5" />
+        {/* Local Fast Dispatch Banner */}
+        <div className="mt-12 p-6 rounded-3xl bg-emerald-50 border border-emerald-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5 text-center sm:text-left">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-700 text-white flex items-center justify-center shrink-0">
+              <Sparkles className="w-6 h-6 text-amber-300" />
             </div>
             <div>
-              <h4 className="font-bold text-slate-900 text-sm">Geelong & Bellarine Hub</h4>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Daily routes through Belmont, Newtown, Highton, Lara, Corio, and coastal fringe.
+              <h4 className="font-bold text-slate-900 text-sm sm:text-base">
+                Same-Day Emergency Service Guarantee
+              </h4>
+              <p className="text-xs text-slate-600">
+                Call before 12:00 PM for guaranteed same-day dispatch across Geelong and Melbourne's West.
               </p>
             </div>
           </div>
 
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0">
-              <MapPin className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="font-bold text-slate-900 text-sm">Wyndham & Melbourne West</h4>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Fast dispatch to Werribee, Point Cook, Hoppers Crossing, Tarneit, and Truganina.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-              <Shield className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="font-bold text-slate-900 text-sm">Zero Travel Surcharges</h4>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Fixed, transparent rates whether you're in central Geelong or Melbourne's outer west.
-              </p>
-            </div>
-          </div>
+          <a
+            href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
+            className="w-full sm:w-auto px-6 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs sm:text-sm rounded-full transition shadow-md flex items-center justify-center gap-2 shrink-0"
+          >
+            <Phone className="w-4 h-4" />
+            <span>Call {COMPANY_DETAILS.phone}</span>
+          </a>
         </div>
 
       </div>

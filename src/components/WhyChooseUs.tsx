@@ -1,6 +1,5 @@
 import React from 'react';
 import { Check, X, Shield, Award, HeartHandshake, Zap, Sparkles } from 'lucide-react';
-import { COMPANY_DETAILS } from '../data/pestData';
 
 export const WhyChooseUs: React.FC = () => {
   const comparisonRows = [
@@ -24,9 +23,9 @@ export const WhyChooseUs: React.FC = () => {
     },
     {
       feature: 'Pricing Transparency',
-      legend: 'From $199 upfront with $50 new customer discount',
-      franchise: '$350+ with franchise royalty markups',
-      budget: 'Bait-and-switch: starts at $99, ends at $400',
+      legend: 'Transparent upfront quote with $50 new customer voucher',
+      franchise: 'High corporate franchise royalty markups',
+      budget: 'Bait-and-switch: starts cheap, hidden fees added',
     },
     {
       feature: 'Roof Void & Weep Hole Dusting',
@@ -62,12 +61,12 @@ export const WhyChooseUs: React.FC = () => {
     {
       icon: Zap,
       title: 'Rapid Local Response',
-      desc: 'Our vans are based in Geelong and Melbourne West daily, so you do not have to wait weeks for an urgent spider or wasp callout.',
+      desc: 'Our vans are stationed in Geelong and Melbourne West daily, so you never have to wait weeks for an urgent spider, rodent, dead animal or wasp callout.',
     },
     {
       icon: Award,
       title: 'Standards Compliant',
-      desc: 'All termite inspections and barriers follow Australian Standards AS 3660 & AS 4349.3 with high-resolution digital reports.',
+      desc: 'All termite timber inspections strictly adhere to Australian Standard AS 4349.3 with high-resolution digital photographic reporting.',
     },
   ];
 
@@ -77,7 +76,7 @@ export const WhyChooseUs: React.FC = () => {
         
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5 text-amber-600" />
             <span>Why Geelong & Melbourne Trust Us</span>
           </div>
@@ -96,12 +95,12 @@ export const WhyChooseUs: React.FC = () => {
             return (
               <div
                 key={pillar.title}
-                className="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-blue-200 hover:bg-blue-50/30 transition-all space-y-3"
+                className="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-emerald-300 hover:bg-emerald-50/20 transition-all space-y-3"
               >
-                <div className="w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-600/20">
+                <div className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
                   <Icon className="w-6 h-6" />
                 </div>
-                <h3 className="text-base font-bold text-slate-900 leading-snug">{pillar.title}</h3>
+                <h3 className="font-bold text-slate-900 text-base">{pillar.title}</h3>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{pillar.desc}</p>
               </div>
             );
@@ -109,76 +108,38 @@ export const WhyChooseUs: React.FC = () => {
         </div>
 
         {/* Comparison Table */}
-        <div className="rounded-3xl border border-slate-200 overflow-hidden shadow-lg bg-white">
-          <div className="p-6 bg-slate-900 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <span className="text-xs font-bold text-amber-400 uppercase tracking-wider block">
-                Side-by-side Transparency
-              </span>
-              <h3 className="text-xl sm:text-2xl font-black mt-0.5">
-                The Legend Standard vs Competitors
-              </h3>
-            </div>
-            <span className="text-xs bg-blue-500/20 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-full font-semibold self-start sm:self-auto">
-              Updated 2026 Melbourne Market Comparison
-            </span>
-          </div>
-
+        <div className="rounded-3xl border border-slate-200 overflow-hidden shadow-lg">
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-xs sm:text-sm">
+            <table className="w-full text-left border-collapse min-w-[640px]">
               <thead>
-                <tr className="border-b border-slate-200 bg-slate-50 text-slate-700">
-                  <th className="py-4 px-4 sm:px-6 font-bold w-1/3">Feature / Standard</th>
-                  <th className="py-4 px-4 sm:px-6 font-black text-blue-700 bg-blue-50/60 w-1/3 border-x border-blue-100">
-                    <span className="flex items-center gap-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-blue-600" />
-                      Legend Pest Control
-                    </span>
+                <tr className="border-b border-slate-200 bg-slate-50 text-xs uppercase tracking-wider text-slate-500 font-bold">
+                  <th className="py-4 px-6">Service Standards</th>
+                  <th className="py-4 px-6 bg-emerald-700 text-white font-black text-sm">
+                    Legend Pest Control
                   </th>
-                  <th className="py-4 px-4 sm:px-6 font-semibold text-slate-500 hidden md:table-cell">
-                    Franchise Giants
-                  </th>
-                  <th className="py-4 px-4 sm:px-6 font-semibold text-slate-500 hidden lg:table-cell">
-                    Budget Fly-by-Night
-                  </th>
+                  <th className="py-4 px-6">Franchise Chains</th>
+                  <th className="py-4 px-6">Budget Solo Operators</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 text-xs sm:text-sm">
                 {comparisonRows.map((row, idx) => (
-                  <tr key={idx} className="hover:bg-slate-50/60 transition-colors">
-                    <td className="py-4 px-4 sm:px-6 font-semibold text-slate-800">
-                      {row.feature}
-                    </td>
-
-                    {/* Legend Column */}
-                    <td className="py-4 px-4 sm:px-6 bg-blue-50/40 border-x border-blue-100 font-bold text-blue-900">
+                  <tr key={idx} className={idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}>
+                    <td className="py-4 px-6 font-bold text-slate-900">{row.feature}</td>
+                    <td className="py-4 px-6 bg-emerald-50/50 font-bold text-emerald-900 border-x border-emerald-100">
                       <div className="flex items-center gap-2">
-                        <div className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-                          <Check className="w-3.5 h-3.5 stroke-[3]" />
-                        </div>
-                        <div>
-                          <span>{row.legend}</span>
-                          <div className="text-[10px] text-slate-500 mt-0.5 md:hidden font-normal">
-                            <span className="text-amber-600 font-semibold">Others:</span> {row.franchise}
-                          </div>
-                        </div>
+                        <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                        <span>{row.legend}</span>
                       </div>
                     </td>
-
-                    {/* Franchise Giants */}
-                    <td className="py-4 px-4 sm:px-6 text-slate-600 hidden md:table-cell">
+                    <td className="py-4 px-6 text-slate-600">
                       <div className="flex items-center gap-2">
-                        <span className="text-amber-500 font-bold text-xs">⚠️</span>
+                        <X className="w-4 h-4 text-slate-400 shrink-0" />
                         <span>{row.franchise}</span>
                       </div>
                     </td>
-
-                    {/* Budget Sprayers */}
-                    <td className="py-4 px-4 sm:px-6 text-slate-500 hidden lg:table-cell">
+                    <td className="py-4 px-6 text-slate-500">
                       <div className="flex items-center gap-2">
-                        <div className="w-5 h-5 rounded-full bg-red-100 text-red-600 flex items-center justify-center shrink-0">
-                          <X className="w-3.5 h-3.5 stroke-[3]" />
-                        </div>
+                        <X className="w-4 h-4 text-red-400 shrink-0" />
                         <span>{row.budget}</span>
                       </div>
                     </td>
@@ -187,19 +148,6 @@ export const WhyChooseUs: React.FC = () => {
               </tbody>
             </table>
           </div>
-
-          <div className="p-4 sm:p-6 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <span className="text-xs text-slate-600">
-              Need immediate advice or an inspection today? Speak with Sahithi & duty technician directly.
-            </span>
-            <a
-              href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-              className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm rounded-xl transition shadow-sm shrink-0"
-            >
-              Call {COMPANY_DETAILS.phone} For Honest Advice
-            </a>
-          </div>
-
         </div>
 
       </div>

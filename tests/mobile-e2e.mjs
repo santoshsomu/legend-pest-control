@@ -1,9 +1,9 @@
 import { chromium } from 'playwright';
 
 async function runMobileE2ETests() {
-  console.log('🚀 Starting Mobile End-to-End Tests for Legend Pest Control...\n');
+  console.log('🚀 Starting Precision Mobile End-to-End Tests for Legend Pest Control...\n');
   
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({ channel: 'chrome', headless: true });
   
   const devicesToTest = [
     { name: 'iPhone 14 / 13 Pro', width: 390, height: 844, deviceScaleFactor: 3, isMobile: true, hasTouch: true },
@@ -29,7 +29,7 @@ async function runMobileE2ETests() {
       // 1. Navigate to local preview server
       await page.goto('http://localhost:5173/', { waitUntil: 'networkidle' });
 
-      // 2. Check for Horizontal Scroll Overflow (Crucial mobile responsiveness check)
+      // 2. Check for Horizontal Scroll Overflow
       const hasHorizontalOverflow = await page.evaluate(() => {
         return document.documentElement.scrollWidth > window.innerWidth;
       });
@@ -42,38 +42,62 @@ async function runMobileE2ETests() {
       }
 
       // 3. Verify Header and Mobile Hamburger Navigation
-      const logoVisible = await page.locator('text=LEGEND').first().isVisible();
-      console.log(`  ✓ Logo visible: ${logoVisible}`);
+      const logoImgLocator = page.locator('header img[alt*="Legend Pest Control"]').first();
+      await logoImgLocator.scrollIntoViewIfNeeded();
+      const logoImgVisible = await logoImgLocator.isVisible();
+      console.log(`  ✓ Official brand logo image visible: ${logoImgVisible}`);
+      if (!logoImgVisible) {
+        console.error(`  ❌ FAILED: Official brand logo image not visible on ${device.name}!`);
+        allPassed = false;
+      }
 
       const menuButton = page.locator('button[aria-label="Toggle Navigation"]');
       if (await menuButton.isVisible()) {
         await menuButton.click();
-        await page.waitForTimeout(300);
-        const drawerLinkVisible = await page.locator('div.lg\\:hidden a:has-text("Pricing Calculator")').isVisible();
+        await page.waitForTimeout(250);
+        const drawerLinkVisible = await page.locator('div.lg\\:hidden a:has-text("Free Quote Assessment")').isVisible();
         console.log(`  ✓ Mobile hamburger drawer opened & links rendered: ${drawerLinkVisible}`);
         // Close menu
         await menuButton.click();
-        await page.waitForTimeout(300);
+        await page.waitForTimeout(250);
       }
 
-      // 4. Verify Hero 4 Cards & Headline
+      // 4. Verify Hero Headline & 4 Trust Cards
       const heroHeadline = await page.locator('h1').innerText();
       console.log(`  ✓ Hero Headline: "${heroHeadline.replace(/\n/g, ' ')}"`);
+      if (!heroHeadline.toLowerCase().includes('every pest problem')) {
+        console.error('  ❌ FAILED: Headline does not contain "Every pest problem"');
+        allPassed = false;
+      }
       
       const warrantyCard = await page.locator('text=6-month treatment warranty').first().isVisible();
       const discountCard = await page.locator('text=$50 off for new customers').first().isVisible();
       console.log(`  ✓ Hero Trust Cards 2x2 Grid rendered: Warranty=${warrantyCard}, $50 Discount=${discountCard}`);
 
-      // 5. Test Interactive Quote Calculator on Mobile
+      // 5. Verify Services: Dead Animal Removal & Termite Inspection
+      const deadAnimalLocator = page.locator('h3:has-text("Dead Animal & Carcass Removal")').first();
+      await deadAnimalLocator.scrollIntoViewIfNeeded();
+      const deadAnimalService = await deadAnimalLocator.isVisible();
+
+      const termiteLocator = page.locator('h3:has-text("Termite Inspection")').first();
+      await termiteLocator.scrollIntoViewIfNeeded();
+      const termiteService = await termiteLocator.isVisible();
+
+      console.log(`  ✓ Dead Animal Service visible: ${deadAnimalService}`);
+      console.log(`  ✓ Termite Inspection (chemical barriers removed) visible: ${termiteService}`);
+
+      // 6. Test Interactive Assessment Engine on Mobile
       const unitBtn = page.locator('button:has-text("Unit / Apt")');
+      await unitBtn.scrollIntoViewIfNeeded();
       if (await unitBtn.isVisible()) {
         await unitBtn.click();
         await page.waitForTimeout(200);
-        console.log('  ✓ Property selector interacted successfully');
+        console.log('  ✓ Property selector in Assessment interacted successfully');
       }
 
-      // 6. Test Suburb Filter
+      // 7. Test Suburb Filter
       const searchInput = page.locator('input[placeholder*="Search your suburb"]');
+      await searchInput.scrollIntoViewIfNeeded();
       if (await searchInput.isVisible()) {
         await searchInput.fill('Geelong');
         await page.waitForTimeout(200);
@@ -81,42 +105,41 @@ async function runMobileE2ETests() {
         console.log(`  ✓ Suburb instant search working: ${geelongCard}`);
       }
 
-      // 7. Test FAQ Accordion Expand
-      const faqBtn = page.locator('button:has-text("Are your pest control chemicals safe")');
-      if (await faqBtn.isVisible()) {
-        await faqBtn.click();
-        await page.waitForTimeout(200);
-        const faqAnswer = await page.locator('text=APVMA-approved').first().isVisible();
-        console.log(`  ✓ FAQ accordion expand/collapse working: ${faqAnswer}`);
-      }
+      // 8. Test FAQ Accordion Expand
+      const faq1Answer = await page.locator('text=APVMA-approved').first().isVisible();
+      console.log(`  ✓ FAQ item 1 default open: ${faq1Answer}`);
+      const faqBtn2 = page.locator('button:has-text("How does your 6-month treatment warranty work")');
+      await faqBtn2.scrollIntoViewIfNeeded();
+      await faqBtn2.click();
+      await page.waitForTimeout(250);
+      const faq2Answer = await page.locator('text=If covered pests return').first().isVisible();
+      console.log(`  ✓ FAQ accordion 2 expanded successfully: ${faq2Answer}`);
 
-      // 8. Test Callback Modal & Form Submission
-      const getCallbackBtn = page.locator('button:has-text("Get a call back")').first();
-      if (await getCallbackBtn.isVisible()) {
-        await getCallbackBtn.click();
-        await page.waitForTimeout(300);
-        
-        // Fill form
-        await page.locator('input[placeholder="e.g. Sarah Smith"]').fill('Sahithi Test');
-        await page.locator('input[placeholder="0400 123 456"]').fill('0412 345 678');
-        await page.locator('input[placeholder*="Werribee, Geelong"]').fill('Werribee');
-        
-        // Submit
-        await page.locator('button:has-text("Request Instant Callback")').click();
-        await page.waitForTimeout(1000);
-
-        const successMessage = await page.locator('text=Request Received!').isVisible();
-        console.log(`  ✓ Callback modal submission & confirmation: ${successMessage}`);
-
-        // Close modal
-        await page.locator('button:has-text("Close Window")').click();
-        await page.waitForTimeout(300);
-      }
-
-      // 9. Verify Sticky Mobile Bottom Bar
+      // 9. Test Mobile Sticky Bar & Callback Modal Submission
       const mobileStickyBar = page.locator('div.sm\\:hidden.fixed.bottom-0');
       const stickyVisible = await mobileStickyBar.isVisible();
-      console.log(`  ✓ Mobile sticky 1-tap call bar visible: ${stickyVisible}`);
+      console.log(`  ✓ Mobile sticky bottom bar visible: ${stickyVisible}`);
+
+      const mobileQuoteBtn = page.locator('div.sm\\:hidden.fixed.bottom-0 button:has-text("Free Quote")').first();
+      await mobileQuoteBtn.click();
+      await page.waitForTimeout(300);
+      
+      // Target modal explicitly
+      const modal = page.locator('div.fixed.inset-0');
+      await modal.locator('input[placeholder="e.g. Sarah Smith"]').fill('Sahithi Test');
+      await modal.locator('input[placeholder="e.g. 0412 345 678"]').fill('0412 345 678');
+      await modal.locator('input[placeholder*="Geelong, Werribee"]').fill('Werribee');
+      
+      // Submit modal form
+      await modal.locator('button:has-text("Request Callback")').click();
+      await page.waitForTimeout(800);
+
+      const successMessage = await modal.locator('text=Request Received!').isVisible();
+      console.log(`  ✓ Mobile callback modal submission & confirmation: ${successMessage}`);
+
+      // Close modal
+      await modal.locator('button:has-text("Close Window")').click();
+      await page.waitForTimeout(300);
 
       // 10. Capture full-page mobile screenshot
       const safeDeviceName = device.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
@@ -135,9 +158,10 @@ async function runMobileE2ETests() {
   await browser.close();
 
   if (allPassed) {
-    console.log('🎉 ALL MOBILE E2E TESTS PASSED WITH 100% COMPLIANCE!');
+    console.log('🎉 ALL MOBILE E2E TESTS PASSED WITH 100% SUCCESS!');
   } else {
     console.log('⚠️ Some tests encountered issues.');
+    process.exit(1);
   }
 }
 

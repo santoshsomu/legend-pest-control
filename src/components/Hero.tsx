@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Phone, CheckCircle2, ShieldCheck, MapPin, Sparkles, MessageSquare, ArrowRight } from 'lucide-react';
+import { Phone, CheckCircle2, ShieldCheck, MapPin, Sparkles, MessageSquare, ArrowRight, Shield } from 'lucide-react';
 import { COMPANY_DETAILS, SUBURBS, SERVICES } from '../data/pestData';
+import { HeroShieldAnimation } from './HeroShieldAnimation';
 
 interface HeroProps {
   onOpenCallback: (service?: string) => void;
@@ -18,56 +19,50 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-blue-950 text-white pt-8 pb-16 lg:pt-14 lg:pb-24">
-      {/* Background Graphic Elements */}
-      <div className="absolute inset-0 z-0 opacity-25">
-        {/* Subtle Australian home vector blueprint / glow */}
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl" />
-        
-        {/* Overlay grid */}
-        <div
-          className="w-full h-full"
-          style={{
-            backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px)`,
-            backgroundSize: '28px 28px',
-          }}
-        />
-      </div>
+    <section className="relative overflow-hidden bg-gradient-to-b from-slate-950 via-emerald-950/90 to-slate-900 text-white pt-8 pb-16 lg:pt-14 lg:pb-24">
+      {/* Animated Protection Shield — pest particles repelled by expanding emerald barrier on scroll */}
+      <HeroShieldAnimation />
+
+      {/* Vignette overlay ensuring 100% contrast for foreground text & mobile readability */}
+      <div className="absolute inset-0 z-0 pointer-events-none bg-gradient-to-r from-slate-950/70 via-slate-950/40 to-slate-950/70" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           
-          {/* Left Column: Hero Content & Value Props matching screenshot exactly */}
+          {/* Left Column: Hero Content & Value Props */}
           <div className="lg:col-span-7 space-y-6">
             
-            {/* Promo Pill - exactly matching screenshot */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-800/80 border border-slate-700/80 backdrop-blur-md text-xs sm:text-sm font-semibold tracking-wide">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-slate-200">
+            {/* Promo Pill */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-900/60 border border-emerald-700/60 backdrop-blur-md text-xs sm:text-sm font-semibold tracking-wide">
+              <span className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
+              <span className="text-emerald-100">
                 <strong className="text-amber-300 font-bold">$50 OFF</strong> FOR NEW CUSTOMERS
               </span>
             </div>
 
-            {/* Main Headline */}
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.12] sm:leading-[1.08]">
-              Pest Control in <br className="hidden sm:inline" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-blue-300">
-                Geelong & Melbourne's West
+            {/* Main Headline - Sahithi's exact tagline */}
+            <div className="space-y-2">
+              <span className="text-xs sm:text-sm font-bold uppercase tracking-widest text-emerald-400 block">
+                Melbourne & Geelong's Trusted Pest Specialists
               </span>
-            </h1>
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.12] sm:leading-[1.08]">
+                Every pest problem, <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-200 to-amber-300">
+                  one legendary solution
+                </span>
+              </h1>
+            </div>
 
             {/* Subtitle addressing real pain points */}
             <p className="text-sm sm:text-lg text-slate-300 max-w-2xl leading-relaxed">
-              Ants, cockroaches, spiders, rats, mice or wasps in Geelong, Lara, Werribee or nearby?
-              Tell us what you're seeing and your suburb. We give you a transparent estimate on the call.
+              Spiders, ants, cockroaches, rats, wasps, dead animal removal or termites in Geelong, Lara, Werribee, Point Cook or nearby? Tell us what you're seeing for an immediate, transparent estimate.
             </p>
 
-            {/* The 4 Iconic Trust Cards in 2x2 Grid (matching mobile screenshot exactly) */}
+            {/* The 4 Iconic Trust Cards in 2x2 Grid */}
             <div className="grid grid-cols-2 gap-2 sm:gap-3 pt-2">
               
               {/* Card 1: 6-month warranty */}
-              <div className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-800/60 border border-slate-700/60 backdrop-blur-xs text-white">
+              <div className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-800/80 border border-emerald-900/60 backdrop-blur-xs text-white">
                 <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
                   <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
                 </div>
@@ -75,14 +70,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
               </div>
 
               {/* Card 2: Covering Geelong & Melbourne's west */}
-              <div className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-800/60 border border-slate-700/60 backdrop-blur-xs text-white">
+              <div className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-800/80 border border-emerald-900/60 backdrop-blur-xs text-white">
                 <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
                   <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
                 </div>
                 <span className="text-[11.5px] sm:text-sm font-bold tracking-tight leading-tight">Covering Geelong & Melbourne's west</span>
               </div>
 
-              {/* Card 3: $50 off for new customers (Highlighted Gold/Yellow Card) */}
+              {/* Card 3: $50 off for new customers (Highlighted Gold Card) */}
               <div className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-amber-400 text-slate-950 font-extrabold shadow-lg shadow-amber-400/20">
                 <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-slate-950/15 flex items-center justify-center shrink-0">
                   <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-slate-950" />
@@ -90,76 +85,77 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
                 <span className="text-[11.5px] sm:text-sm font-black tracking-tight leading-tight">$50 off for new customers</span>
               </div>
 
-              {/* Card 4: Estimate given on the call */}
-              <div className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-800/60 border border-slate-700/60 backdrop-blur-xs text-white">
+              {/* Card 4: Upfront estimate given on the call */}
+              <div className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-800/80 border border-emerald-900/60 backdrop-blur-xs text-white">
                 <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
                   <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
                 </div>
-                <span className="text-[11.5px] sm:text-sm font-bold tracking-tight leading-tight">Estimate given on the call</span>
+                <span className="text-[11.5px] sm:text-sm font-bold tracking-tight leading-tight">Upfront quote on the call</span>
               </div>
             </div>
 
-            {/* CTAs matching screenshot */}
+            {/* CTAs */}
             <div className="pt-2 space-y-3">
               <div className="flex flex-col sm:flex-row gap-3">
-                {/* Primary Blue Button */}
+                {/* Primary Call Button */}
                 <a
                   href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-                  className="flex-1 flex items-center justify-center gap-2.5 px-6 py-4 rounded-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-extrabold text-base shadow-xl shadow-blue-600/30 transition-all hover:scale-[1.01] active:scale-[0.99]"
+                  className="flex-1 flex items-center justify-center gap-2.5 px-6 py-4 rounded-full bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-black text-base shadow-xl shadow-emerald-600/30 transition-all hover:scale-[1.01] active:scale-[0.99]"
                 >
                   <Phone className="w-5 h-5" />
                   <span>Call {COMPANY_DETAILS.phone}</span>
                 </a>
 
-                {/* Secondary Pill Outline Button */}
+                {/* Secondary Callback Button */}
                 <button
                   onClick={() => onOpenCallback()}
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-slate-900/80 hover:bg-slate-800/90 text-white font-bold text-base border border-slate-600 transition-all cursor-pointer group"
+                  className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-slate-900/80 hover:bg-slate-800 text-white font-bold text-base border border-emerald-700/60 transition-all cursor-pointer group"
                 >
-                  <MessageSquare className="w-5 h-5 text-blue-400 group-hover:scale-110 transition-transform" />
-                  <span>Get a call back</span>
+                  <MessageSquare className="w-5 h-5 text-amber-400 group-hover:scale-110 transition-transform" />
+                  <span>Request Free Quote</span>
                 </button>
               </div>
 
-              {/* Price Anchor */}
-              <div className="text-center sm:text-left text-sm text-slate-300 font-medium">
-                From <span className="font-extrabold text-white text-base">${COMPANY_DETAILS.baseStartingPrice}</span> for new customers <span className="text-slate-400">(price includes the $50 off)</span>.
+              {/* Value proposition note (pricing numbers removed) */}
+              <div className="text-center sm:text-left text-xs sm:text-sm text-slate-300 font-medium flex items-center justify-center sm:justify-start gap-2">
+                <Shield className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>Transparent fixed quotes with $50 new customer voucher applied. Zero hidden callout fees.</span>
               </div>
             </div>
 
           </div>
 
-          {/* Right Column: Interactive Quick Price Estimator & Technician Card */}
+          {/* Right Column: Interactive Quick Pest Assessment Tool */}
           <div className="lg:col-span-5">
-            <div className="relative rounded-3xl bg-slate-900/90 border border-slate-700/80 p-6 sm:p-7 shadow-2xl backdrop-blur-md">
+            <div className="relative rounded-3xl bg-slate-900/95 border border-emerald-800/60 p-6 sm:p-7 shadow-2xl backdrop-blur-md">
               
               {/* Badge */}
               <div className="flex items-center justify-between pb-4 border-b border-slate-800">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-emerald-400 animate-ping" />
                   <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
-                    Live Booking System
+                    Priority Dispatch
                   </span>
                 </div>
-                <span className="text-xs font-semibold px-2.5 py-1 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">
-                  Instant Estimate
+                <span className="text-xs font-bold px-2.5 py-1 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30">
+                  ⚡ $50 Off Voucher Active
                 </span>
               </div>
 
               <form onSubmit={handleQuickEstimate} className="mt-5 space-y-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
-                    1. Select What You're Seeing
+                    1. Select Pest Concern
                   </label>
                   <select
                     value={selectedPest}
                     onChange={(e) => setSelectedPest(e.target.value)}
                     aria-label="Select pest type"
-                    className="w-full px-3.5 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-medium"
+                    className="w-full px-3.5 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 font-medium"
                   >
                     {SERVICES.map((s) => (
                       <option key={s.id} value={s.id}>
-                        {s.name} (Normally ${s.priceFrom})
+                        {s.name}
                       </option>
                     ))}
                   </select>
@@ -175,7 +171,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
                       value={selectedSuburb}
                       onChange={(e) => setSelectedSuburb(e.target.value)}
                       aria-label="Select suburb"
-                      className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-medium"
+                      className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 font-medium"
                     >
                       {SUBURBS.map((sub) => (
                         <option key={sub.name} value={sub.name}>
@@ -186,32 +182,36 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
                   </div>
                 </div>
 
-                {/* Estimate Result Box */}
-                <div className="rounded-2xl bg-gradient-to-br from-blue-950/70 to-slate-800/80 p-4 border border-blue-500/30 space-y-2">
-                  <div className="flex items-baseline justify-between">
+                {/* Treatment Overview Result Box (No hardcoded prices) */}
+                <div className="rounded-2xl bg-gradient-to-br from-emerald-950/70 to-slate-800/90 p-4 border border-emerald-600/30 space-y-2.5">
+                  <div className="flex items-start justify-between gap-2">
                     <div>
-                      <span className="text-xs text-slate-400 block">Estimated Price for {selectedSuburb}:</span>
-                      <div className="flex items-baseline gap-2 mt-0.5">
-                        <span className="text-3xl font-black text-amber-400">
-                          ${currentService.promoPrice}
-                        </span>
-                        <span className="text-sm line-through text-slate-500 font-semibold">
-                          ${currentService.priceFrom}
-                        </span>
-                        <span className="text-[11px] font-bold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/30">
-                          SAVE $50
-                        </span>
-                      </div>
+                      <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider block">
+                        Recommended Treatment Plan:
+                      </span>
+                      <h4 className="text-base font-bold text-white mt-0.5">
+                        {currentService.name}
+                      </h4>
                     </div>
-                    <div className="text-right">
-                      <span className="text-[11px] text-slate-400 block">Warranty</span>
-                      <span className="text-xs font-bold text-blue-300">6 Months Free</span>
-                    </div>
+                    <span className="text-[10px] font-extrabold text-amber-950 bg-amber-400 px-2 py-0.5 rounded-full shrink-0">
+                      $50 VOUCHER
+                    </span>
                   </div>
 
-                  <p className="text-xs text-slate-300 pt-1 border-t border-slate-700/60 leading-relaxed">
-                    Includes full internal and exterior barrier, roof void injection & child/pet safe formulation.
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    {currentService.shortDesc}
                   </p>
+
+                  <div className="pt-2 border-t border-slate-700/60 grid grid-cols-2 gap-2 text-[11px]">
+                    <div>
+                      <span className="text-slate-400 block">Warranty</span>
+                      <span className="font-bold text-emerald-300">{currentService.warranty}</span>
+                    </div>
+                    <div>
+                      <span className="text-slate-400 block">Turnaround</span>
+                      <span className="font-bold text-amber-300">Same-Day Available</span>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Quick Action Button */}
@@ -222,7 +222,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
                     className="w-full py-3.5 px-4 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 font-black rounded-xl text-sm transition shadow-lg shadow-amber-400/20 flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <Sparkles className="w-4 h-4 text-slate-950" />
-                    <span>Lock In This ${currentService.promoPrice} Rate Now</span>
+                    <span>Get Fast Free Quote & Apply $50 Voucher</span>
                     <ArrowRight className="w-4 h-4 text-slate-950" />
                   </button>
 
@@ -230,14 +230,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
                     href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
                     className="w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl transition flex items-center justify-center gap-2 text-center"
                   >
-                    <Phone className="w-3.5 h-3.5 text-blue-400" />
-                    Or Speak With Sahithi & Tech Team: {COMPANY_DETAILS.phone}
+                    <Phone className="w-3.5 h-3.5 text-emerald-400" />
+                    Or Speak Directly With Sahithi & Tech Team: {COMPANY_DETAILS.phone}
                   </a>
                 </div>
 
                 <div className="flex items-center justify-center gap-4 text-[11px] text-slate-400 pt-1">
                   <span className="flex items-center gap-1">
-                    <ShieldCheck className="w-3.5 h-3.5 text-blue-400" /> No hidden fees
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> Zero hidden fees
                   </span>
                   <span>•</span>
                   <span>Pay after completion</span>

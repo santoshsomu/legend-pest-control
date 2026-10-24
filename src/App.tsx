@@ -30,9 +30,11 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white pb-14 sm:pb-0">
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800 antialiased selection:bg-emerald-700 selection:text-white pb-20 sm:pb-0">
       {/* Navigation Header */}
-      <Header onOpenCallback={handleOpenCallback} />
+      <Header
+        onOpenCallback={handleOpenCallback}
+      />
 
       {/* Main Content Sections */}
       <main className="flex-1">
@@ -45,7 +47,7 @@ export function App() {
         {/* Comprehensive Services Section */}
         <ServicesSection onOpenCallback={handleOpenCallback} />
 
-        {/* Interactive Pricing Estimator Engine */}
+        {/* Interactive Treatment Plan & Assessment Engine */}
         <QuoteCalculator onOpenCallback={handleOpenCallback} />
 
         {/* Competitor Comparison Matrix & Why Choose Us */}
@@ -63,14 +65,16 @@ export function App() {
         {/* Homeowner FAQ Accordion */}
         <FaqSection onOpenCallback={() => handleOpenCallback()} />
 
-        {/* Booking Form & Contact Section */}
+        {/* Fast Quote Form & Direct Contact Section */}
         <ContactSection />
       </main>
 
       {/* Footer */}
-      <Footer onOpenCallback={() => handleOpenCallback()} />
+      <Footer
+        onOpenCallback={() => handleOpenCallback()}
+      />
 
-      {/* Interactive Modal */}
+      {/* Interactive Callback Modal */}
       <CallbackModal
         isOpen={callbackModalOpen}
         onClose={handleCloseCallback}
