@@ -1,383 +1,439 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 /**
- * HeroShieldAnimation — Canvas-based "Protection Shield" background
+ * HeroShieldAnimation — Dynamic Pest Defense & Expanding Bio-Shield System
  *
- * Visual story: Tiny pest-like particles drift in from the edges.
- * A glowing emerald hexagonal shield grid expands from the center as the
- * user scrolls, repelling and dissolving the pests on contact.
- * Connection lines between shield nodes form a mesh barrier.
- *
- * Scroll-driven:
- *   scrollProgress 0 → shield is small, pests visible, warm-amber tint
- *   scrollProgress 1 → shield fully expanded, pests scattered, cool-emerald glow
+ * Visual Story:
+ * 1. At the top of the page, pests (spiders, cockroaches, rats, wasps, termites, ants)
+ *    are detected lurking around the perimeter of the Melbourne & Geelong home.
+ * 2. An active radar sonar sweeps 360°, illuminating them with targeting reticles.
+ * 3. As the user scrolls down, the "Legend Bio-Defense Shield" expands with emerald shockwaves,
+ *    zapping the pests, repelling them outward, and flipping the defense matrix to 100% SECURED.
+ * 4. Interactive UV cursor beam follows mouse/touch to inspect the area.
  */
 export const HeroShieldAnimation: React.FC = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const scrollRef = useRef(0);
-  const animFrameRef = useRef(0);
-  const particlesRef = useRef<Particle[]>([]);
-  const shieldNodesRef = useRef<ShieldNode[]>([]);
-  const initializedRef = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 }); // percentage
 
-  // ── Types ───────────────────────────────────────────────────────────
-  interface Particle {
-    x: number;
-    y: number;
-    vx: number;
-    vy: number;
-    size: number;
-    baseAlpha: number;
-    alpha: number;
-    type: 'pest' | 'ambient';
-    angle: number;       // direction from center (radians)
-    dist: number;        // distance from center
-    wiggleOffset: number;
-    speed: number;
-  }
-
-  interface ShieldNode {
-    x: number;
-    y: number;
-    baseRadius: number;  // distance from center at which this node sits
-    angle: number;
-    ring: number;
-    alpha: number;
-    pulseOffset: number;
-  }
-
-  // ── Initialise particles & shield grid ──────────────────────────────
-  const initScene = useCallback((w: number, h: number) => {
-    const cx = w / 2;
-    const cy = h / 2;
-    const isMobile = w < 640;
-    const pestCount = isMobile ? 35 : 70;
-    const ambientCount = isMobile ? 25 : 55;
-
-    // Create pest particles — start scattered around edges
-    const pests: Particle[] = [];
-    for (let i = 0; i < pestCount; i++) {
-      const angle = Math.random() * Math.PI * 2;
-      const dist = (Math.max(w, h) * 0.3) + Math.random() * Math.max(w, h) * 0.35;
-      pests.push({
-        x: cx + Math.cos(angle) * dist,
-        y: cy + Math.sin(angle) * dist,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        size: 1.5 + Math.random() * 2.5,
-        baseAlpha: 0.25 + Math.random() * 0.35,
-        alpha: 0.3,
-        type: 'pest',
-        angle,
-        dist,
-        wiggleOffset: Math.random() * Math.PI * 2,
-        speed: 0.15 + Math.random() * 0.35,
-      });
-    }
-
-    // Ambient soft glow particles — fill the space gently
-    const ambients: Particle[] = [];
-    for (let i = 0; i < ambientCount; i++) {
-      const angle = Math.random() * Math.PI * 2;
-      const dist = Math.random() * Math.max(w, h) * 0.5;
-      ambients.push({
-        x: cx + Math.cos(angle) * dist,
-        y: cy + Math.sin(angle) * dist,
-        vx: (Math.random() - 0.5) * 0.15,
-        vy: (Math.random() - 0.5) * 0.15,
-        size: 0.8 + Math.random() * 1.5,
-        baseAlpha: 0.08 + Math.random() * 0.15,
-        alpha: 0.1,
-        type: 'ambient',
-        angle,
-        dist,
-        wiggleOffset: Math.random() * Math.PI * 2,
-        speed: 0.05 + Math.random() * 0.1,
-      });
-    }
-
-    particlesRef.current = [...pests, ...ambients];
-
-    // Build concentric hexagonal shield grid nodes
-    const nodes: ShieldNode[] = [];
-    const rings = isMobile ? 4 : 6;
-    const maxShieldRadius = Math.min(w, h) * (isMobile ? 0.38 : 0.42);
-
-    for (let ring = 1; ring <= rings; ring++) {
-      const r = (ring / rings) * maxShieldRadius;
-      const nodesInRing = 6 * ring; // hex symmetry
-      for (let j = 0; j < nodesInRing; j++) {
-        const a = (j / nodesInRing) * Math.PI * 2 + (ring % 2 === 0 ? Math.PI / nodesInRing : 0);
-        nodes.push({
-          x: cx + Math.cos(a) * r,
-          y: cy + Math.sin(a) * r,
-          baseRadius: r,
-          angle: a,
-          ring,
-          alpha: 0,
-          pulseOffset: Math.random() * Math.PI * 2,
-        });
-      }
-    }
-    shieldNodesRef.current = nodes;
-    initializedRef.current = true;
-  }, []);
-
-  // ── Main animation loop ────────────────────────────────────────────
-  const draw = useCallback((time: number) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const w = canvas.width;
-    const h = canvas.height;
-    const cx = w / 2;
-    const cy = h / 2;
-    const p = scrollRef.current; // 0 → 1
-    const isMobile = w < 640;
-
-    // Clear
-    ctx.clearRect(0, 0, w, h);
-
-    const maxShieldRadius = Math.min(w, h) * (isMobile ? 0.38 : 0.42);
-    // Shield radius grows with scroll
-    const shieldRadius = maxShieldRadius * (0.15 + p * 0.85);
-
-    // ── 1. Draw radial gradient glow at center (the "shield core") ───
-    const coreGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, shieldRadius * 1.3);
-    const emeraldIntensity = 0.06 + p * 0.14;
-    coreGlow.addColorStop(0, `rgba(16, 185, 129, ${emeraldIntensity})`);
-    coreGlow.addColorStop(0.5, `rgba(6, 78, 59, ${emeraldIntensity * 0.5})`);
-    coreGlow.addColorStop(1, 'transparent');
-    ctx.fillStyle = coreGlow;
-    ctx.fillRect(0, 0, w, h);
-
-    // ── 2. Draw & update shield nodes + connection mesh ──────────────
-    const nodes = shieldNodesRef.current;
-    const timeSec = time * 0.001;
-
-    for (const node of nodes) {
-      // Nodes activate progressively — inner rings first
-      const activationThreshold = (node.ring / (isMobile ? 4 : 6)) * 0.85;
-      const nodeActive = p > activationThreshold ? 1 : p / Math.max(activationThreshold, 0.01);
-      node.alpha = Math.min(1, nodeActive * (0.3 + 0.4 * Math.sin(timeSec * 1.5 + node.pulseOffset) * 0.5 + 0.5));
-
-      if (node.alpha < 0.02) continue;
-
-      // Draw node dot
-      const dotSize = 1.5 + node.alpha * 1.5;
-      ctx.beginPath();
-      ctx.arc(node.x, node.y, dotSize, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(52, 211, 153, ${node.alpha * 0.7})`;
-      ctx.fill();
-
-      // Outer glow ring
-      ctx.beginPath();
-      ctx.arc(node.x, node.y, dotSize + 3, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(16, 185, 129, ${node.alpha * 0.2})`;
-      ctx.lineWidth = 1;
-      ctx.stroke();
-    }
-
-    // Draw connection lines between nearby nodes in same/adjacent rings
-    ctx.lineWidth = 0.5;
-    for (let i = 0; i < nodes.length; i++) {
-      if (nodes[i].alpha < 0.05) continue;
-      for (let j = i + 1; j < nodes.length; j++) {
-        if (nodes[j].alpha < 0.05) continue;
-        if (Math.abs(nodes[i].ring - nodes[j].ring) > 1) continue;
-
-        const dx = nodes[i].x - nodes[j].x;
-        const dy = nodes[i].y - nodes[j].y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const maxDist = maxShieldRadius / (isMobile ? 2.5 : 3);
-
-        if (dist < maxDist) {
-          const lineAlpha = Math.min(nodes[i].alpha, nodes[j].alpha) * (1 - dist / maxDist) * 0.35;
-          ctx.beginPath();
-          ctx.moveTo(nodes[i].x, nodes[i].y);
-          ctx.lineTo(nodes[j].x, nodes[j].y);
-          ctx.strokeStyle = `rgba(52, 211, 153, ${lineAlpha})`;
-          ctx.stroke();
-        }
-      }
-    }
-
-    // ── 3. Rotating scanner sweep ────────────────────────────────────
-    const sweepAngle = timeSec * 0.8; // slow rotation
-    const sweepWidth = 0.5; // radians
-    const sweepGrad = ctx.createConicGradient(sweepAngle, cx, cy);
-    sweepGrad.addColorStop(0, `rgba(16, 185, 129, ${0.03 + p * 0.06})`);
-    sweepGrad.addColorStop(sweepWidth / (Math.PI * 2), 'transparent');
-    sweepGrad.addColorStop(1, 'transparent');
-
-    ctx.beginPath();
-    ctx.arc(cx, cy, shieldRadius * 1.1, 0, Math.PI * 2);
-    ctx.fillStyle = sweepGrad;
-    ctx.fill();
-
-    // ── 4. Draw & update particles ───────────────────────────────────
-    const particles = particlesRef.current;
-    for (const pt of particles) {
-      // Gentle drift movement
-      pt.x += pt.vx + Math.sin(timeSec * 0.7 + pt.wiggleOffset) * pt.speed * 0.3;
-      pt.y += pt.vy + Math.cos(timeSec * 0.5 + pt.wiggleOffset) * pt.speed * 0.3;
-
-      // Wrap around edges
-      if (pt.x < -20) pt.x = w + 20;
-      if (pt.x > w + 20) pt.x = -20;
-      if (pt.y < -20) pt.y = h + 20;
-      if (pt.y > h + 20) pt.y = -20;
-
-      // Calculate distance from center
-      const dx = pt.x - cx;
-      const dy = pt.y - cy;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-
-      if (pt.type === 'pest') {
-        // Pests get repelled by the shield as it expands
-        if (dist < shieldRadius * 1.15) {
-          // Push outward
-          const pushAngle = Math.atan2(dy, dx);
-          const pushForce = (1 - dist / (shieldRadius * 1.15)) * (0.4 + p * 1.2);
-          pt.vx += Math.cos(pushAngle) * pushForce;
-          pt.vy += Math.sin(pushAngle) * pushForce;
-
-          // Dissolve near shield edge
-          pt.alpha = pt.baseAlpha * Math.max(0, (dist / (shieldRadius * 1.15) - 0.3) / 0.7) * (1 - p * 0.6);
-        } else {
-          pt.alpha = pt.baseAlpha * (1 - p * 0.45);
-        }
-
-        // Dampen velocity
-        pt.vx *= 0.985;
-        pt.vy *= 0.985;
-
-        if (pt.alpha < 0.01) continue;
-
-        // Draw pest particle — amber/reddish tint
-        ctx.beginPath();
-        ctx.arc(pt.x, pt.y, pt.size, 0, Math.PI * 2);
-        const r = 180 + Math.floor(Math.random() * 40);
-        const g = 80 + Math.floor(Math.random() * 40);
-        ctx.fillStyle = `rgba(${r}, ${g}, 50, ${pt.alpha})`;
-        ctx.fill();
-
-        // Tiny legs/antenna effect — two small lines
-        if (pt.size > 2 && pt.alpha > 0.1) {
-          const legLen = pt.size * 0.9;
-          ctx.strokeStyle = `rgba(${r}, ${g}, 50, ${pt.alpha * 0.5})`;
-          ctx.lineWidth = 0.4;
-          for (let l = 0; l < 3; l++) {
-            const la = pt.wiggleOffset + l * 1.05 + timeSec * 2;
-            ctx.beginPath();
-            ctx.moveTo(pt.x, pt.y);
-            ctx.lineTo(pt.x + Math.cos(la) * legLen, pt.y + Math.sin(la) * legLen);
-            ctx.stroke();
-          }
-        }
-      } else {
-        // Ambient particles — emerald glow dots
-        pt.alpha = pt.baseAlpha * (0.5 + Math.sin(timeSec + pt.wiggleOffset) * 0.3);
-        ctx.beginPath();
-        ctx.arc(pt.x, pt.y, pt.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(52, 211, 153, ${pt.alpha})`;
-        ctx.fill();
-      }
-    }
-
-    // ── 5. Shield ring border glow ───────────────────────────────────
-    ctx.beginPath();
-    ctx.arc(cx, cy, shieldRadius, 0, Math.PI * 2);
-    ctx.strokeStyle = `rgba(52, 211, 153, ${0.08 + p * 0.18})`;
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-
-    // Outer faint ring
-    ctx.beginPath();
-    ctx.arc(cx, cy, shieldRadius * 1.12, 0, Math.PI * 2);
-    ctx.strokeStyle = `rgba(16, 185, 129, ${0.03 + p * 0.08})`;
-    ctx.lineWidth = 0.8;
-    ctx.stroke();
-
-    // ── 6. Small hex markers on the shield perimeter ─────────────────
-    const hexCount = isMobile ? 6 : 12;
-    for (let i = 0; i < hexCount; i++) {
-      const a = (i / hexCount) * Math.PI * 2 + timeSec * 0.15;
-      const hx = cx + Math.cos(a) * shieldRadius;
-      const hy = cy + Math.sin(a) * shieldRadius;
-      const hexAlpha = 0.15 + p * 0.35 + Math.sin(timeSec * 2 + i) * 0.1;
-
-      // Tiny hexagon
-      ctx.beginPath();
-      for (let v = 0; v < 6; v++) {
-        const va = (v / 6) * Math.PI * 2;
-        const hr = 3 + p * 2;
-        const px = hx + Math.cos(va) * hr;
-        const py = hy + Math.sin(va) * hr;
-        v === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
-      }
-      ctx.closePath();
-      ctx.strokeStyle = `rgba(52, 211, 153, ${hexAlpha})`;
-      ctx.lineWidth = 0.8;
-      ctx.stroke();
-      ctx.fillStyle = `rgba(16, 185, 129, ${hexAlpha * 0.3})`;
-      ctx.fill();
-    }
-
-    animFrameRef.current = requestAnimationFrame(draw);
-  }, []);
-
-  // ── Setup: resize, scroll, start loop ──────────────────────────────
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const parent = canvas.parentElement;
-      if (!parent) return;
-      const rect = parent.getBoundingClientRect();
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      canvas.style.width = `${rect.width}px`;
-      canvas.style.height = `${rect.height}px`;
-      const ctx = canvas.getContext('2d');
-      if (ctx) ctx.scale(dpr, dpr);
-
-      // Re-init the scene at new dimensions
-      initScene(rect.width, rect.height);
-    };
-
+    let animId: number;
     const handleScroll = () => {
-      const heroEl = canvas.parentElement;
-      if (!heroEl) return;
-      const heroHeight = heroEl.clientHeight;
-      const progress = Math.min(1, Math.max(0, window.scrollY / (heroHeight * 0.9)));
-      scrollRef.current = progress;
+      cancelAnimationFrame(animId);
+      animId = requestAnimationFrame(() => {
+        if (!containerRef.current) return;
+        const rect = containerRef.current.getBoundingClientRect();
+        const height = rect.height || 600;
+        // As hero scrolls out of view (from 0 to -height), progress goes 0 -> 1
+        const progress = Math.min(1, Math.max(0, -rect.top / (height * 0.75)));
+        setScrollProgress(progress);
+      });
     };
 
-    resize();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
-    window.addEventListener('resize', resize, { passive: true });
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    animFrameRef.current = requestAnimationFrame(draw);
-
     return () => {
-      window.removeEventListener('resize', resize);
       window.removeEventListener('scroll', handleScroll);
-      cancelAnimationFrame(animFrameRef.current);
+      cancelAnimationFrame(animId);
     };
-  }, [initScene, draw]);
+  }, []);
+
+  // Track mouse/touch for interactive UV bio-beam
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setMousePos({ x: Math.max(0, Math.min(100, x)), y: Math.max(0, Math.min(100, y)) });
+  };
+
+  const p = scrollProgress; // 0 (top) -> 1 (scrolled down)
+
+  // Status computation based on scroll
+  const getDefenseStatus = () => {
+    if (p < 0.25) {
+      return {
+        text: 'PERIMETER SCAN: 6 PEST THREATS DETECTED',
+        badge: 'SCANNING',
+        color: 'text-amber-400',
+        bgColor: 'bg-amber-500/10 border-amber-500/30',
+        barWidth: '28%',
+      };
+    } else if (p < 0.7) {
+      return {
+        text: 'LEGEND BIO-BARRIER DEPLOYED • ERADICATING',
+        badge: 'ACTIVE REPULSION',
+        color: 'text-teal-300',
+        bgColor: 'bg-teal-500/10 border-teal-500/30',
+        barWidth: `${Math.round(28 + (p - 0.25) * 160)}%`,
+      };
+    } else {
+      return {
+        text: 'HOME SECURED: 100% PEST-FREE BARRIER ENGAGED',
+        badge: '6-MO WARRANTY ACTIVE',
+        color: 'text-emerald-400',
+        bgColor: 'bg-emerald-500/20 border-emerald-400/50',
+        barWidth: '100%',
+      };
+    }
+  };
+
+  const status = getDefenseStatus();
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 w-full h-full z-0 pointer-events-none"
+    <div
+      ref={containerRef}
+      onPointerMove={handlePointerMove}
+      className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none"
       aria-hidden="true"
-    />
+    >
+      {/* ── Scoped CSS Keyframes for High-Performance Animation ── */}
+      <style>{`
+        @keyframes radarSweep {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        @keyframes pulseShockwave {
+          0% { transform: scale(0.6); opacity: 0.8; }
+          50% { opacity: 0.4; }
+          100% { transform: scale(1.6); opacity: 0; }
+        }
+        @keyframes crawlJitter {
+          0%, 100% { transform: translate(0, 0) rotate(0deg); }
+          25% { transform: translate(-3px, 2px) rotate(-4deg); }
+          50% { transform: translate(2px, -3px) rotate(3deg); }
+          75% { transform: translate(-2px, -1px) rotate(-2deg); }
+        }
+        @keyframes wingFlutter {
+          0%, 100% { transform: scaleY(1); }
+          50% { transform: scaleY(0.4); }
+        }
+        @keyframes floatDrift {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-10px) rotate(3deg); }
+        }
+        @keyframes reticleSpin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        @keyframes hexPulse {
+          0%, 100% { opacity: 0.15; transform: scale(1); }
+          50% { opacity: 0.35; transform: scale(1.03); }
+        }
+        .anim-radar {
+          animation: radarSweep 6s linear infinite;
+        }
+        .anim-shockwave-1 {
+          animation: pulseShockwave 3.5s cubic-bezier(0.2, 0.8, 0.4, 1) infinite;
+        }
+        .anim-shockwave-2 {
+          animation: pulseShockwave 3.5s cubic-bezier(0.2, 0.8, 0.4, 1) infinite 1.75s;
+        }
+        .anim-crawl {
+          animation: crawlJitter 1.8s ease-in-out infinite;
+        }
+        .anim-float {
+          animation: floatDrift 4s ease-in-out infinite;
+        }
+        .anim-wing {
+          animation: wingFlutter 0.12s linear infinite;
+        }
+        .anim-reticle {
+          animation: reticleSpin 10s linear infinite;
+        }
+        .anim-hex {
+          animation: hexPulse 4s ease-in-out infinite;
+        }
+      `}</style>
+
+      {/* ── 1. Interactive UV Bio-Spotlight (Follows cursor/touch) ── */}
+      <div
+        className="absolute w-[450px] sm:w-[600px] h-[450px] sm:h-[600px] rounded-full pointer-events-none transition-transform duration-300 ease-out -translate-x-1/2 -translate-y-1/2 opacity-30 sm:opacity-40"
+        style={{
+          left: `${mousePos.x}%`,
+          top: `${mousePos.y}%`,
+          background: 'radial-gradient(circle, rgba(16, 185, 129, 0.35) 0%, rgba(6, 78, 59, 0.15) 45%, transparent 70%)',
+          filter: 'blur(30px)',
+        }}
+      />
+
+      {/* ── 2. Atmospheric Ambient Light Fields ── */}
+      <div
+        className="absolute -top-32 -right-32 w-96 sm:w-[550px] h-96 sm:h-[550px] rounded-full bg-emerald-500/20 blur-3xl transition-opacity duration-500"
+        style={{ opacity: 0.2 + p * 0.3 }}
+      />
+      <div
+        className="absolute -bottom-24 -left-24 w-80 sm:w-[480px] h-80 sm:h-[480px] rounded-full bg-amber-500/15 blur-3xl transition-opacity duration-500"
+        style={{ opacity: 0.3 - p * 0.25 }}
+      />
+
+      {/* ── 3. High-Tech Hexagonal Shield Floor Grid ── */}
+      <div
+        className="absolute inset-0 anim-hex opacity-20 sm:opacity-25"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle at 50% 50%, rgba(52, 211, 153, 0.2) 0%, transparent 70%),
+            linear-gradient(to right, rgba(52, 211, 153, 0.12) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(52, 211, 153, 0.12) 1px, transparent 1px)
+          `,
+          backgroundSize: '100% 100%, 40px 40px, 40px 40px',
+        }}
+      />
+
+      {/* ── 4. Central Bio-Defense Radar & Expanding Shield Rings ── */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        {/* Expanding Shockwave 1 */}
+        <div
+          className="absolute rounded-full border border-emerald-400/40 anim-shockwave-1"
+          style={{ width: `${260 + p * 320}px`, height: `${260 + p * 320}px` }}
+        />
+        {/* Expanding Shockwave 2 */}
+        <div
+          className="absolute rounded-full border border-teal-300/30 anim-shockwave-2"
+          style={{ width: `${220 + p * 280}px`, height: `${220 + p * 280}px` }}
+        />
+
+        {/* Outer Hex Shield Perimeter that grows with scroll */}
+        <div
+          className="absolute rounded-full border-2 transition-all duration-300 ease-out"
+          style={{
+            width: `${240 + p * 500}px`,
+            height: `${240 + p * 500}px`,
+            borderColor: p > 0.6 ? 'rgba(52, 211, 153, 0.5)' : 'rgba(245, 158, 11, 0.3)',
+            boxShadow: p > 0.6
+              ? '0 0 60px rgba(16, 185, 129, 0.35), inset 0 0 40px rgba(16, 185, 129, 0.2)'
+              : '0 0 40px rgba(245, 158, 11, 0.2), inset 0 0 30px rgba(245, 158, 11, 0.1)',
+          }}
+        />
+
+        {/* Concentric Radar Distance Rings */}
+        <div className="absolute w-[180px] h-[180px] rounded-full border border-emerald-500/25" />
+        <div className="absolute w-[110px] h-[110px] rounded-full border border-emerald-500/35" />
+        <div className="absolute w-[50px] h-[50px] rounded-full bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center">
+          <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+        </div>
+
+        {/* Rotating Sonar Radar Beam */}
+        <div
+          className="absolute w-[360px] h-[360px] rounded-full anim-radar pointer-events-none"
+          style={{
+            background: 'conic-gradient(from 0deg, transparent 0deg, rgba(16, 185, 129, 0.35) 45deg, transparent 55deg)',
+          }}
+        />
+      </div>
+
+      {/* ── 5. Live Defense Matrix Status Meter (Visible at top center) ── */}
+      <div className="absolute top-2 sm:top-4 left-1/2 -translate-x-1/2 w-full max-w-md px-4">
+        <div className={`p-2.5 sm:p-3 rounded-2xl border backdrop-blur-md transition-all duration-300 ${status.bgColor}`}>
+          <div className="flex items-center justify-between text-[10px] sm:text-xs font-black uppercase tracking-wider mb-1.5">
+            <span className={`flex items-center gap-1.5 ${status.color}`}>
+              <span className="w-2 h-2 rounded-full bg-current animate-pulse inline-block" />
+              {status.text}
+            </span>
+            <span className="px-2 py-0.5 rounded-full bg-slate-900/80 text-[9px] font-bold text-white border border-slate-700">
+              {status.badge}
+            </span>
+          </div>
+          {/* Real-time Defense Progress Bar */}
+          <div className="w-full h-1.5 rounded-full bg-slate-900/80 overflow-hidden border border-emerald-900/40">
+            <div
+              className="h-full bg-gradient-to-r from-amber-400 via-teal-400 to-emerald-400 transition-all duration-300 rounded-full"
+              style={{ width: status.barWidth }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* ── 6. PEST THREATS WITH ACTIVE TARGETING RETICLES ── */}
+
+      {/* PEST 1: Redback / Huntsman Spider (Top-Left) */}
+      <div
+        className="absolute transition-all duration-500 ease-out"
+        style={{
+          left: '6%',
+          top: '20%',
+          transform: `translate(${-p * 180}px, ${-p * 120}px) scale(${1 - p * 0.4})`,
+          opacity: Math.max(0.05, 0.85 - p * 0.9),
+        }}
+      >
+        <div className="relative anim-crawl">
+          {/* Target Reticle */}
+          <div className="absolute -inset-3 rounded-full border border-dashed border-amber-400/60 anim-reticle" />
+          <span className="absolute -top-5 left-1/2 -translate-x-1/2 text-[9px] font-black tracking-wider text-amber-400 whitespace-nowrap bg-slate-950/80 px-1.5 py-0.5 rounded border border-amber-500/40">
+            {p > 0.4 ? '⚡ REPELLED' : '⚠️ SPIDER'}
+          </span>
+          {/* Spider SVG */}
+          <svg viewBox="0 0 64 64" className="w-12 h-12 sm:w-16 sm:h-16 text-amber-300 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]" fill="currentColor">
+            <circle cx="32" cy="24" r="8" />
+            <ellipse cx="32" cy="38" rx="12" ry="10" />
+            <path d="M32 34 L32 44" stroke="#ef4444" strokeWidth="2.5" />
+            {/* 8 articulated spider legs */}
+            <path d="M24 24 Q10 16 4 10" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+            <path d="M22 28 Q8 26 2 22" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+            <path d="M22 34 Q8 38 2 46" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+            <path d="M24 38 Q12 48 6 56" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+            <path d="M40 24 Q54 16 60 10" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+            <path d="M42 28 Q56 26 62 22" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+            <path d="M42 34 Q56 38 62 46" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+            <path d="M40 38 Q52 48 58 56" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+          </svg>
+        </div>
+      </div>
+
+      {/* PEST 2: German Cockroach (Top-Right) */}
+      <div
+        className="absolute transition-all duration-500 ease-out"
+        style={{
+          right: '8%',
+          top: '18%',
+          transform: `translate(${p * 200}px, ${-p * 140}px) scale(${1 - p * 0.4})`,
+          opacity: Math.max(0.05, 0.85 - p * 0.9),
+        }}
+      >
+        <div className="relative anim-crawl">
+          <div className="absolute -inset-3 rounded-full border border-dashed border-amber-400/60 anim-reticle" />
+          <span className="absolute -top-5 left-1/2 -translate-x-1/2 text-[9px] font-black tracking-wider text-amber-400 whitespace-nowrap bg-slate-950/80 px-1.5 py-0.5 rounded border border-amber-500/40">
+            {p > 0.4 ? '⚡ ZAPPED' : '⚠️ ROACH'}
+          </span>
+          <svg viewBox="0 0 64 64" className="w-12 h-12 sm:w-16 sm:h-16 text-amber-400 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]" fill="currentColor">
+            <ellipse cx="32" cy="18" rx="7" ry="5" />
+            <ellipse cx="32" cy="36" rx="11" ry="15" />
+            {/* Long twitching antennae */}
+            <path d="M28 14 Q20 4 12 2" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+            <path d="M36 14 Q44 4 52 2" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+            {/* Scuttling legs */}
+            <path d="M22 24 Q10 18 4 14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+            <path d="M42 24 Q54 18 60 14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+            <path d="M21 32 Q9 32 3 28" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+            <path d="M43 32 Q55 32 61 28" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+            <path d="M22 42 Q10 48 4 56" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+            <path d="M42 42 Q54 48 60 56" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+          </svg>
+        </div>
+      </div>
+
+      {/* PEST 3: Roof Rat / Rodent (Bottom-Left) */}
+      <div
+        className="absolute transition-all duration-500 ease-out hidden sm:block"
+        style={{
+          left: '10%',
+          bottom: '16%',
+          transform: `translate(${-p * 220}px, ${p * 150}px) scale(${1 - p * 0.4})`,
+          opacity: Math.max(0.05, 0.8 - p * 0.9),
+        }}
+      >
+        <div className="relative anim-float">
+          <div className="absolute -inset-3 rounded-full border border-dashed border-amber-400/60 anim-reticle" />
+          <span className="absolute -top-5 left-1/2 -translate-x-1/2 text-[9px] font-black tracking-wider text-amber-400 whitespace-nowrap bg-slate-950/80 px-1.5 py-0.5 rounded border border-amber-500/40">
+            {p > 0.4 ? '⚡ BLOCKED' : '⚠️ RODENT'}
+          </span>
+          <svg viewBox="0 0 80 50" className="w-16 h-10 sm:w-20 sm:h-12 text-slate-300 drop-shadow-[0_0_10px_rgba(203,213,225,0.4)]" fill="currentColor">
+            <ellipse cx="44" cy="26" rx="20" ry="14" />
+            <ellipse cx="22" cy="22" rx="11" ry="8" />
+            <ellipse cx="16" cy="14" rx="5" ry="6" />
+            <ellipse cx="26" cy="14" rx="5" ry="6" />
+            <circle cx="18" cy="20" r="1.5" fill="#020617" />
+            <path d="M64 26 Q74 20 76 12 Q78 6 74 2" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+            <path d="M10 22 L2 18" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+            <path d="M10 24 L2 24" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+            <path d="M10 26 L2 30" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+          </svg>
+        </div>
+      </div>
+
+      {/* PEST 4: European Wasp (Mid-Right) */}
+      <div
+        className="absolute transition-all duration-500 ease-out hidden sm:block"
+        style={{
+          right: '12%',
+          top: '52%',
+          transform: `translate(${p * 240}px, ${p * 120}px) scale(${1 - p * 0.4})`,
+          opacity: Math.max(0.05, 0.8 - p * 0.9),
+        }}
+      >
+        <div className="relative anim-float">
+          <div className="absolute -inset-3 rounded-full border border-dashed border-amber-400/60 anim-reticle" />
+          <span className="absolute -top-5 left-1/2 -translate-x-1/2 text-[9px] font-black tracking-wider text-amber-400 whitespace-nowrap bg-slate-950/80 px-1.5 py-0.5 rounded border border-amber-500/40">
+            {p > 0.4 ? '⚡ EXCLUDED' : '⚠️ WASP'}
+          </span>
+          <svg viewBox="0 0 64 64" className="w-12 h-12 sm:w-14 sm:h-14 text-amber-400 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]" fill="currentColor">
+            <ellipse cx="32" cy="20" rx="8" ry="6" />
+            <ellipse cx="32" cy="38" rx="8" ry="12" />
+            <rect x="25" y="32" width="14" height="2.5" rx="1" fill="#0f172a" />
+            <rect x="25" y="38" width="14" height="2.5" rx="1" fill="#0f172a" />
+            <path d="M32 50 L32 58" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            {/* Fluttering wings */}
+            <g className="anim-wing">
+              <ellipse cx="18" cy="18" rx="10" ry="4" opacity="0.6" transform="rotate(-30 18 18)" fill="#6ee7b7" />
+              <ellipse cx="46" cy="18" rx="10" ry="4" opacity="0.6" transform="rotate(30 46 18)" fill="#6ee7b7" />
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      {/* PEST 5: Subterranean Termites (Bottom-Right) */}
+      <div
+        className="absolute transition-all duration-500 ease-out"
+        style={{
+          right: '20%',
+          bottom: '12%',
+          transform: `translate(${p * 160}px, ${p * 180}px) scale(${1 - p * 0.4})`,
+          opacity: Math.max(0.05, 0.75 - p * 0.9),
+        }}
+      >
+        <div className="relative anim-crawl">
+          <div className="absolute -inset-3 rounded-full border border-dashed border-amber-400/60 anim-reticle" />
+          <span className="absolute -top-5 left-1/2 -translate-x-1/2 text-[9px] font-black tracking-wider text-amber-400 whitespace-nowrap bg-slate-950/80 px-1.5 py-0.5 rounded border border-amber-500/40">
+            {p > 0.4 ? '⚡ DETECTED' : '⚠️ TERMITE'}
+          </span>
+          <svg viewBox="0 0 64 64" className="w-10 h-10 sm:w-12 sm:h-12 text-amber-200 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]" fill="currentColor">
+            <circle cx="32" cy="16" r="7" />
+            <ellipse cx="32" cy="32" rx="6" ry="8" />
+            <ellipse cx="32" cy="46" rx="8" ry="7" />
+            <path d="M26 18 Q22 22 18 20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+            <path d="M38 18 Q42 22 46 20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+            <path d="M26 30 Q16 26 10 24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+            <path d="M38 30 Q48 26 54 24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+          </svg>
+        </div>
+      </div>
+
+      {/* PEST 6: Black House Ant (Mid-Left) */}
+      <div
+        className="absolute transition-all duration-500 ease-out hidden sm:block"
+        style={{
+          left: '18%',
+          top: '55%',
+          transform: `translate(${-p * 160}px, ${p * 140}px) scale(${1 - p * 0.4})`,
+          opacity: Math.max(0.05, 0.75 - p * 0.9),
+        }}
+      >
+        <div className="relative anim-crawl">
+          <div className="absolute -inset-3 rounded-full border border-dashed border-amber-400/60 anim-reticle" />
+          <span className="absolute -top-5 left-1/2 -translate-x-1/2 text-[9px] font-black tracking-wider text-amber-400 whitespace-nowrap bg-slate-950/80 px-1.5 py-0.5 rounded border border-amber-500/40">
+            {p > 0.4 ? '⚡ CLEARED' : '⚠️ ANTS'}
+          </span>
+          <svg viewBox="0 0 64 64" className="w-10 h-10 sm:w-12 sm:h-12 text-slate-200 drop-shadow-[0_0_8px_rgba(226,232,240,0.5)]" fill="currentColor">
+            <circle cx="32" cy="14" r="6" />
+            <ellipse cx="32" cy="28" rx="5" ry="7" />
+            <ellipse cx="32" cy="44" rx="7" ry="9" />
+            <path d="M28 10 Q22 2 16 0" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+            <path d="M36 10 Q42 2 48 0" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+            <path d="M27 26 Q16 20 8 16" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+            <path d="M37 26 Q48 20 56 16" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+          </svg>
+        </div>
+      </div>
+
+      {/* ── 7. Triumphant Emerald Energy Pulse when scrolled ── */}
+      <div
+        className="absolute inset-0 pointer-events-none transition-opacity duration-700"
+        style={{
+          opacity: p > 0.5 ? (p - 0.5) * 1.5 : 0,
+          background: 'radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.18) 0%, rgba(6, 78, 59, 0.08) 50%, transparent 80%)',
+        }}
+      />
+    </div>
   );
 };

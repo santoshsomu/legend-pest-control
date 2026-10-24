@@ -19,8 +19,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-slate-950 via-emerald-950/90 to-slate-900 text-white pt-8 pb-16 lg:pt-14 lg:pb-24">
-      {/* Animated Protection Shield — pest particles repelled by expanding emerald barrier on scroll */}
+    <section id="hero-section" className="relative overflow-hidden bg-gradient-to-b from-slate-950 via-emerald-950/90 to-slate-900 text-white pt-8 pb-16 lg:pt-14 lg:pb-24">
+      {/* Interactive Bio-Defense Shield — live radar scanner, pest threats & expanding protection barrier */}
       <HeroShieldAnimation />
 
       {/* Vignette overlay ensuring 100% contrast for foreground text & mobile readability */}
