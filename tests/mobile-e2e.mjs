@@ -71,8 +71,8 @@ async function runMobileE2ETests() {
       }
       
       const warrantyCard = await page.locator('text=6-month treatment warranty').first().isVisible();
-      const discountCard = await page.locator('text=$50 off for new customers').first().isVisible();
-      console.log(`  ✓ Hero Trust Cards 2x2 Grid rendered: Warranty=${warrantyCard}, $50 Discount=${discountCard}`);
+      const inspectionCard = await page.locator('text=Free 10-point property check').first().isVisible();
+      console.log(`  ✓ Hero Trust Cards 2x2 Grid rendered: Warranty=${warrantyCard}, Free Inspection=${inspectionCard}`);
 
       // 5. Verify Services: Dead Animal Removal & Termite Inspection
       const deadAnimalLocator = page.locator('h3:has-text("Dead Animal & Carcass Removal")').first();
@@ -84,35 +84,37 @@ async function runMobileE2ETests() {
       const termiteService = await termiteLocator.isVisible();
 
       console.log(`  ✓ Dead Animal Service visible: ${deadAnimalService}`);
-      console.log(`  ✓ Termite Inspection (chemical barriers removed) visible: ${termiteService}`);
+      console.log(`  ✓ Termite Inspection visible: ${termiteService}`);
 
       // 6. Test Interactive Assessment Engine on Mobile
-      const unitBtn = page.locator('button:has-text("Unit / Apt")');
-      await unitBtn.scrollIntoViewIfNeeded();
-      if (await unitBtn.isVisible()) {
-        await unitBtn.click();
+      const pestOption = page.locator('button:has-text("General Crawling")').first();
+      await pestOption.scrollIntoViewIfNeeded();
+      if (await pestOption.isVisible()) {
+        await pestOption.click();
         await page.waitForTimeout(200);
-        console.log('  ✓ Property selector in Assessment interacted successfully');
+        console.log('  ✓ Pest selector in Assessment interacted successfully');
       }
 
       // 7. Test Suburb Filter
       const searchInput = page.locator('input[placeholder*="Search your suburb"]');
       await searchInput.scrollIntoViewIfNeeded();
       if (await searchInput.isVisible()) {
-        await searchInput.fill('Geelong');
+        await searchInput.fill('Werribee');
         await page.waitForTimeout(200);
-        const geelongCard = await page.locator('h4:has-text("Geelong CBD")').isVisible();
-        console.log(`  ✓ Suburb instant search working: ${geelongCard}`);
+        const werribeeCard = await page.locator('h4:has-text("Werribee")').first().isVisible();
+        console.log(`  ✓ Suburb instant search working: ${werribeeCard}`);
       }
 
       // 8. Test FAQ Accordion Expand
+      const faqBtn1 = page.locator('button:has-text("What types of products do you use")');
+      await faqBtn1.scrollIntoViewIfNeeded();
       const faq1Answer = await page.locator('text=APVMA-approved').first().isVisible();
       console.log(`  ✓ FAQ item 1 default open: ${faq1Answer}`);
       const faqBtn2 = page.locator('button:has-text("How does your 6-month treatment warranty work")');
       await faqBtn2.scrollIntoViewIfNeeded();
       await faqBtn2.click();
       await page.waitForTimeout(250);
-      const faq2Answer = await page.locator('text=If covered pests return').first().isVisible();
+      const faq2Answer = await page.locator('text=If covered pests return within 6 months').first().isVisible();
       console.log(`  ✓ FAQ accordion 2 expanded successfully: ${faq2Answer}`);
 
       // 9. Test Mobile Sticky Bar & Callback Modal Submission
@@ -126,9 +128,10 @@ async function runMobileE2ETests() {
       
       // Target modal explicitly
       const modal = page.locator('div.fixed.inset-0');
-      await modal.locator('input[placeholder="e.g. Sarah Smith"]').fill('Sahithi Test');
+      await modal.locator('input[placeholder="e.g. Sarah Smith"]').fill('Alex Client');
       await modal.locator('input[placeholder="e.g. 0412 345 678"]').fill('0412 345 678');
-      await modal.locator('input[placeholder*="Geelong, Werribee"]').fill('Werribee');
+      await modal.locator('input[type="email"]').fill('alex@test.com.au');
+      await modal.locator('input[placeholder*="Werribee"]').fill('Werribee');
       
       // Submit modal form
       await modal.locator('button:has-text("Request Callback")').click();

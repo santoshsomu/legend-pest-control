@@ -12,7 +12,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenCallback }
       step: '01',
       icon: PhoneCall,
       title: 'Fast Contact & Upfront Quote',
-      desc: 'Call 0416 388 777 or request a fast callback. Sahithi or our lead technician will discuss your pest sightings and give you a transparent upfront quote with your $50 new customer voucher applied.',
+      desc: 'Call 0416 388 777 or request a fast callback. Our lead technician will discuss your pest sightings and give you a transparent upfront quote with our complimentary 10-point inspection included.',
     },
     {
       step: '02',
@@ -24,7 +24,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenCallback }
       step: '03',
       icon: Sparkles,
       title: 'Targeted Low-Toxicity Eradication',
-      desc: 'We deploy precision APVMA-certified formulations, micro-encapsulated sprays, gel matrices, or roof void dusters. 100% child and pet safe once dry (within 1.5 to 2 hours).',
+      desc: 'We deploy precision APVMA-certified formulations, micro-encapsulated sprays, gel matrices, or roof void dusters. Low-odour and quick-drying within 1.5 to 2 hours.',
     },
     {
       step: '04',
@@ -48,7 +48,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenCallback }
             Our 4-Step Legendary Treatment Process
           </h2>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-            From your first phone call to complete eradication, here is exactly what to expect from Sahithi and the Legend Pest Control team.
+            From your first phone call to complete eradication, here is exactly what to expect from the Legend Pest Control team.
           </p>
         </div>
 

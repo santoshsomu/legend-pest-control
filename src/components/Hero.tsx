@@ -36,14 +36,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-900/60 border border-emerald-700/60 backdrop-blur-md text-xs sm:text-sm font-semibold tracking-wide">
               <span className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
               <span className="text-emerald-100">
-                <strong className="text-amber-300 font-bold">$50 OFF</strong> FOR NEW CUSTOMERS
+                <strong className="text-amber-300 font-bold">FREE 10-POINT INSPECTION</strong> WITH EVERY TREATMENT
               </span>
             </div>
 
-            {/* Main Headline - Sahithi's exact tagline */}
+            {/* Main Headline */}
             <div className="space-y-2">
               <span className="text-xs sm:text-sm font-bold uppercase tracking-widest text-emerald-400 block">
-                Melbourne & Geelong's Trusted Pest Specialists
+                Melbourne Trusted Pest Specialists
               </span>
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.12] sm:leading-[1.08]">
                 Every pest problem, <br />
@@ -55,7 +55,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
 
             {/* Subtitle addressing real pain points */}
             <p className="text-sm sm:text-lg text-slate-300 max-w-2xl leading-relaxed">
-              Spiders, ants, cockroaches, rats, wasps, dead animal removal or termites in Geelong, Lara, Werribee, Point Cook or nearby? Tell us what you're seeing for an immediate, transparent estimate.
+              Spiders, ants, cockroaches, rats, wasps, dead animal removal or termites across melbourne? Tell us what you're seeing for an immediate, transparent estimate.
             </p>
 
             {/* The 4 Iconic Trust Cards in 2x2 Grid */}
@@ -69,20 +69,20 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
                 <span className="text-[11.5px] sm:text-sm font-bold tracking-tight leading-tight">6-month treatment warranty</span>
               </div>
 
-              {/* Card 2: Covering Geelong & Melbourne's west */}
+              {/* Card 2: Covering Greater Melbourne */}
               <div className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-800/80 border border-emerald-900/60 backdrop-blur-xs text-white">
                 <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
                   <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
                 </div>
-                <span className="text-[11.5px] sm:text-sm font-bold tracking-tight leading-tight">Covering Geelong & Melbourne's west</span>
+                <span className="text-[11.5px] sm:text-sm font-bold tracking-tight leading-tight">Covering Greater Melbourne</span>
               </div>
 
-              {/* Card 3: $50 off for new customers (Highlighted Gold Card) */}
+              {/* Card 3: Free 10-point inspection (Highlighted Gold Card) */}
               <div className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-amber-400 text-slate-950 font-extrabold shadow-lg shadow-amber-400/20">
                 <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-slate-950/15 flex items-center justify-center shrink-0">
                   <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-slate-950" />
                 </div>
-                <span className="text-[11.5px] sm:text-sm font-black tracking-tight leading-tight">$50 off for new customers</span>
+                <span className="text-[11.5px] sm:text-sm font-black tracking-tight leading-tight">Free 10-point property check</span>
               </div>
 
               {/* Card 4: Upfront estimate given on the call */}
@@ -119,7 +119,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
               {/* Value proposition note (pricing numbers removed) */}
               <div className="text-center sm:text-left text-xs sm:text-sm text-slate-300 font-medium flex items-center justify-center sm:justify-start gap-2">
                 <Shield className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Transparent fixed quotes with $50 new customer voucher applied. Zero hidden callout fees.</span>
+                <span>Transparent fixed quotes with complimentary property check included. Zero hidden callout fees.</span>
               </div>
             </div>
 
@@ -138,7 +138,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
                   </span>
                 </div>
                 <span className="text-xs font-bold px-2.5 py-1 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30">
-                  ⚡ $50 Off Voucher Active
+                  ⚡ Free Inspection Active
                 </span>
               </div>
 
@@ -163,7 +163,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
-                    2. Your Suburb (Geelong & Melbourne West)
+                    2. Your Suburb in Melbourne
                   </label>
                   <div className="relative">
                     <MapPin className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
@@ -194,7 +194,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
                       </h4>
                     </div>
                     <span className="text-[10px] font-extrabold text-amber-950 bg-amber-400 px-2 py-0.5 rounded-full shrink-0">
-                      $50 VOUCHER
+                      FREE INSPECTION
                     </span>
                   </div>
 
@@ -222,7 +222,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
                     className="w-full py-3.5 px-4 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 font-black rounded-xl text-sm transition shadow-lg shadow-amber-400/20 flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <Sparkles className="w-4 h-4 text-slate-950" />
-                    <span>Get Fast Free Quote & Apply $50 Voucher</span>
+                    <span>Get Fast Free Quote &amp; Free Inspection</span>
                     <ArrowRight className="w-4 h-4 text-slate-950" />
                   </button>
 
@@ -231,7 +231,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
                     className="w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl transition flex items-center justify-center gap-2 text-center"
                   >
                     <Phone className="w-3.5 h-3.5 text-emerald-400" />
-                    Or Speak Directly With Sahithi & Tech Team: {COMPANY_DETAILS.phone}
+                    Or Speak Directly With Tech Team: {COMPANY_DETAILS.phone}
                   </a>
                 </div>
 

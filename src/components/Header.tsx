@@ -39,7 +39,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1.5 text-amber-400 font-bold">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Special Offer: $50 OFF For New Customers</span>
+              <span>Special Offer: Free 10-Point Termite &amp; Pest Inspection</span>
             </span>
             <span className="hidden md:inline-flex items-center gap-1 text-emerald-300 font-medium">
               <Shield className="w-3.5 h-3.5 text-emerald-400" />
@@ -141,7 +141,7 @@ export const Header: React.FC<HeaderProps> = ({
               </span>
               <span className="flex items-center gap-1">
                 <MapPin className="w-3.5 h-3.5 text-emerald-600" />
-                Geelong &amp; Melbourne West
+                Across Greater Melbourne
               </span>
             </div>
 
@@ -174,7 +174,7 @@ export const Header: React.FC<HeaderProps> = ({
                 }}
                 className="w-full py-3 bg-amber-400 hover:bg-amber-500 active:bg-amber-600 text-slate-950 font-black rounded-xl text-sm transition shadow-sm cursor-pointer"
               >
-                ⚡ Get Free Quote ($50 Off Voucher)
+                ⚡ Get Free Rapid Quote
               </button>
             </div>
           </div>

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { 
   Phone, 
   Mail, 
-  MapPin, 
   Clock, 
   ShieldCheck, 
   CheckCircle2, 
@@ -20,8 +19,6 @@ export const ContactSection: React.FC = () => {
     email: '',
     suburb: '',
     service: 'General Pest Treatment',
-    propertyType: 'Residential (3-4 Bed House)',
-    urgency: 'Same-Day Urgent Dispatch',
     notes: '',
   });
 
@@ -90,13 +87,13 @@ export const ContactSection: React.FC = () => {
 
               <div className="pt-2 flex items-center gap-2 text-xs font-semibold text-white/90">
                 <span className="h-2.5 w-2.5 rounded-full bg-amber-400 animate-ping" />
-                <span>Duty Technician Available Right Now in Geelong / West</span>
+                <span>Duty Technician Available Right Now Across Melbourne</span>
               </div>
             </div>
 
             {/* Business Credential Details */}
             <div className="rounded-3xl bg-slate-900/90 border border-slate-800 p-6 sm:p-8 space-y-4">
-              <h3 className="font-bold text-white text-base">Company & Licensing Credentials</h3>
+              <h3 className="font-bold text-white text-base">Company &amp; Licensing Credentials</h3>
 
               <div className="space-y-3.5 text-xs sm:text-sm text-slate-300">
                 <div className="flex items-start gap-3">
@@ -104,14 +101,6 @@ export const ContactSection: React.FC = () => {
                   <div>
                     <strong className="text-white block">Operating Hours:</strong>
                     <span>{COMPANY_DETAILS.hours}</span>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="text-white block">Dispatch Depots:</strong>
-                    <span>Geelong, Lara, Werribee, Point Cook & Melbourne's West</span>
                   </div>
                 </div>
 
@@ -128,15 +117,15 @@ export const ContactSection: React.FC = () => {
                 <div className="flex items-start gap-3">
                   <Award className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-white block">State Accreditation & Insurance:</strong>
-                    <span>{COMPANY_DETAILS.licence} • ABN {COMPANY_DETAILS.abn} • {COMPANY_DETAILS.insurance}</span>
+                    <strong className="text-white block">State Accreditation &amp; Insurance:</strong>
+                    <span>Fully Licensed &amp; Certified • {COMPANY_DETAILS.insurance}</span>
                   </div>
                 </div>
               </div>
 
               <div className="pt-4 border-t border-slate-800 text-xs text-slate-400 flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Sahithi & the Legend team guarantee 100% customer satisfaction.</span>
+                <span>Legend team guarantee 100% customer satisfaction.</span>
               </div>
             </div>
 
@@ -159,7 +148,7 @@ export const ContactSection: React.FC = () => {
                     Thank You, {formData.name || 'Valued Customer'}!
                   </h3>
                   <p className="text-sm text-slate-300 max-w-md mx-auto">
-                    Your reference number is <strong className="text-amber-400 font-mono text-base">{quoteRef}</strong>. Sahithi or our senior dispatch technician is reviewing your address in {formData.suburb || 'Melbourne/Geelong'} and will call you on <strong className="text-white">{formData.phone}</strong> shortly.
+                    Your reference number is <strong className="text-amber-400 font-mono text-base">{quoteRef}</strong>. Our senior dispatch technician is reviewing your address in {formData.suburb || 'Melbourne'} and will call you on <strong className="text-white">{formData.phone}</strong> shortly.
                   </p>
                 </div>
 
@@ -169,12 +158,8 @@ export const ContactSection: React.FC = () => {
                     <span className="font-bold text-white">{formData.service}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-400">Urgency:</span>
-                    <span className="font-bold text-emerald-400">{formData.urgency}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-400">Promo Voucher:</span>
-                    <span className="font-bold text-amber-400">$50 OFF Voucher Applied</span>
+                    <span className="text-slate-400">Special Offer:</span>
+                    <span className="font-bold text-amber-400">Free 10-Point Inspection Included</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-400">Warranty:</span>
@@ -207,7 +192,7 @@ export const ContactSection: React.FC = () => {
                     <p className="text-xs text-slate-400">Prompt callback within 15 minutes</p>
                   </div>
                   <span className="text-xs font-bold text-amber-400 bg-amber-950/60 px-2.5 py-1 rounded-full border border-amber-500/30 flex items-center gap-1">
-                    <Sparkles className="w-3.5 h-3.5" /> $50 Off Active
+                    <Sparkles className="w-3.5 h-3.5" /> Free Inspection Active
                   </span>
                 </div>
 
@@ -260,13 +245,12 @@ export const ContactSection: React.FC = () => {
 
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
-                      Suburb / Town *
+                      Suburb / Town
                     </label>
                     <input
                       type="text"
-                      required
                       list="suburbs-contact"
-                      placeholder="e.g. Geelong, Werribee, Lara"
+                      placeholder="e.g. Werribee, Richmond, Point Cook..."
                       value={formData.suburb}
                       onChange={(e) => setFormData({ ...formData, suburb: e.target.value })}
                       className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-base sm:text-sm focus:outline-none focus:border-emerald-500"
@@ -279,57 +263,21 @@ export const ContactSection: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Service Type & Property */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
-                      Primary Service *
-                    </label>
-                    <select
-                      value={formData.service}
-                      onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-base sm:text-sm focus:outline-none focus:border-emerald-500"
-                    >
-                      {SERVICES.map((s) => (
-                        <option key={s.id} value={s.name}>
-                          {s.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
-                      Property Type *
-                    </label>
-                    <select
-                      value={formData.propertyType}
-                      onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-base sm:text-sm focus:outline-none focus:border-emerald-500"
-                    >
-                      <option value="Residential (1-2 Bed Unit)">Unit / Apartment (1-2 Bed)</option>
-                      <option value="Residential (3-4 Bed House)">Standard House (3-4 Bed)</option>
-                      <option value="Residential (5+ Bed Large House)">Large House (5+ Bed / 2-Storey)</option>
-                      <option value="Commercial / Hospitality">Commercial Facility / Restaurant</option>
-                      <option value="End of Lease Tenancy">End-of-Lease Vacate</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* Urgency Selection */}
+                {/* Service Type */}
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
-                    Timing / Urgency
+                    Primary Service
                   </label>
                   <select
-                    value={formData.urgency}
-                    onChange={(e) => setFormData({ ...formData, urgency: e.target.value })}
+                    value={formData.service}
+                    onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                     className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-base sm:text-sm focus:outline-none focus:border-emerald-500"
                   >
-                    <option value="Same-Day Urgent Dispatch">🚨 Same-Day Urgent Dispatch (Dead animal, wasps, heavy infestation)</option>
-                    <option value="Within 24-48 Hours">Within 24–48 Hours</option>
-                    <option value="This Week / Flexible">This Week / Flexible Date</option>
-                    <option value="Quote Only">Information & Quote Only</option>
+                    {SERVICES.map((s) => (
+                      <option key={s.id} value={s.name}>
+                        {s.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
 

@@ -27,7 +27,7 @@ export const StickyMobileBar: React.FC<StickyMobileBarProps> = ({ onOpenCallback
           className="flex items-center justify-center gap-1.5 py-3 px-2 bg-amber-400 active:bg-amber-500 text-slate-950 font-black text-xs rounded-xl shadow-md min-h-[46px] cursor-pointer"
         >
           <Sparkles className="w-4 h-4 text-slate-950" />
-          <span>Free Quote ($50 Off)</span>
+          <span>Free Quote &amp; Check</span>
         </button>
       </div>
     </div>

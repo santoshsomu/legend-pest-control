@@ -18,10 +18,10 @@ export const ReviewsSection: React.FC = () => {
             <span>Local Google Reviews</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-            Loved By Melbourne & Geelong Homeowners
+            Loved By Melbourne Homeowners
           </h2>
           <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-            Read real feedback from families, tenants, and business owners who rely on Sahithi and Legend Pest Control for permanent pest eradication.
+            Read real feedback from homeowners, tenants, and business owners who rely on Legend Pest Control for permanent pest eradication.
           </p>
         </div>
 

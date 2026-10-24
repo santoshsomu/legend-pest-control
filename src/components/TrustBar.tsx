@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, Award, HeartHandshake, CheckCircle2, Star } from 'lucide-react';
+import { ShieldCheck, Award, CheckCircle2, Star } from 'lucide-react';
 
 export const TrustBar: React.FC = () => {
   const credentials = [
@@ -11,15 +11,15 @@ export const TrustBar: React.FC = () => {
     },
     {
       icon: Award,
-      title: 'Vic Health Licensed',
-      subtitle: 'Lic #L012894 certified techs',
-      badge: 'State Certified',
+      title: 'Fully Licensed & Certified',
+      subtitle: 'Accredited technicians',
+      badge: 'Certified',
     },
     {
-      icon: HeartHandshake,
-      title: 'Child & Pet Safe',
-      subtitle: 'APVMA approved low-toxicity',
-      badge: 'Family Friendly',
+      icon: CheckCircle2,
+      title: 'APVMA Registered',
+      subtitle: 'Targeted low-odour products',
+      badge: 'Professional',
     },
     {
       icon: CheckCircle2,
@@ -43,7 +43,7 @@ export const TrustBar: React.FC = () => {
             </div>
             <div>
               <span className="font-black text-slate-900 text-sm sm:text-base">4.9 / 5.0 Star Rating</span>
-              <span className="text-xs text-slate-500 ml-2">from over 1,450+ Melbourne & Geelong home owners</span>
+              <span className="text-xs text-slate-500 ml-2">from over 1,450+ Melbourne home owners</span>
             </div>
           </div>
 

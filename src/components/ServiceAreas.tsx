@@ -27,10 +27,10 @@ export const ServiceAreas: React.FC<ServiceAreasProps> = ({ onOpenCallback }) =>
             <span>Local Victorian Dispatch Coverage</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Servicing Greater Geelong & Melbourne's West
+            Servicing Melbourne & Surrounding Suburbs
           </h2>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-            With fully stocked mobile units dispatched daily, our licensed technicians provide rapid response and same-day emergency callouts throughout the western corridor and Bellarine Peninsula.
+            With fully stocked mobile units dispatched daily, our licensed technicians provide rapid response and same-day emergency callouts throughout Melbourne and surrounding communities.
           </p>
         </div>
 
@@ -104,7 +104,7 @@ export const ServiceAreas: React.FC<ServiceAreasProps> = ({ onOpenCallback }) =>
           <div className="text-center py-12 text-slate-500 space-y-2">
             <p className="font-medium">Can't find your specific suburb?</p>
             <p className="text-xs">
-              We service all surrounding areas within 50km of Geelong and Melbourne West. Call us directly on{' '}
+              We service all surrounding areas across Melbourne. Call us directly on{' '}
               <a href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`} className="text-emerald-700 font-bold underline">
                 {COMPANY_DETAILS.phone}
               </a>
@@ -124,7 +124,7 @@ export const ServiceAreas: React.FC<ServiceAreasProps> = ({ onOpenCallback }) =>
                 Same-Day Emergency Service Guarantee
               </h4>
               <p className="text-xs text-slate-600">
-                Call before 12:00 PM for guaranteed same-day dispatch across Geelong and Melbourne's West.
+                Call before 12:00 PM for guaranteed same-day dispatch across Melbourne.
               </p>
             </div>
           </div>

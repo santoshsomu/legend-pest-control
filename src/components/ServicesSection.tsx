@@ -10,13 +10,10 @@ import {
   ArrowRight, 
   Sparkles, 
   Phone,
-  Info,
   ShieldCheck,
   Clock,
-  X
 } from 'lucide-react';
 import { SERVICES, COMPANY_DETAILS } from '../data/pestData';
-import type { PestService } from '../types';
 
 interface ServicesSectionProps {
   onOpenCallback: (serviceName?: string) => void;
@@ -24,7 +21,6 @@ interface ServicesSectionProps {
 
 export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenCallback }) => {
   const [activeCategory, setActiveCategory] = useState<'all' | 'residential' | 'specialist' | 'commercial'>('all');
-  const [selectedServiceForModal, setSelectedServiceForModal] = useState<PestService | null>(null);
 
   const filteredServices = activeCategory === 'all'
     ? SERVICES
@@ -149,7 +145,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenCallback
                   {/* Signs You Have This Infestation */}
                   <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 space-y-2">
                     <span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider block">
-                      Common signs in Melbourne & Geelong homes:
+                      Common signs in Melbourne homes:
                     </span>
                     <ul className="space-y-1.5 text-xs text-slate-600">
                       {service.signsOfInfestation.slice(0, 3).map((sign, idx) => (
@@ -178,7 +174,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenCallback
                   </div>
                 </div>
 
-                {/* Card Footer with Upfront Quote Trigger (No hardcoded prices) */}
+                {/* Card Footer with Upfront Quote Trigger */}
                 <div className="p-6 bg-slate-50/80 rounded-b-3xl border-t border-slate-100 space-y-4">
                   <div className="flex items-center justify-between">
                     <div>
@@ -196,23 +192,13 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenCallback
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2">
-                    <button
-                      onClick={() => onOpenCallback(service.name)}
-                      className="w-full py-2.5 px-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
-                    >
-                      <span>Request Quote</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                    
-                    <button
-                      onClick={() => setSelectedServiceForModal(service)}
-                      className="w-full py-2.5 px-3 bg-white hover:bg-slate-100 text-slate-700 font-bold rounded-xl text-xs border border-slate-200 transition flex items-center justify-center gap-1.5 cursor-pointer"
-                    >
-                      <Info className="w-3.5 h-3.5 text-emerald-600" />
-                      <span>Process Info</span>
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => onOpenCallback(service.name)}
+                    className="w-full py-3 px-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-xs cursor-pointer"
+                  >
+                    <span>Request Free Quote</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
                 </div>
 
               </div>
@@ -231,7 +217,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenCallback
                 Have Wasps, Rats, Termites or a Foul Ceiling Odour Right Now?
               </h3>
               <p className="text-sm text-emerald-100 max-w-2xl">
-                We retain emergency priority dispatch slots every morning and afternoon across Geelong, Lara, Werribee, Point Cook, and Melbourne's West. Call now for priority response.
+                We retain emergency priority dispatch slots every morning and afternoon across Melbourne. Call now for priority response.
               </p>
             </div>
 
@@ -254,75 +240,6 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenCallback
         </div>
 
       </div>
-
-      {/* Process Info Modal */}
-      {selectedServiceForModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-xs animate-in fade-in duration-200">
-          <div 
-            className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="bg-emerald-800 px-6 py-4 text-white flex items-center justify-between">
-              <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-200">
-                  Detailed Treatment Protocol
-                </span>
-                <h3 className="text-lg font-bold">{selectedServiceForModal.name}</h3>
-              </div>
-              <button
-                onClick={() => setSelectedServiceForModal(null)}
-                className="p-1.5 rounded-full hover:bg-white/10 text-white cursor-pointer"
-                aria-label="Close"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="p-6 overflow-y-auto space-y-5 text-sm text-slate-600">
-              <p className="leading-relaxed">{selectedServiceForModal.fullDesc}</p>
-
-              <div>
-                <h4 className="font-bold text-slate-900 text-sm mb-2 uppercase tracking-wider">
-                  Our Step-By-Step Treatment Method:
-                </h4>
-                <ol className="space-y-2 list-decimal pl-4 text-xs sm:text-sm">
-                  {selectedServiceForModal.treatmentProcess.map((step, idx) => (
-                    <li key={idx} className="leading-relaxed pl-1">{step}</li>
-                  ))}
-                </ol>
-              </div>
-
-              <div className="bg-emerald-50 rounded-2xl p-4 border border-emerald-100 text-xs text-emerald-900 space-y-1.5">
-                <div className="font-bold text-emerald-950 flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                  <span>Warranty & Safety Standards</span>
-                </div>
-                <div>{selectedServiceForModal.warranty}</div>
-                <div>{selectedServiceForModal.safetyNote}</div>
-              </div>
-
-              <div className="pt-2 flex gap-3">
-                <button
-                  onClick={() => {
-                    const name = selectedServiceForModal.name;
-                    setSelectedServiceForModal(null);
-                    onOpenCallback(name);
-                  }}
-                  className="flex-1 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-center text-sm shadow-md cursor-pointer"
-                >
-                  Request Quote for this Service
-                </button>
-                <a
-                  href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-                  className="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl flex items-center justify-center text-sm"
-                >
-                  <Phone className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 };

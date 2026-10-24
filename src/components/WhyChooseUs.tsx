@@ -10,7 +10,7 @@ export const WhyChooseUs: React.FC = () => {
       budget: 'No warranty (pay again if pests return)',
     },
     {
-      feature: 'Family, Baby & Pet Safety',
+      feature: 'Chemical Standards',
       legend: '100% APVMA Low-Toxicity Formulations',
       franchise: 'Standard commercial chemicals',
       budget: 'Unverified harsh solvent chemicals',
@@ -23,7 +23,7 @@ export const WhyChooseUs: React.FC = () => {
     },
     {
       feature: 'Pricing Transparency',
-      legend: 'Transparent upfront quote with $50 new customer voucher',
+      legend: 'Transparent upfront quote with free inspection included',
       franchise: 'High corporate franchise royalty markups',
       budget: 'Bait-and-switch: starts cheap, hidden fees added',
     },
@@ -35,13 +35,13 @@ export const WhyChooseUs: React.FC = () => {
     },
     {
       feature: 'Accreditation & Insurance',
-      legend: 'Vic Dept Health Licensed & $20M Insured',
+      legend: 'Fully Licensed & Certified with $20M Insurance',
       franchise: 'Subcontractors with varying credentials',
       budget: 'Often unlicensed / zero liability coverage',
     },
     {
       feature: 'Personalised Local Care',
-      legend: 'Owner-led team (Sahithi & licensed technicians)',
+      legend: 'Dedicated team of licensed technicians',
       franchise: 'Interstate call center operator',
       budget: 'Fly-by-night operator',
     },
@@ -55,13 +55,13 @@ export const WhyChooseUs: React.FC = () => {
     },
     {
       icon: HeartHandshake,
-      title: 'Family & Pet First Safety',
-      desc: 'We use low-odour water-based formulations that bind to surfaces once dry. Safe for toddlers, dogs, and indoor cats.',
+      title: 'APVMA Registered Formulations',
+      desc: 'We use low-odour water-based formulations that bind directly to surfaces once dry. Targeted protection with zero harsh fumes.',
     },
     {
       icon: Zap,
       title: 'Rapid Local Response',
-      desc: 'Our vans are stationed in Geelong and Melbourne West daily, so you never have to wait weeks for an urgent spider, rodent, dead animal or wasp callout.',
+      desc: 'Our vans are stationed in Melbourne daily, so you never have to wait weeks for an urgent spider, rodent, dead animal or wasp callout.',
     },
     {
       icon: Award,
@@ -78,13 +78,13 @@ export const WhyChooseUs: React.FC = () => {
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-            <span>Why Geelong & Melbourne Trust Us</span>
+            <span>Why Melbourne Trusts Us</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             How Legend Pest Control Compares
           </h2>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-            Not all pest control is created equal. See how our owner-operated service beats large corporate franchise chains and cut-rate operators in quality, speed, and real protection.
+            Not all pest control is created equal. See how our dedicated local team beats large corporate franchise chains and cut-rate operators in quality, speed, and real protection.
           </p>
         </div>
 

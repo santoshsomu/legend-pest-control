@@ -27,7 +27,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenCallback }) => {
             Frequently Asked Questions
           </h2>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
-            Everything you need to know about chemical safety, 6-month warranties, emergency dispatch, and how our transparent quotes work.
+            Everything you need to know about our products, 6-month warranties, emergency dispatch, and how our transparent quotes work.
           </p>
         </div>
 
@@ -78,7 +78,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenCallback }) => {
               <span>Have a specific question about your infestation?</span>
             </h4>
             <p className="text-xs text-slate-300">
-              Speak directly with Sahithi or our senior duty technician for tailored advice.
+              Speak directly with our senior duty technician for tailored advice.
             </p>
           </div>
 

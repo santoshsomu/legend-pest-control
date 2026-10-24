@@ -25,7 +25,7 @@ export const Footer: React.FC<FooterProps> = ({
               Seeing Pests or Smelling Something in the Roof?
             </h3>
             <p className="text-xs sm:text-sm text-emerald-200">
-              Call now for a free rapid estimate on 0416 388 777 or lock in your $50 new customer voucher.
+              Call now for a free rapid estimate on 0416 388 777 with complimentary inspection included.
             </p>
           </div>
 
@@ -56,7 +56,7 @@ export const Footer: React.FC<FooterProps> = ({
             <LegendLogo variant="dark" />
             
             <p className="text-slate-400 leading-relaxed text-xs sm:text-sm pr-4">
-              Legend Pest Control provides residential, commercial, and specialist pest eradication across Geelong, Lara, Werribee, Point Cook, and Melbourne's West. Owner-operated by Sahithi and team, dedicated to honest upfront pricing and guaranteed results.
+              Legend Pest Control provides residential, commercial, and specialist pest eradication across Greater Melbourne. Dedicated to honest upfront pricing and guaranteed results.
             </p>
 
             <div className="space-y-1.5 text-xs text-slate-300">
@@ -66,11 +66,11 @@ export const Footer: React.FC<FooterProps> = ({
               </div>
               <div className="flex items-center gap-2">
                 <HeartHandshake className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>100% Pet & Child Safe APVMA Low-Toxicity Products</span>
+                <span>APVMA Low-Toxicity Registered Formulations</span>
               </div>
               <div className="flex items-center gap-2">
                 <Award className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>{COMPANY_DETAILS.licence} • ABN {COMPANY_DETAILS.abn}</span>
+                <span>Fully Licensed &amp; Certified • ABN {COMPANY_DETAILS.abn}</span>
               </div>
             </div>
           </div>
@@ -130,12 +130,7 @@ export const Footer: React.FC<FooterProps> = ({
               </div>
               <div>
                 <strong className="text-white block">Service Coverage:</strong>
-                <span>Geelong, Bellarine & Melbourne West</span>
-              </div>
-              <div className="pt-2">
-                <span className="inline-block px-2.5 py-1 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 text-[11px] font-bold">
-                  Owner-Operated by Sahithi
-                </span>
+                <span>Greater Melbourne &amp; Surrounds</span>
               </div>
             </div>
           </div>
@@ -144,7 +139,7 @@ export const Footer: React.FC<FooterProps> = ({
 
         {/* Bottom Legal Copyright */}
         <div className="mt-12 pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500">
-          <p>© {new Date().getFullYear()} Legend Pest Control Melbourne & Geelong. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Legend Pest Control. All rights reserved.</p>
           <div className="flex gap-4">
             <a href="#services" className="hover:text-slate-400 transition">Services</a>
             <a href="#assessment" className="hover:text-slate-400 transition">Free Quote</a>
