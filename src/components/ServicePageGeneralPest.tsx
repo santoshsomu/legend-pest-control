@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 import { 
-  ShieldAlert, 
   ShieldCheck, 
   Clock, 
   Phone, 
-  AlertTriangle, 
   CheckCircle2, 
   ChevronDown, 
   ArrowLeft, 
-  Bug, 
   HeartHandshake,
-  Layers,
   Sparkles,
-  HelpCircle,
   ArrowRight,
-  Sparkle
+  Check,
+  Info,
+  Camera,
+  Layers
 } from 'lucide-react';
 import { COMPANY_DETAILS } from '../data/pestData';
 import { QuoteRequestForm } from './QuoteRequestForm';
@@ -25,12 +23,16 @@ interface ServicePageGeneralPestProps {
   onNavigateService?: (serviceId: string) => void;
 }
 
+type ZoneId = 'roof-void' | 'internal-skirting' | 'subfloor' | 'exterior-perimeter';
+type SeasonId = 'spring' | 'summer' | 'autumn' | 'winter';
+
 export const ServicePageGeneralPest: React.FC<ServicePageGeneralPestProps> = ({
   onOpenCallback,
   onNavigateHome,
 }) => {
   const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(0);
-  const [activeZoneTab, setActiveZoneTab] = useState<'zone1' | 'zone2' | 'zone3' | 'zone4'>('zone1');
+  const [activeZone, setActiveZone] = useState<ZoneId>('roof-void');
+  const [activeSeason, setActiveSeason] = useState<SeasonId>('spring');
 
   const toggleFaq = (idx: number) => {
     setOpenFaqIdx(openFaqIdx === idx ? null : idx);
@@ -45,40 +47,115 @@ export const ServicePageGeneralPest: React.FC<ServicePageGeneralPestProps> = ({
     }
   };
 
-  const generalPestFaqs = [
+  const zones: Record<ZoneId, {
+    title: string;
+    subtitle: string;
+    image: string;
+    imageCaption: string;
+    pests: string;
+    description: string;
+    benefit: string;
+  }> = {
+    'roof-void': {
+      title: 'Zone 1: Roof Void & Ceiling',
+      subtitle: 'Attic space & insulation batts',
+      image: '/gallery/15.jpeg',
+      imageCaption: 'Real Melbourne ceiling cavity inspection showing insulation batts & wiring joists',
+      pests: 'Spiders, Silverfish, American Cockroaches',
+      description: 'We treat the ceiling cavity with an electrostatically charged micro-fine dust that settles over timber trusses and insulation batts.',
+      benefit: 'Stops spiders and cockroaches nesting overhead before they drop into living rooms or bedrooms.'
+    },
+    'internal-skirting': {
+      title: 'Zone 2: Internal Baseboards',
+      subtitle: 'Living areas, kitchens & wet spaces',
+      image: '/gallery/8.jpeg',
+      imageCaption: 'Clean internal perimeter treatment along baseboards and kitchen cabinetry',
+      pests: 'Black House Ants, Cockroaches, Silverfish',
+      description: 'A precision, low-odour micro-encapsulated spray applied along internal skirting boards, under sinks, and behind laundry and kitchen appliances.',
+      benefit: 'Non-staining, odourless, and 100% safe for toddlers and pets once dry (about 90 minutes).'
+    },
+    'subfloor': {
+      title: 'Zone 3: Subfloor & Foundation',
+      subtitle: 'Under-house crawl space & brick piers',
+      image: '/gallery/14.jpeg',
+      imageCaption: 'Under-house subfloor foundation masonry & crawl space barrier treatment',
+      pests: 'Crawling Spiders, Moisture Insects, Ground Pests',
+      description: 'For homes with suspended timber floors, we treat foundation piers and subfloor soil where insects shelter from heat and rain.',
+      benefit: 'Creates a ground-level barrier that cuts off entry pathways under your floorboards.'
+    },
+    'exterior-perimeter': {
+      title: 'Zone 4: Brick Perimeter & Weep Holes',
+      subtitle: 'Exterior walls, windows & brick vents',
+      image: '/gallery/11.jpeg',
+      imageCaption: 'Exterior brick foundation and entry threshold perimeter treatment',
+      pests: 'Wasps, Spiders on Eaves, Ant Trails',
+      description: 'A 1-metre barrier up external brickwork and around window frames, plus specialized dust injected into every brick weep hole.',
+      benefit: 'Bonds to brickwork and withstands Melbourne weather. Stops incoming pests at the property boundary.'
+    }
+  };
+
+  const seasons: Record<SeasonId, {
+    name: string;
+    period: string;
+    commonActivity: string;
+    howWeProtect: string;
+  }> = {
+    'spring': {
+      name: 'Spring',
+      period: 'Sept – Nov',
+      commonActivity: 'Ants forming kitchen trails, garden spider egg sacs hatching, and queen wasps searching for nesting sites.',
+      howWeProtect: 'Early-season perimeter barriers intercept pests before they establish large colonies inside your home.'
+    },
+    'summer': {
+      name: 'Summer',
+      period: 'Dec – Feb',
+      commonActivity: 'Cockroaches seeking kitchen moisture, Redback spiders under outdoor furniture, and flying insects around eaves.',
+      howWeProtect: 'Full 4-zone treatment targeting appliance voids, weep holes, and roof cavities to flush out hidden summer pests.'
+    },
+    'autumn': {
+      name: 'Autumn',
+      period: 'Mar – May',
+      commonActivity: 'Dropping outdoor temperatures drive spiders and rodents indoors seeking warmth in roof insulation.',
+      howWeProtect: 'Attic dusting and weep hole treatments stop pests moving inside for the winter months.'
+    },
+    'winter': {
+      name: 'Winter',
+      period: 'Jun – Aug',
+      commonActivity: 'Silverfish sheltering in wardrobes and books, moisture pests in subfloors and laundry areas.',
+      howWeProtect: 'Targeted baseboard and subfloor applications keep indoor storage areas clean and protected.'
+    }
+  };
+
+  const faqs = [
     {
-      q: 'Do we need to vacate our home during the general pest treatment?',
-      a: 'We recommend vacating your home for approximately 1.5 to 2 hours while the internal skirting spray is applied and dries. Once completely dry, our certified low-odour, APVMA-registered formulations are non-volatile and 100% safe for adults, children, and pets to return to.'
+      q: 'Do we need to vacate our home during treatment?',
+      a: 'We recommend popping out for about 1.5 to 2 hours while the internal skirting spray is applied and dries. Once dry, our certified low-odour, APVMA-registered products are completely safe for your family and pets to return to.'
     },
     {
-      q: 'Is the treatment safe for curious dogs, cats, and indoor pets?',
-      a: 'Yes, once completely dry. Our formulations are micro-encapsulated synthetic pyrethroids designed specifically to target insect nervous systems with minimal mammalian toxicity. We advise covering pet water/food bowls and keeping pets outside or off wet baseboards during application until completely dry.'
+      q: 'Is the treatment safe for dogs, cats, and pets?',
+      a: 'Yes, once completely dry. Our formulations are micro-encapsulated synthetic pyrethroids designed to target insect nervous systems with minimal mammalian toxicity. We recommend keeping pets off treated surfaces until dry (approx. 90 minutes).'
     },
     {
-      q: 'Why do supermarket surface sprays and bug bombs make pest problems worse?',
-      a: 'Store-bought aerosols and bug bombs contain strong chemical repellents. While they kill a few visible scout ants or cockroaches on contact, the surviving colony detects the airborne chemical and panics. This triggers "colony budding", causing the queen to split her colony and scatter into multiple deeper nests inside your wall cavities and ceiling insulation. Within 2 to 3 weeks, the infestation returns with greater severity.'
+      q: 'Why avoid supermarket bug bombs and aerosols?',
+      a: 'Store-bought cans contain repellents that scatter insects deeper into wall cavities and ceiling insulation. Within a couple of weeks, pests return spread over a wider area. Professional treatments eliminate the colony at the source without dispersing them.'
     },
     {
-      q: 'Why might I see more dead or sluggish pests in the first 48 hours?',
-      a: 'This is known as the "active flush-out effect". Our micro-encapsulated formulations penetrate deep into skirting board cracks, roof cavities, and weep holes, agitating resting insects out of their dark hiding spots before neutralizing them. Seeing dead or dying pests within the first 1 to 5 days is proof that the treatment is actively purging the nest.'
+      q: 'Why might I see sluggish pests in the first 48 hours?',
+      a: 'This is the normal "flush-out effect". The treatment penetrates dark hiding spots, agitating resting insects out into the open where they quickly succumb. Seeing pests in the first few days confirms the product is actively working.'
     },
     {
-      q: 'What is covered under the 6-Month Treatment Warranty?',
-      a: 'Our general pest treatment covers all major household invaders: spiders (including Redbacks and White-tails), cockroaches, black house ants, and silverfish. If any covered pests persist or return within 6 months, a Legend technician returns to your home and re-treats the area completely free of charge.'
-    },
-    {
-      q: 'Will rain wash away the exterior perimeter spray?',
-      a: 'No. Once our exterior perimeter barrier has dried (which takes about 30–45 minutes in Melbourne weather), the micro-capsules bond electrostatically to brick, concrete pavers, and timber. Normal Victorian rain showers will not degrade or wash away the barrier.'
+      q: 'What is covered under your 6-Month Warranty?',
+      a: 'Our warranty covers spiders, cockroaches, black house ants, and silverfish. If any covered pests return within 6 months, simply give us a call and a technician will re-treat the area completely free of charge.'
     }
   ];
 
   return (
     <div className="bg-[#121418] text-slate-100 min-h-screen selection:bg-[#DE744C] selection:text-white">
       
-      {/* Sleek Breadcrumb Bar */}
+      {/* 1. Crisp Breadcrumb Bar */}
       <nav className="bg-[#0D0F13] border-b border-[#222632] py-2.5 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto flex items-center justify-between text-xs font-semibold">
-          <div className="flex items-center gap-2 text-slate-400">
+        <div className="max-w-6xl mx-auto flex items-center justify-between text-xs font-medium text-slate-400">
+          <div className="flex items-center gap-2">
             <button 
               onClick={onNavigateHome}
               className="hover:text-[#DE744C] transition flex items-center gap-1 cursor-pointer"
@@ -87,69 +164,61 @@ export const ServicePageGeneralPest: React.FC<ServicePageGeneralPestProps> = ({
               <span>Home</span>
             </button>
             <span className="text-slate-600">/</span>
-            <span className="text-slate-400">Services</span>
+            <span>Services</span>
             <span className="text-slate-600">/</span>
-            <span className="text-[#DE744C] font-bold">General Pest Control</span>
+            <span className="text-emerald-400 font-semibold">General Pest Control</span>
           </div>
 
           <a 
             href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-            className="flex items-center gap-1.5 text-[#DE744C] hover:text-white font-bold transition"
+            className="flex items-center gap-1.5 text-emerald-400 hover:text-white font-bold transition"
           >
             <Phone className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Direct Booking:</span>
             <span>{COMPANY_DETAILS.phone}</span>
           </a>
         </div>
       </nav>
 
-      {/* ========================================================================= */}
-      {/* 1. BESPOKE SERVICE HERO: Editorial, Whole-Home Defense                    */}
-      {/* (NOT a duplicate of the landing page hero form layout)                    */}
-      {/* ========================================================================= */}
-      <section 
-        id="hero-section"
-        className="relative overflow-hidden bg-gradient-to-b from-[#14161B] via-[#161820] to-[#121418] pt-10 pb-16 lg:pt-14 lg:pb-20 border-b border-[#232733]"
-      >
-        <div className="absolute top-1/4 left-1/3 -translate-x-1/2 w-[550px] h-[350px] bg-[#DE744C]/15 blur-[140px] rounded-full pointer-events-none -z-0" />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 2. Reassuring Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#161820] via-[#14161B] to-[#121418] pt-10 pb-14 sm:pt-14 sm:pb-20 border-b border-[#232733]">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
-            {/* Left Column: Focused Service Headline, Narrative & Trust Bar */}
+            {/* Left Headline & Action */}
             <div className="lg:col-span-7 space-y-5">
               
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#DE744C]/15 border border-[#DE744C]/35 text-[#DE744C] text-xs font-black uppercase tracking-wider">
-                <ShieldAlert className="w-4 h-4 text-[#DE744C]" />
-                <span>Flagship 4-Zone Internal &amp; External Eradication</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-bold">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>6-Month Warranty • Spiders, Ants &amp; Roaches</span>
               </div>
 
               <div className="space-y-3">
-                <h1 className="text-3xl sm:text-5xl lg:text-5xl font-black text-white tracking-tight leading-[1.12]">
-                  Complete Home Defense: Spiders, Roaches &amp; Ants
+                <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-[1.15]">
+                  Complete Home Defense: Spiders, Ants &amp; Cockroaches
                 </h1>
-                <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal max-w-2xl">
-                  One thorough internal skirting, roof cavity, subfloor, and external perimeter treatment that eliminates hidden colonies at the root — backed by our 6-month free re-treatment warranty.
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal max-w-xl">
+                  One thorough visit protecting your roof void, internal skirting boards, and external perimeter. Eliminates pests at the source with an invisible barrier backed by our 6-month free re-treatment warranty.
                 </p>
               </div>
 
-              {/* 4 Sleek Key Highlights Pills */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+              {/* 4 Clean Benefit Pills */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
                 <div className="p-3 rounded-xl bg-[#1A1D24] border border-[#2B303C] text-center">
-                  <div className="text-emerald-400 font-black text-xs sm:text-sm">🛡️ 6-Month</div>
-                  <div className="text-[10.5px] text-slate-400 font-medium">Warranty Included</div>
+                  <div className="text-emerald-400 font-bold text-xs sm:text-sm">🛡️ 6-Month</div>
+                  <div className="text-[11px] text-slate-400">Warranty Included</div>
                 </div>
                 <div className="p-3 rounded-xl bg-[#1A1D24] border border-[#2B303C] text-center">
-                  <div className="text-[#DE744C] font-black text-xs sm:text-sm">🏠 4-Zone</div>
-                  <div className="text-[10.5px] text-slate-400 font-medium">Whole Home Shield</div>
+                  <div className="text-[#DE744C] font-bold text-xs sm:text-sm">🏠 4-Zone</div>
+                  <div className="text-[11px] text-slate-400">Whole Home Shield</div>
                 </div>
                 <div className="p-3 rounded-xl bg-[#1A1D24] border border-[#2B303C] text-center">
-                  <div className="text-amber-300 font-black text-xs sm:text-sm">🐾 Pet-Safe</div>
-                  <div className="text-[10.5px] text-slate-400 font-medium">Once Dry (1.5h)</div>
+                  <div className="text-amber-300 font-bold text-xs sm:text-sm">🐾 Pet-Safe</div>
+                  <div className="text-[11px] text-slate-400">Once Dry (1.5h)</div>
                 </div>
                 <div className="p-3 rounded-xl bg-[#1A1D24] border border-[#2B303C] text-center">
-                  <div className="text-white font-black text-xs sm:text-sm">🏷️ $50 Off</div>
-                  <div className="text-[10.5px] text-slate-400 font-medium">Auto-Applied</div>
+                  <div className="text-white font-bold text-xs sm:text-sm">🏷️ $50 Off</div>
+                  <div className="text-[11px] text-slate-400">Auto-Applied</div>
                 </div>
               </div>
 
@@ -157,10 +226,10 @@ export const ServicePageGeneralPest: React.FC<ServicePageGeneralPestProps> = ({
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <a
                   href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-                  className="px-7 py-3.5 bg-[#DE744C] hover:bg-[#C85E36] active:bg-[#B8522B] text-white font-black text-sm rounded-xl shadow-lg shadow-[#DE744C]/30 flex items-center justify-center gap-2 cursor-pointer transition"
+                  className="px-6 py-3.5 bg-[#DE744C] hover:bg-[#C85E36] active:bg-[#B8522B] text-white font-bold text-sm rounded-xl shadow-md shadow-[#DE744C]/25 flex items-center justify-center gap-2 cursor-pointer transition"
                 >
                   <Phone className="w-4 h-4" />
-                  <span>Call {COMPANY_DETAILS.phone} For Instant Fixed Price</span>
+                  <span>Call {COMPANY_DETAILS.phone} For A Quote</span>
                 </a>
 
                 <button
@@ -168,47 +237,52 @@ export const ServicePageGeneralPest: React.FC<ServicePageGeneralPestProps> = ({
                   className="px-6 py-3.5 bg-[#1E222A] hover:bg-[#282E39] text-[#F8F9FA] font-bold text-sm rounded-xl border border-[#303746] flex items-center justify-center gap-2 transition cursor-pointer"
                 >
                   <Clock className="w-4 h-4 text-[#DE744C]" />
-                  <span>Book Treatment / Get Quote</span>
+                  <span>Get Upfront Quote</span>
                 </button>
               </div>
 
             </div>
 
-            {/* Right Column: Interactive Whole-Home Defense Snapshot (NOT a duplicate form) */}
+            {/* Right Card: Whole-Home Snapshot */}
             <div className="lg:col-span-5">
-              <div className="rounded-2xl bg-[#1A1D24] border border-[#2E3342] p-6 shadow-2xl space-y-4 relative overflow-hidden">
+              <div className="rounded-2xl bg-[#1A1D24] border border-[#2B303C] p-6 shadow-xl space-y-4">
                 <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-xs font-black uppercase tracking-wider text-emerald-400">
-                      Whole-Home Barrier
-                    </span>
-                  </div>
-                  <span className="text-[11px] font-bold text-slate-400">APVMA Certified</span>
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
+                    What's Included
+                  </span>
+                  <span className="text-xs text-slate-400">APVMA Approved</span>
                 </div>
 
-                <div className="space-y-3 text-xs leading-relaxed text-slate-300">
-                  <div className="p-3 rounded-xl bg-[#14161C] border border-white/10 flex items-start gap-2.5">
-                    <Layers className="w-4 h-4 text-[#DE744C] shrink-0 mt-0.5" />
+                <div className="space-y-2.5 text-xs text-slate-300">
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                     <div>
-                      <strong className="text-white block">Roof Void Permethrin Dusting:</strong>
-                      Neutralizes spiders, silverfish, and roaches nesting above bedroom ceiling insulation.
+                      <strong className="text-white block">Roof Void Permethrin Dusting</strong>
+                      <span className="text-slate-400 text-[11px]">Stops spiders &amp; pests living above ceilings.</span>
                     </div>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-[#14161C] border border-white/10 flex items-start gap-2.5">
-                    <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                     <div>
-                      <strong className="text-white block">Internal Skirting Micro-Barrier:</strong>
-                      Low-odour, child- and pet-safe micro-encapsulated spray along baseboards and appliances.
+                      <strong className="text-white block">Internal Skirting Board Micro-Spray</strong>
+                      <span className="text-slate-400 text-[11px]">Low-odour, child- and pet-safe once dry.</span>
                     </div>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-[#14161C] border border-white/10 flex items-start gap-2.5">
-                    <Sparkle className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                     <div>
-                      <strong className="text-white block">Exterior Perimeter &amp; Weep Holes:</strong>
-                      1m wall barrier + insecticidal dust inside brick weep holes stops incoming migration.
+                      <strong className="text-white block">Exterior Perimeter &amp; Weep Holes</strong>
+                      <span className="text-slate-400 text-[11px]">Stops incoming pests before they cross inside.</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-white block">6-Month Free Re-Treatment Guarantee</strong>
+                      <span className="text-slate-400 text-[11px]">If pests return, so do we — completely free.</span>
                     </div>
                   </div>
                 </div>
@@ -216,9 +290,9 @@ export const ServicePageGeneralPest: React.FC<ServicePageGeneralPestProps> = ({
                 <div className="pt-2">
                   <button
                     onClick={scrollToQuote}
-                    className="w-full py-2.5 px-3 bg-[#DE744C] hover:bg-[#C85E36] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition cursor-pointer"
+                    className="w-full py-2.5 px-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition cursor-pointer shadow-sm"
                   >
-                    <span>Request Fixed Upfront Estimate</span>
+                    <span>Request Fixed Estimate</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -226,319 +300,180 @@ export const ServicePageGeneralPest: React.FC<ServicePageGeneralPestProps> = ({
             </div>
 
           </div>
+
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* 2. THE REAL SUFFERING: Homeowner Distress & Hygiene Anxiety                */}
-      {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 bg-[#161820] border-b border-[#232733]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 3. Interactive 4-Zone Defense Architecture (Visual Schematic with Real Photos) */}
+      <section className="py-14 sm:py-16 bg-[#161820] border-b border-[#232733]">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="max-w-3xl mx-auto text-center space-y-3 mb-12">
-            <span className="text-xs font-black uppercase tracking-wider text-[#DE744C] bg-[#DE744C]/15 border border-[#DE744C]/30 px-3 py-1 rounded-full">
-              The Psychological Toll of Pests
+          <div className="text-center space-y-2 mb-8">
+            <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center justify-center gap-1.5">
+              <Layers className="w-3.5 h-3.5" />
+              <span>Architectural Whole-Home Defense</span>
             </span>
-            <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
-              Why Pests Inflict Chronic Disgust, Anxiety &amp; Sleeplessness
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-              Sharing your living spaces with unseen crawlers isn't just unpleasant — it violates your home's hygiene, creates embarrassment in front of guests, and puts family health at risk.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            {/* Box 1 */}
-            <div className="rounded-2xl bg-[#1C1F27] border border-[#2B303C] p-6 space-y-3.5">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center">
-                <Bug className="w-5 h-5" />
-              </div>
-              <h3 className="text-base font-black text-white">
-                The Midnight Kitchen Scurry
-              </h3>
-              <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                Flipping on the kitchen light for a glass of water and watching cockroaches dash across prep benchtops, cutlery drawers, and kettle bases. The persistent feeling of disgust that where you cook is secretly contaminated every night.
-              </p>
-              <div className="pt-2 text-[11px] font-semibold text-amber-300 border-t border-white/5">
-                Cockroaches track Salmonella &amp; E. coli, while cast skins trigger childhood asthma.
-              </div>
-            </div>
-
-            {/* Box 2 */}
-            <div className="rounded-2xl bg-[#1C1F27] border border-[#2B303C] p-6 space-y-3.5">
-              <div className="w-10 h-10 rounded-xl bg-red-500/15 text-red-400 flex items-center justify-center">
-                <AlertTriangle className="w-5 h-5" />
-              </div>
-              <h3 className="text-base font-black text-white">
-                Venomous Spiders Near Kids &amp; Beds
-              </h3>
-              <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                Finding venomous Redbacks under outdoor patio chairs, children's scooters, and barbecue covers. Worse still, White-tailed spiders wandering into laundry baskets, folded towels, and bedsheets, causing constant paranoia at bedtime.
-              </p>
-              <div className="pt-2 text-[11px] font-semibold text-red-300 border-t border-white/5">
-                Spider bites cause intense localized necrotic pain, blistering, and emergency medical visits.
-              </div>
-            </div>
-
-            {/* Box 3 */}
-            <div className="rounded-2xl bg-[#1C1F27] border border-[#2B303C] p-6 space-y-3.5">
-              <div className="w-10 h-10 rounded-xl bg-orange-500/15 text-orange-400 flex items-center justify-center">
-                <ShieldAlert className="w-5 h-5" />
-              </div>
-              <h3 className="text-base font-black text-white">
-                Relentless Ant Invasions in Food
-              </h3>
-              <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                Thousands of tiny black house ants marching in endless lines across kitchen windows, infiltrating sugar containers, pet food bowls, and nesting inside dishwasher seals and power outlets.
-              </p>
-              <div className="pt-2 text-[11px] font-semibold text-[#FF9570] border-t border-white/5">
-                Crushing ants releases formic acid odours, while supermarket sprays scatter the nest.
-              </div>
-            </div>
-
-          </div>
-
-          {/* Colony Budding Warning */}
-          <div className="mt-10 p-5 rounded-2xl bg-[#1C1A20] border border-amber-500/30 text-slate-300 flex flex-col md:flex-row items-center justify-between gap-5">
-            <div className="space-y-1 text-center md:text-left">
-              <span className="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center justify-center md:justify-start gap-1.5">
-                <AlertTriangle className="w-4 h-4 text-amber-400" />
-                <span>The Supermarket Aerosol Trap: "Colony Budding"</span>
-              </span>
-              <p className="text-xs text-slate-300 max-w-3xl leading-relaxed">
-                Over-the-counter surface sprays act as fast chemical repellents. While they kill 10 visible scout pests, the surviving nest panics and the queen splits the colony into multiple smaller satellite nests deep within your ceiling and walls, doubling the infestation within weeks.
-              </p>
-            </div>
-            <a
-              href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-              className="shrink-0 px-5 py-2.5 bg-[#DE744C] hover:bg-[#C85E36] text-white font-bold text-xs rounded-xl shadow-md transition"
-            >
-              Get Root-Cause Eradication • {COMPANY_DETAILS.phone}
-            </a>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* 3. INTERACTIVE 4-ZONE SHIELD BLUEPRINT                                    */}
-      {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 bg-[#121418] border-b border-[#232733]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="max-w-2xl mx-auto text-center space-y-2 mb-10">
             <h2 className="text-2xl sm:text-3xl font-black text-white">
               The Legend 4-Zone Defense System
             </h2>
-            <p className="text-xs sm:text-sm text-slate-400">
-              Select a zone to explore how our certified technicians treat every tier of your property.
+            <p className="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto">
+              Insects don't just walk on floors — they breed in roof voids, weep holes, and subfloors. Click each zone to see real field treatment areas:
             </p>
           </div>
 
-          {/* Interactive Zone Tabs */}
-          <div className="flex items-center justify-center gap-2 overflow-x-auto pb-4 no-scrollbar">
-            <button
-              onClick={() => setActiveZoneTab('zone1')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer shrink-0 ${
-                activeZoneTab === 'zone1'
-                  ? 'bg-[#DE744C] text-white shadow-md'
-                  : 'bg-[#1A1D24] text-slate-300 hover:text-white border border-[#2B303C]'
-              }`}
-            >
-              Zone 1: Roof Cavity
-            </button>
-            <button
-              onClick={() => setActiveZoneTab('zone2')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer shrink-0 ${
-                activeZoneTab === 'zone2'
-                  ? 'bg-[#DE744C] text-white shadow-md'
-                  : 'bg-[#1A1D24] text-slate-300 hover:text-white border border-[#2B303C]'
-              }`}
-            >
-              Zone 2: Internal Skirting
-            </button>
-            <button
-              onClick={() => setActiveZoneTab('zone3')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer shrink-0 ${
-                activeZoneTab === 'zone3'
-                  ? 'bg-[#DE744C] text-white shadow-md'
-                  : 'bg-[#1A1D24] text-slate-300 hover:text-white border border-[#2B303C]'
-              }`}
-            >
-              Zone 3: Subfloor &amp; Foundation
-            </button>
-            <button
-              onClick={() => setActiveZoneTab('zone4')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer shrink-0 ${
-                activeZoneTab === 'zone4'
-                  ? 'bg-[#DE744C] text-white shadow-md'
-                  : 'bg-[#1A1D24] text-slate-300 hover:text-white border border-[#2B303C]'
-              }`}
-            >
-              Zone 4: Exterior &amp; Weep Holes
-            </button>
+          {/* 4 Zone Buttons */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-6">
+            {(Object.keys(zones) as ZoneId[]).map((id) => {
+              const z = zones[id];
+              const isSelected = activeZone === id;
+              return (
+                <button
+                  key={id}
+                  onClick={() => setActiveZone(id)}
+                  className={`p-3.5 rounded-xl border text-left transition cursor-pointer ${
+                    isSelected 
+                      ? 'bg-[#1F232D] border-emerald-500 text-white shadow-md' 
+                      : 'bg-[#181B22] border-[#2A2F3D] text-slate-300 hover:border-slate-500'
+                  }`}
+                >
+                  <div className="text-xs font-bold">{z.title.split(':')[0]}</div>
+                  <div className="text-[10px] text-slate-400 truncate">{z.title.split(':')[1]}</div>
+                </button>
+              );
+            })}
           </div>
 
-          {/* Zone Detail Box */}
-          <div className="max-w-4xl mx-auto mt-6 p-6 sm:p-8 rounded-2xl bg-[#1A1D24] border border-[#2D3342] shadow-xl">
-            {activeZoneTab === 'zone1' && (
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 text-[#DE744C] font-black text-sm">
-                  <span>Zone 1: Roof Cavity &amp; Attic Permethrin Dusting</span>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  Spiders, cockroaches, and silverfish breed undisturbed in warm roof insulation right above your ceiling plaster. We blow electrostatically charged micro-fine permethrin dust across the entire roof void. The charged particles cling to insulation fibers and rafters, neutralizing nesting populations before they can drop down into your living areas.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs text-slate-200">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Reaches deep hidden roof breeding harborages</span>
+          {/* Active Zone Detail Card With Real Photo */}
+          {(() => {
+            const z = zones[activeZone];
+            return (
+              <div className="p-6 sm:p-7 rounded-2xl bg-[#1A1D24] border border-[#2D3342] shadow-xl">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                  
+                  {/* Real Photo Thumbnail */}
+                  <div className="md:col-span-5 relative group overflow-hidden rounded-xl border border-white/10 aspect-[4/3] bg-black">
+                    <img 
+                      src={z.image} 
+                      alt={z.title}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div className="absolute top-2.5 left-2.5 bg-black/75 backdrop-blur-xs text-[10px] font-bold text-white px-2.5 py-1 rounded-md flex items-center gap-1 border border-white/10">
+                      <Camera className="w-3 h-3 text-emerald-400" />
+                      <span>{z.title.split(':')[0]}</span>
+                    </div>
+                    <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-2.5 text-[10px] text-slate-200">
+                      {z.imageCaption}
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Electrostatically adheres to insulation</span>
+
+                  {/* Text Details & Treatment */}
+                  <div className="md:col-span-7 space-y-3.5">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-white/10">
+                      <div>
+                        <h3 className="text-lg font-black text-white">{z.title}</h3>
+                        <span className="text-xs text-emerald-400 font-semibold">{z.subtitle}</span>
+                      </div>
+                      <span className="text-[11px] text-slate-300 bg-[#14161B] px-2.5 py-0.5 rounded-full border border-white/5">
+                        Targets: {z.pests}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-3 text-xs">
+                      <div className="space-y-1 bg-[#14161B] p-3.5 rounded-xl border border-white/5">
+                        <strong className="text-white block">How We Treat It:</strong>
+                        <p className="text-slate-300 leading-relaxed">{z.description}</p>
+                      </div>
+                      <div className="space-y-1 bg-[#14161B] p-3.5 rounded-xl border border-white/5">
+                        <strong className="text-emerald-400 block">Your Peace Of Mind:</strong>
+                        <p className="text-slate-300 leading-relaxed">{z.benefit}</p>
+                      </div>
+                    </div>
+
+                    <div className="pt-1">
+                      <button
+                        onClick={scrollToQuote}
+                        className="py-2 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition shadow-xs cursor-pointer inline-flex items-center gap-1.5"
+                      >
+                        <span>Book 4-Zone Treatment</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </div>
+
                 </div>
               </div>
-            )}
-
-            {activeZoneTab === 'zone2' && (
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 text-[#DE744C] font-black text-sm">
-                  <span>Zone 2: Precision Internal Skirting &amp; Wet Areas</span>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  We apply low-odour, child- and pet-safe (once dry) micro-encapsulated liquid formulations along interior baseboards, behind heavy appliances (refrigerators, dishwashers, ovens), and around plumbing penetrations. Unlike generic sprays, our micro-capsules do not stain walls or leave harsh chemical smells.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs text-slate-200">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>100% safe for kids and pets once dry (1.5–2 hours)</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Non-staining, zero lingering chemical odour</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activeZoneTab === 'zone3' && (
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 text-[#DE744C] font-black text-sm">
-                  <span>Zone 3: Subfloor &amp; Foundation Defense</span>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  For Melbourne properties with subfloors, damp soil lines and foundation stumps provide the perfect haven for spiders and cockroaches sheltering from Victoria's weather fluctuations. We inspect and treat these dark subfloor migration vectors beneath your floorboards.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs text-slate-200">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Eliminates damp moisture-loving pests</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Stops pests ascending through floor joins</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activeZoneTab === 'zone4' && (
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 text-[#DE744C] font-black text-sm">
-                  <span>Zone 4: High-Volume External Perimeter &amp; Weep Holes</span>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  We lay a continuous, weather-resistant residual barrier 1 metre up the external walls and 1 metre out across paths and garden edges. We then inject protective insecticidal dust into every single brick weep hole, window frame, and eave line to establish an impenetrable exterior barrier.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs text-slate-200">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Rain-resistant once dry (bonds to masonry)</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Weep hole dusting blocks cavity infiltration</span>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Non-Repellent Transfer Chemistry Callout */}
-          <div className="max-w-4xl mx-auto mt-6 p-5 rounded-2xl bg-gradient-to-r from-[#1C1F27] to-[#161820] border border-[#DE744C]/30 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="space-y-1 text-center md:text-left">
-              <span className="text-xs font-black uppercase tracking-wider text-[#DE744C] flex items-center justify-center md:justify-start gap-1.5">
-                <Sparkle className="w-4 h-4" />
-                <span>The Non-Repellent Transfer Advantage</span>
-              </span>
-              <p className="text-xs text-slate-300 max-w-2xl leading-relaxed">
-                Our micro-encapsulated products are undetectable to pests. Instead of scattering away, pests walk across the microscopic capsules, pick up the particles on their bodies, and carry them deep into the colony, passing the lethal dose to the queen and breeding nymphs through natural grooming.
-              </p>
-            </div>
-            <div className="shrink-0">
-              <span className="inline-block px-3.5 py-1.5 rounded-xl bg-[#DE744C]/15 border border-[#DE744C]/30 text-[#DE744C] font-black text-xs">
-                Colony Destruction At The Source
-              </span>
-            </div>
-          </div>
+            );
+          })()}
 
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* 4. COVERED PESTS DIAGNOSTIC GRID                                          */}
-      {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 bg-[#161820]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 4. Simple Scope: Covered vs Specialist */}
+      <section className="py-14 sm:py-16 bg-[#121418] border-b border-[#232733]">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="max-w-2xl mx-auto text-center space-y-2 mb-10">
+          <div className="text-center space-y-2 mb-8">
             <h2 className="text-2xl sm:text-3xl font-black text-white">
-              Pests Covered Under Your 6-Month Warranty
+              What's Covered Under Our 6-Month Warranty
             </h2>
             <p className="text-xs sm:text-sm text-slate-400">
-              One comprehensive treatment protecting your property against Melbourne's primary invaders.
+              Clear, honest service inclusions with zero guesswork:
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
             
-            <div className="p-4 rounded-xl bg-[#1C1F27] border border-[#2B303C] space-y-2">
-              <span className="text-2xl">🕷️</span>
-              <h4 className="text-xs sm:text-sm font-black text-white">Spiders</h4>
-              <p className="text-[11px] text-slate-400">Redbacks, White-tails &amp; Black House.</p>
+            {/* Covered */}
+            <div className="p-5 rounded-2xl bg-[#1C1F27] border border-emerald-500/40 space-y-3">
+              <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs pb-2 border-b border-emerald-500/20">
+                <CheckCircle2 className="w-4 h-4" />
+                <span>100% Covered Under 6-Month Warranty</span>
+              </div>
+              <ul className="text-xs text-slate-300 space-y-2">
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span><strong>Spiders:</strong> Redbacks, White-tails, Black House, Huntsman</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span><strong>Cockroaches:</strong> Common Australian &amp; American roaches</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span><strong>Ants:</strong> Black house ants invading pantries and pavers</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span><strong>Silverfish:</strong> Fabric &amp; paper pests in wardrobes</span>
+                </li>
+              </ul>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#1C1F27] border border-[#2B303C] space-y-2">
-              <span className="text-2xl">🪳</span>
-              <h4 className="text-xs sm:text-sm font-black text-white">Cockroaches</h4>
-              <p className="text-[11px] text-slate-400">American, Australian &amp; German roaches.</p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-[#1C1F27] border border-[#2B303C] space-y-2">
-              <span className="text-2xl">🐜</span>
-              <h4 className="text-xs sm:text-sm font-black text-white">Ants</h4>
-              <p className="text-[11px] text-slate-400">Black house ants &amp; coastal browns.</p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-[#1C1F27] border border-[#2B303C] space-y-2">
-              <span className="text-2xl">🐟</span>
-              <h4 className="text-xs sm:text-sm font-black text-white">Silverfish</h4>
-              <p className="text-[11px] text-slate-400">Wardrobes, bookcases &amp; ceilings.</p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-[#1C1F27] border border-[#2B303C] space-y-2">
-              <span className="text-2xl">🐛</span>
-              <h4 className="text-xs sm:text-sm font-black text-white">Carpet Beetles</h4>
-              <p className="text-[11px] text-slate-400">Protects wool rugs and carpets.</p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-[#1C1F27] border border-[#2B303C] space-y-2">
-              <span className="text-2xl">🐛</span>
-              <h4 className="text-xs sm:text-sm font-black text-white">Millipedes</h4>
-              <p className="text-[11px] text-slate-400">Perimeter foundation invaders.</p>
+            {/* Specialist add-ons */}
+            <div className="p-5 rounded-2xl bg-[#1C1F27] border border-[#2B303C] space-y-3">
+              <div className="flex items-center gap-2 text-slate-400 font-bold text-xs pb-2 border-b border-white/10">
+                <Info className="w-4 h-4 text-amber-400" />
+                <span>Specialist Add-Ons Available Upon Request</span>
+              </div>
+              <ul className="text-xs text-slate-400 space-y-2">
+                <li className="flex items-center gap-2">
+                  <span className="text-amber-400 font-bold">•</span>
+                  <span><strong>German Cockroaches:</strong> Dedicated 2-stage kitchen baiting</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-amber-400 font-bold">•</span>
+                  <span><strong>Rodents (Rats &amp; Mice):</strong> Locked exterior &amp; attic bait stations</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-amber-400 font-bold">•</span>
+                  <span><strong>Termite Inspections:</strong> AS 3660.2 timber pest inspections</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-amber-400 font-bold">•</span>
+                  <span><strong>Dead Animal Removal:</strong> Sanitary attic extraction &amp; deodorisation</span>
+                </li>
+              </ul>
             </div>
 
           </div>
@@ -546,16 +481,251 @@ export const ServicePageGeneralPest: React.FC<ServicePageGeneralPestProps> = ({
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* 5. DEDICATED BOOKING & QUOTE SECTION (Point of Trust)                     */}
-      {/* ========================================================================= */}
-      <section id="general-pest-booking-section" className="py-16 sm:py-24 bg-[#121418] border-y border-[#232733] relative">
+      {/* 5. Melbourne Seasons Guide (Light & Helpful) */}
+      <section className="py-14 sm:py-16 bg-[#161820] border-b border-[#232733]">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center space-y-2 mb-8">
+            <h2 className="text-2xl sm:text-3xl font-black text-white">
+              Melbourne Seasonal Pest Activity
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-400">
+              Victoria’s weather shapes pest behavior throughout the year:
+            </p>
+          </div>
+
+          <div className="flex items-center justify-center gap-2 overflow-x-auto pb-3 no-scrollbar">
+            {(Object.keys(seasons) as SeasonId[]).map((id) => {
+              const s = seasons[id];
+              const isSelected = activeSeason === id;
+              return (
+                <button
+                  key={id}
+                  onClick={() => setActiveSeason(id)}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer shrink-0 ${
+                    isSelected
+                      ? 'bg-emerald-600 text-white shadow-md'
+                      : 'bg-[#1A1D24] text-slate-300 hover:text-white border border-[#2B303C]'
+                  }`}
+                >
+                  <span>{s.name}</span>
+                  <span className="text-[10px] block opacity-80">{s.period}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {(() => {
+            const current = seasons[activeSeason];
+            return (
+              <div className="mt-4 p-5 sm:p-6 rounded-2xl bg-[#1A1D24] border border-[#2D3342] shadow-lg max-w-4xl mx-auto space-y-3">
+                <div className="flex justify-between items-center pb-2 border-b border-white/10">
+                  <span className="text-xs font-bold text-emerald-400">{current.name} in Melbourne ({current.period})</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-300">
+                  <div>
+                    <strong className="text-white block mb-1">Common Pest Activity:</strong>
+                    <p className="leading-relaxed">{current.commonActivity}</p>
+                  </div>
+                  <div>
+                    <strong className="text-emerald-400 block mb-1">How Legend Protects You:</strong>
+                    <p className="leading-relaxed">{current.howWeProtect}</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+
+        </div>
+      </section>
+
+      {/* 6. Treatment Day: Simple 3 Steps */}
+      <section className="py-14 sm:py-16 bg-[#121418] border-b border-[#232733]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="rounded-3xl bg-gradient-to-b from-[#1C1F27] to-[#14161B] border border-[#2D3342] p-6 sm:p-10 shadow-2xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-72 h-72 bg-[#DE744C]/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="text-center space-y-2 mb-8">
+            <h2 className="text-2xl sm:text-3xl font-black text-white">
+              What To Expect On Treatment Day
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-400">
+              Simple, smooth, and hassle-free from start to finish:
+            </p>
+          </div>
 
-            <div className="max-w-2xl mx-auto text-center space-y-2 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            
+            <div className="p-5 rounded-2xl bg-[#1C1F27] border border-[#2B303C] space-y-2">
+              <span className="text-xs font-bold text-emerald-400">Step 01</span>
+              <h3 className="font-bold text-sm text-white">Quick Prep</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Pick up toys from floors, cover pet water/food bowls, and ensure easy access to skirting boards.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-[#1C1F27] border border-[#2B303C] space-y-2">
+              <span className="text-xs font-bold text-emerald-400">Step 02</span>
+              <h3 className="font-bold text-sm text-white">45-Min Treatment</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Our licensed technician applies the 4-zone barrier across roof void, baseboards, and exterior weep holes.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-[#1C1F27] border border-[#2B303C] space-y-2">
+              <span className="text-xs font-bold text-emerald-400">Step 03</span>
+              <h3 className="font-bold text-sm text-white">Safe Re-Entry (~90 mins)</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Once dry, the products are non-staining, odour-free, and 100% safe for children and pets.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* 7. Transparent Home Size Pricing */}
+      <section className="py-14 sm:py-16 bg-[#161820] border-b border-[#232733]">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center space-y-2 mb-10">
+            <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">
+              Transparent Coverage
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-white">
+              General Pest Treatment Packages &amp; Scope
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-400">
+              Quotes include our $50 new customer voucher applied upfront. Upfront price tailored to your home layout.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-4xl mx-auto">
+            
+            {/* Tier 1 */}
+            <div className="p-5 rounded-2xl bg-[#1C1F27] border border-[#2B303C] space-y-3 flex flex-col justify-between">
+              <div className="space-y-2">
+                <span className="text-xs font-bold text-[#DE744C]">Units &amp; Townhouses</span>
+                <h3 className="text-base font-black text-white">1–2 Bedroom Home</h3>
+                <p className="text-xs text-slate-400">
+                  Ideal for apartments, units, or compact single-level properties.
+                </p>
+                <div className="pt-2">
+                  <div className="text-sm font-black text-white flex items-center gap-1.5">
+                    <span>Upfront Phone Quote</span>
+                    <span className="text-[11px] font-bold text-emerald-400">($50 Voucher Included)</span>
+                  </div>
+                  <div className="text-[11px] text-slate-400">Tailored to apartment &amp; unit layouts</div>
+                </div>
+              </div>
+              <ul className="text-xs text-slate-300 space-y-1.5 pt-2 border-t border-white/5">
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span>Internal skirting micro-spray</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span>Entry perimeter barrier</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span>6-Month Warranty</span>
+                </li>
+              </ul>
+              <button
+                onClick={scrollToQuote}
+                className="w-full py-2 bg-[#1F232D] hover:bg-[#DE744C] text-white font-bold text-xs rounded-xl border border-[#343B4C] hover:border-[#DE744C] transition cursor-pointer"
+              >
+                Book Unit Treatment
+              </button>
+            </div>
+
+            {/* Tier 2 (Highlighted) */}
+            <div className="p-5 rounded-2xl bg-gradient-to-b from-[#222733] to-[#181B22] border-2 border-emerald-500 space-y-3 relative flex flex-col justify-between shadow-xl">
+              <div className="space-y-2">
+                <span className="text-xs font-bold text-emerald-400">Most Popular in Melbourne</span>
+                <h3 className="text-base font-black text-white">3–4 Bedroom Family Home</h3>
+                <p className="text-xs text-slate-300">
+                  Complete 4-Zone treatment covering roof void, internal skirting, and perimeter.
+                </p>
+                <div className="pt-2">
+                  <div className="text-sm font-black text-white flex items-center gap-1.5">
+                    <span>Upfront Phone Quote</span>
+                    <span className="text-[11px] font-bold text-emerald-400">($50 Voucher Included)</span>
+                  </div>
+                  <div className="text-[11px] text-slate-400">Full 4-zone protection tailored to your floorplan</div>
+                </div>
+              </div>
+              <ul className="text-xs text-slate-200 space-y-1.5 pt-2 border-t border-white/10">
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span>Full 4-Zone Defense Architecture</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span>Roof void dusting + weep holes</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span>6-Month Free Re-Treatment Warranty</span>
+                </li>
+              </ul>
+              <button
+                onClick={scrollToQuote}
+                className="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer"
+              >
+                Book 3–4 Bed Treatment
+              </button>
+            </div>
+
+            {/* Tier 3 */}
+            <div className="p-5 rounded-2xl bg-[#1C1F27] border border-[#2B303C] space-y-3 flex flex-col justify-between">
+              <div className="space-y-2">
+                <span className="text-xs font-bold text-[#DE744C]">Large / Double Storey</span>
+                <h3 className="text-base font-black text-white">5+ Bed / Double Storey</h3>
+                <p className="text-xs text-slate-400">
+                  Substantial double-storey properties, acreage, or large homes.
+                </p>
+                <div className="pt-2">
+                  <div className="text-sm font-black text-white flex items-center gap-1.5">
+                    <span>Upfront Phone Quote</span>
+                    <span className="text-[11px] font-bold text-emerald-400">($50 Voucher Included)</span>
+                  </div>
+                  <div className="text-[11px] text-slate-400">Multi-level &amp; large property coverage</div>
+                </div>
+              </div>
+              <ul className="text-xs text-slate-300 space-y-1.5 pt-2 border-t border-white/5">
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span>Multi-level roof voids &amp; balconies</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span>Extended perimeter barrier</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span>6-Month Warranty</span>
+                </li>
+              </ul>
+              <button
+                onClick={scrollToQuote}
+                className="w-full py-2 bg-[#1F232D] hover:bg-[#DE744C] text-white font-bold text-xs rounded-xl border border-[#343B4C] hover:border-[#DE744C] transition cursor-pointer"
+              >
+                Book Large Home Treatment
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* 8. Clean Booking Section */}
+      <section id="general-pest-booking-section" className="py-14 sm:py-20 bg-[#121418] border-b border-[#232733] relative">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="rounded-3xl bg-gradient-to-b from-[#1C1F27] to-[#14161B] border border-[#2D3342] p-6 sm:p-9 shadow-2xl relative overflow-hidden">
+            <div className="max-w-xl mx-auto text-center space-y-2 mb-6">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-400 text-xs font-bold border border-emerald-500/30">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>$50 New Customer Voucher Auto-Credited</span>
@@ -564,12 +734,11 @@ export const ServicePageGeneralPest: React.FC<ServicePageGeneralPestProps> = ({
                 Book General Pest Treatment
               </h2>
               <p className="text-xs sm:text-sm text-slate-300">
-                Receive an immediate fixed estimate. 6-Month Warranty, no hidden fees, pay upon completion.
+                Receive an immediate upfront quote. Pay upon completion.
               </p>
             </div>
 
-            {/* Quote Request Form with White Inputs & Blank Placeholders */}
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-xl mx-auto">
               <QuoteRequestForm
                 defaultService="General Pest Treatment"
                 source="General Pest Dedicated Page Booking"
@@ -577,11 +746,10 @@ export const ServicePageGeneralPest: React.FC<ServicePageGeneralPestProps> = ({
               />
             </div>
 
-            {/* Trust Footer */}
-            <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 text-center sm:text-left">
+            <div className="mt-6 pt-5 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400 text-center sm:text-left">
               <div className="flex items-center gap-2">
                 <HeartHandshake className="w-4 h-4 text-[#DE744C]" />
-                <span>Licensed Victorian Pest Technicians • 6-Month Free Re-treatment Warranty</span>
+                <span>Licensed Victorian Pest Technicians</span>
               </div>
               <a
                 href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
@@ -596,41 +764,36 @@ export const ServicePageGeneralPest: React.FC<ServicePageGeneralPestProps> = ({
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* 6. REAL HOMEOWNER REVIEWS                                                 */}
-      {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 bg-[#161820]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 9. Real Customer Reviews */}
+      <section className="py-14 sm:py-16 bg-[#161820]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center space-y-2 mb-10">
-            <span className="text-xs font-black uppercase tracking-wider text-[#DE744C]">
-              Customer Experiences
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-white">
-              Verified Melbourne General Pest Reviews
+          <div className="text-center space-y-1 mb-8">
+            <h2 className="text-2xl font-black text-white">
+              Melbourne General Pest Reviews
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="p-6 rounded-2xl bg-[#1C1F27] border border-[#2B303C] space-y-3">
-              <div className="flex text-amber-400 text-sm">★★★★★</div>
-              <p className="text-xs sm:text-sm text-slate-300 italic leading-relaxed">
-                "Called Legend Pest Control after Redbacks and White-tails started appearing in our outdoor play area and laundry. The technician arrived right on time, explained the treatment process, and did an incredibly thorough job inside, outside and in the roof. Haven't seen a single spider since!"
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="p-5 rounded-2xl bg-[#1C1F27] border border-[#2B303C] space-y-2.5">
+              <div className="flex text-amber-400 text-xs">★★★★★</div>
+              <p className="text-xs text-slate-300 italic leading-relaxed">
+                "Had an ongoing ant issue in our kitchen and spiders on the back patio. Legend treated the roof cavity, skirting boards, and weep holes. Haven't seen a single insect in months."
               </p>
               <div className="pt-2 border-t border-white/10 text-xs font-bold text-white flex justify-between">
-                <span>Mark Henderson</span>
-                <span className="text-[#DE744C]">Werribee, VIC</span>
+                <span>Marcus V.</span>
+                <span className="text-emerald-400">Tarneit</span>
               </div>
             </div>
 
-            <div className="p-6 rounded-2xl bg-[#1C1F27] border border-[#2B303C] space-y-3">
-              <div className="flex text-amber-400 text-sm">★★★★★</div>
-              <p className="text-xs sm:text-sm text-slate-300 italic leading-relaxed">
-                "We had persistent black ants invading our kitchen pantry and cockroaches in the garage. Other companies just did a quick 10-minute floor spray that did nothing. Legend treated the roof cavity, subfloor, and external weep holes. Problem completely solved within 48 hours."
+            <div className="p-5 rounded-2xl bg-[#1C1F27] border border-[#2B303C] space-y-2.5">
+              <div className="flex text-amber-400 text-xs">★★★★★</div>
+              <p className="text-xs text-slate-300 italic leading-relaxed">
+                "Very punctual, polite, and explained the pet safety precautions clearly. Low-odour products that dried quickly. The 6-month warranty gave us great confidence."
               </p>
               <div className="pt-2 border-t border-white/10 text-xs font-bold text-white flex justify-between">
-                <span>Jessica Chen</span>
-                <span className="text-[#DE744C]">Point Cook, VIC</span>
+                <span>Belinda C.</span>
+                <span className="text-emerald-400">Werribee</span>
               </div>
             </div>
           </div>
@@ -638,51 +801,41 @@ export const ServicePageGeneralPest: React.FC<ServicePageGeneralPestProps> = ({
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* 7. FREQUENTLY ASKED QUESTIONS ACCORDION                                   */}
-      {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 bg-[#121418]">
+      {/* 10. Concise FAQs */}
+      <section className="py-14 sm:py-16 bg-[#121418] border-t border-[#232733]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center space-y-3 mb-10">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#DE744C]/15 text-[#DE744C] text-xs font-bold border border-[#DE744C]/30">
-              <HelpCircle className="w-3.5 h-3.5" />
-              <span>Common Questions</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-white">
-              General Pest Control FAQs
+          <div className="text-center space-y-2 mb-8">
+            <h2 className="text-2xl font-black text-white">
+              Frequently Asked Questions
             </h2>
           </div>
 
-          <div className="space-y-3">
-            {generalPestFaqs.map((faq, idx) => {
+          <div className="space-y-2.5">
+            {faqs.map((faq, idx) => {
               const isOpen = openFaqIdx === idx;
               return (
                 <div 
                   key={idx}
-                  className={`rounded-2xl border transition-all ${
+                  className={`rounded-xl border transition-all ${
                     isOpen 
-                      ? 'border-[#DE744C] bg-[#1A1D24] shadow-md' 
-                      : 'border-[#242833] bg-[#161820] hover:border-[#2D3340]'
+                      ? 'border-emerald-500 bg-[#1A1D24]' 
+                      : 'border-[#242833] bg-[#14161B] hover:border-[#2D3340]'
                   }`}
                 >
                   <button
                     type="button"
                     onClick={() => toggleFaq(idx)}
-                    className="w-full py-4.5 px-5 sm:px-6 text-left flex items-center justify-between gap-4 cursor-pointer"
+                    className="w-full py-4 px-5 text-left flex items-center justify-between gap-3 cursor-pointer"
                   >
-                    <span className="font-bold text-white text-xs sm:text-sm leading-snug">
+                    <span className="font-bold text-white text-xs sm:text-sm">
                       {faq.q}
                     </span>
-                    <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-transform duration-200 ${
-                      isOpen ? 'rotate-180 bg-[#DE744C] text-white' : 'bg-[#242833] text-slate-400'
-                    }`}>
-                      <ChevronDown className="w-4 h-4" />
-                    </div>
+                    <ChevronDown className={`w-4 h-4 text-slate-400 shrink-0 transition-transform ${isOpen ? 'rotate-180 text-emerald-400' : ''}`} />
                   </button>
 
                   {isOpen && (
-                    <div className="px-5 sm:px-6 pb-5 pt-1 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-white/5">
+                    <div className="px-5 pb-4 pt-0 text-xs text-slate-300 leading-relaxed border-t border-white/5">
                       {faq.a}
                     </div>
                   )}
@@ -694,37 +847,31 @@ export const ServicePageGeneralPest: React.FC<ServicePageGeneralPestProps> = ({
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* 8. BOTTOM URGENT CALL TO ACTION BANNER                                    */}
-      {/* ========================================================================= */}
-      <section className="py-12 bg-gradient-to-r from-[#1E222A] via-[#14161C] to-[#1E222A] border-t border-[#DE744C]/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="text-center md:text-left space-y-1">
-            <span className="text-xs font-bold text-[#FF9570] uppercase tracking-wider flex items-center justify-center md:justify-start gap-1">
-              <Sparkles className="w-3.5 h-3.5 text-[#DE744C]" />
-              <span>Restore Total Peace of Mind</span>
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-black text-white">
-              Take Back Your Home From Creepy Crawlies Today.
+      {/* 11. Clean Bottom Call Bar */}
+      <section className="py-10 bg-gradient-to-r from-[#1A2222] via-[#14161C] to-[#1A2222] border-t border-emerald-500/30">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-center sm:text-left space-y-1">
+            <h3 className="text-xl sm:text-2xl font-black text-white">
+              Ready For 6 Months Of Pest-Free Peace Of Mind?
             </h3>
             <p className="text-xs text-slate-300">
-              Complete 4-zone defense backed by our 6-month free re-treatment warranty and $50 voucher.
+              Same-day and next-day slots open across Melbourne. Call {COMPANY_DETAILS.phone}.
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto shrink-0">
+          <div className="flex gap-3 shrink-0">
             <a
               href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-              className="flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-[#DE744C] hover:bg-[#C85E36] text-white font-black text-sm shadow-md"
+              className="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition flex items-center gap-2"
             >
-              <Phone className="w-4 h-4 text-white" />
+              <Phone className="w-3.5 h-3.5" />
               <span>Call {COMPANY_DETAILS.phone}</span>
             </a>
             <button
               onClick={scrollToQuote}
-              className="px-6 py-3.5 rounded-xl bg-[#1A1D24] hover:bg-[#252A36] text-white font-bold text-sm border border-[#343B4C] transition cursor-pointer"
+              className="px-5 py-3 rounded-xl bg-[#1A1D24] hover:bg-[#252A36] text-white font-bold text-xs border border-[#343B4C] transition cursor-pointer"
             >
-              <span>Get Free Quote</span>
+              Get Free Quote
             </button>
           </div>
         </div>

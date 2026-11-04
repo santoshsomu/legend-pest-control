@@ -527,7 +527,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenCallback
                 Have Bees, Wasps, Rats, Termites or a Foul Ceiling Odour Right Now?
               </h3>
               <p className="text-sm text-slate-300 max-w-2xl">
-                We retain emergency priority appointment slots every morning and afternoon across Melbourne. Call now for priority response.
+                We provide prompt same-day service across Greater Melbourne where available. Call us to book your inspection.
               </p>
             </div>
 

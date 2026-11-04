@@ -58,7 +58,7 @@ export function App() {
   // Update dynamic page title for SEO & clarity
   useEffect(() => {
     if (currentRoute === 'bee-wasp-removal') {
-      document.title = 'Bee & Wasp Nest Removal Melbourne | 15-Min Response | Legend Pest Control';
+      document.title = 'Bee & Wasp Nest Removal Melbourne | Same-Day Service | Legend Pest Control';
     } else if (currentRoute === 'general-pest-control') {
       document.title = 'General Pest Control Melbourne | 6-Month Warranty | Legend Pest Control';
     } else {

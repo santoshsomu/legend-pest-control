@@ -30,7 +30,7 @@ export const WhyChooseUs: React.FC = () => {
     {
       feature: 'Roof Void & Weep Hole Dusting',
       legend: 'Included standard in full home treatments',
-      franchise: 'Expensive extra add-on (+$90)',
+      franchise: 'Expensive extra add-on',
       budget: 'Skipped completely (skirting only)',
     },
     {

@@ -71,7 +71,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
                   </div>
                   <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-black/40 border border-white/15 text-[10.5px] font-bold text-slate-100 shadow-xs whitespace-nowrap">
                     <span>⏱️</span>
-                    <span>15-Min Response</span>
+                    <span>Prompt Service</span>
                   </div>
                   <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-black/40 border border-emerald-500/30 text-[10.5px] font-bold text-emerald-400 shadow-xs whitespace-nowrap">
                     <span>🛡️</span>
@@ -187,7 +187,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
               <span className="w-1 h-1 rounded-full bg-slate-500" />
               <span className="flex items-center gap-1.5 text-slate-100">
                 <span>⏱️</span>
-                <span>15-Min Response</span>
+                <span>Prompt Service</span>
               </span>
               <span className="w-1 h-1 rounded-full bg-slate-500" />
               <span className="flex items-center gap-1.5 text-emerald-400">
@@ -212,7 +212,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
                     Live Technicians
                   </span>
                 </div>
-                <p className="text-xs text-white/80 font-medium mt-0.5">Fast 15-minute response across Melbourne • Quotes include $50 coupon</p>
+                <p className="text-xs text-white/80 font-medium mt-0.5">Prompt service across Melbourne • Quotes include $50 coupon</p>
               </div>
 
               {/* Form with variant="liquid-glass" and dynamic defaultService */}

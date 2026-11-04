@@ -267,7 +267,7 @@ export const QuoteRequestForm: React.FC<QuoteRequestFormProps> = ({
 
       <div className={`flex items-center justify-center gap-3 text-[10px] sm:text-[11px] pt-0.5 ${isDark ? 'text-slate-300' : 'text-slate-500'}`}>
         <span className="flex items-center gap-1">
-          <Clock className="w-3.5 h-3.5 text-[#DE744C]" /> Average response: 15 mins
+          <Clock className="w-3.5 h-3.5 text-[#DE744C]" /> Prompt callback
         </span>
         <span>•</span>
         <span className="flex items-center gap-1">

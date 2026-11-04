@@ -53,7 +53,7 @@ export const Footer: React.FC<FooterProps> = ({
               onClick={() => onOpenCallback()}
               className="flex items-center justify-center gap-2 px-6 py-3.5 bg-[#1E222A] hover:bg-[#282E39] text-[#F8F9FA] font-bold rounded-xl text-sm border border-[#303746] transition cursor-pointer"
             >
-              <span>Request 15-Min Callback</span>
+              <span>Request A Callback</span>
             </button>
           </div>
         </div>

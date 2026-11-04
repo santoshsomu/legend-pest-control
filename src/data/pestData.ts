@@ -23,7 +23,7 @@ export const SERVICES: PestService[] = [
     iconName: 'Flame',
     imageHint: 'wasp-nest-removal',
     safetyNote: 'Complete colony knockdown with protective suit containment',
-    turnaroundTime: '⚡ 1–2 Hour Priority Service Available'
+    turnaroundTime: 'Prompt Service Available'
   },
   {
     id: 'general-pest-control',
@@ -73,7 +73,7 @@ export const SERVICES: PestService[] = [
     iconName: 'Sparkles',
     imageHint: 'dead-animal-possum-roof',
     safetyNote: 'Biohazard compliant with hospital-grade sanitisation',
-    turnaroundTime: '⚡ Priority Emergency Service within 1–3 Hours'
+    turnaroundTime: 'Prompt Emergency Service Available'
   },
   {
     id: 'german-cockroach-eradication',
@@ -301,7 +301,7 @@ export const FAQS: FaqItem[] = [
   {
     category: 'general',
     question: 'How quickly can you remove an active bee or wasp nest in Melbourne?',
-    answer: 'We retain emergency priority slots daily across Melbourne. In most cases, our licensed technician arrives within 1 to 2 hours with full containment gear for immediate safe removal.'
+    answer: 'We provide prompt same-day service across Greater Melbourne where available. Call to confirm availability in your suburb.'
   },
   {
     category: 'general',
