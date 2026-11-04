@@ -7,11 +7,13 @@ interface FooterProps {
   onOpenCallback: (service?: string) => void;
   onNavigateHome?: () => void;
   onNavigateService?: (serviceId: string) => void;
+  hideCta?: boolean;
 }
 
 export const Footer: React.FC<FooterProps> = ({ 
   onOpenCallback,
   onNavigateHome,
+  hideCta = false,
 }) => {
   const handleHomeClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -25,39 +27,41 @@ export const Footer: React.FC<FooterProps> = ({
   return (
     <footer className="bg-[#121418] text-[#9EA4B0] text-xs border-t border-[#232733]">
       
-      {/* Top CTA Strip */}
-      <div className="bg-gradient-to-r from-[#161820] via-[#121418] to-[#161820] border-b border-[#242833] py-8 px-4 sm:px-6 lg:px-8 text-white">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="text-center md:text-left space-y-1">
-            <span className="text-[#DE744C] font-black text-xs uppercase tracking-wider flex items-center justify-center md:justify-start gap-1">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Every pest problem, one legendary solution</span>
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Seeing Pests or Smelling Something in the Roof?
-            </h3>
-            <p className="text-xs sm:text-sm text-[#C5CAD4]">
-              Call now for a free rapid estimate on {COMPANY_DETAILS.phone}.
-            </p>
-          </div>
+      {/* Top CTA Strip (Shown only when not hidden) */}
+      {!hideCta && (
+        <div className="bg-gradient-to-r from-[#161820] via-[#121418] to-[#161820] border-b border-[#242833] py-8 px-4 sm:px-6 lg:px-8 text-white">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="text-center md:text-left space-y-1">
+              <span className="text-[#DE744C] font-black text-xs uppercase tracking-wider flex items-center justify-center md:justify-start gap-1">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Every pest problem, one legendary solution</span>
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
+                Seeing Pests or Smelling Something in the Roof?
+              </h3>
+              <p className="text-xs sm:text-sm text-[#C5CAD4]">
+                Call now for a free rapid estimate on {COMPANY_DETAILS.phone}.
+              </p>
+            </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-            <a
-              href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-              className="flex items-center justify-center gap-2 px-6 py-3.5 bg-[#DE744C] hover:bg-[#C85E36] active:bg-[#B8522B] text-white font-black rounded-xl text-sm transition shadow-lg shadow-[#DE744C]/25"
-            >
-              <Phone className="w-4 h-4 text-white" />
-              <span>Call {COMPANY_DETAILS.phone}</span>
-            </a>
-            <button
-              onClick={() => onOpenCallback()}
-              className="flex items-center justify-center gap-2 px-6 py-3.5 bg-[#1E222A] hover:bg-[#282E39] text-[#F8F9FA] font-bold rounded-xl text-sm border border-[#303746] transition cursor-pointer"
-            >
-              <span>Request A Callback</span>
-            </button>
+            <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+              <a
+                href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
+                className="flex items-center justify-center gap-2 px-6 py-3.5 bg-[#DE744C] hover:bg-[#C85E36] active:bg-[#B8522B] text-white font-black rounded-xl text-sm transition shadow-lg shadow-[#DE744C]/25"
+              >
+                <Phone className="w-4 h-4 text-white" />
+                <span>Call {COMPANY_DETAILS.phone}</span>
+              </a>
+              <button
+                onClick={() => onOpenCallback()}
+                className="flex items-center justify-center gap-2 px-6 py-3.5 bg-[#1E222A] hover:bg-[#282E39] text-[#F8F9FA] font-bold rounded-xl text-sm border border-[#303746] transition cursor-pointer"
+              >
+                <span>Request A Callback</span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Main Footer Links */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">

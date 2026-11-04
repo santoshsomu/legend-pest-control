@@ -171,6 +171,7 @@ export function App() {
 
       {/* Footer */}
       <Footer
+        hideCta={currentRoute !== 'home'}
         onOpenCallback={(serviceName) => handleOpenCallback(serviceName)}
         onNavigateHome={() => navigateTo('home')}
         onNavigateService={(serviceId) => {
