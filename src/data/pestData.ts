@@ -2,6 +2,30 @@ import type { PestService, SuburbArea, Testimonial, FaqItem } from '../types';
 
 export const SERVICES: PestService[] = [
   {
+    id: 'bee-wasp-removal',
+    name: 'Bee & Wasp Nest Removal',
+    category: 'residential',
+    shortDesc: 'Same-day emergency removal of European wasps, mud daubers & beehives from eaves, roofs, and wall cavities.',
+    fullDesc: 'European wasps and bees can be extremely aggressive if their nest is disturbed. We provide same-day emergency knockdown and safe removal of nests from eaves, weep holes, chimneys, and garden sheds with protective suits and high-impact knockdown formulations.',
+    signsOfInfestation: [
+      'Constant stream of bees or wasps entering under roof tiles or brick weep holes',
+      'Visible paper-like nests, hives, or mud tubes on eaves, window sills, or sheds',
+      'Loud buzzing vibrating through ceiling plaster or hollow walls'
+    ],
+    treatmentProcess: [
+      'Technician dons full protective bee/wasp containment suit',
+      'Direct pressure injection into nest core for instant colony knockdown',
+      'Physical removal and sanitary disposal of the hive where accessible',
+      'Residual barrier treatment to stop re-nesting in the same cavity'
+    ],
+    warranty: 'Colony Elimination Guarantee',
+    popular: true,
+    iconName: 'Flame',
+    imageHint: 'wasp-nest-removal',
+    safetyNote: 'Complete colony knockdown with protective suit containment',
+    turnaroundTime: '⚡ 1–2 Hour Priority Service Available'
+  },
+  {
     id: 'general-pest-control',
     name: 'General Pest Treatment',
     category: 'residential',
@@ -19,11 +43,11 @@ export const SERVICES: PestService[] = [
       'Permethrin dust injection into roof voids and wall cavities',
       'Targeted gel placements in hidden moisture areas and weep holes'
     ],
-    warranty: '6-Month Free Re-treatment Warranty',
+    warranty: '6-Month Warranty',
     popular: true,
     iconName: 'ShieldAlert',
     imageHint: 'spiders-ants-perimeter',
-    safetyNote: 'APVMA-approved low-odour formulation after 1.5–2 hours drying time',
+    safetyNote: 'Fully certified low-odour formulation after 1.5–2 hours drying time',
     turnaroundTime: 'Same-Day or Next-Day Service Available'
   },
   {
@@ -49,11 +73,11 @@ export const SERVICES: PestService[] = [
     iconName: 'Sparkles',
     imageHint: 'dead-animal-possum-roof',
     safetyNote: 'Biohazard compliant with hospital-grade sanitisation',
-    turnaroundTime: '⚡ Priority Emergency Dispatch within 1–3 Hours'
+    turnaroundTime: '⚡ Priority Emergency Service within 1–3 Hours'
   },
   {
     id: 'german-cockroach-eradication',
-    name: 'German Cockroach Specialised Eradication',
+    name: 'Cockroach Eradication',
     category: 'specialist',
     shortDesc: 'Targeted multi-visit eradication designed to break the 21-day egg hatching cycle in kitchens & appliances.',
     fullDesc: 'German cockroaches carry pathogens and breed at an exponential rate inside motor compartments of fridges, dishwashers, and ovens. Over-the-counter sprays scatter them deeper. We deploy professional bait matrix gels, insect growth regulators (IGR), and sticky monitor traps to eradicate the entire colony.',
@@ -74,11 +98,11 @@ export const SERVICES: PestService[] = [
     iconName: 'Bug',
     imageHint: 'german-cockroach-kitchen',
     safetyNote: 'Targeted non-repellent gel placement in appliance voids',
-    turnaroundTime: 'Same-Day Dispatch Available'
+    turnaroundTime: 'Same-Day Service Available'
   },
   {
     id: 'rodent-rat-mouse-control',
-    name: 'Rodent & Mice Control',
+    name: 'Rodent Control',
     category: 'residential',
     shortDesc: 'Rapid eradication of roof rats & mice with tamper-proof bait stations & entry proofing.',
     fullDesc: 'During cooler Victorian months, rats and mice migrate into roof spaces and wall cavities, chewing through electrical wiring and contaminating insulation. Our rodent program combines targeted roof baiting, tamper-resistant external stations, and thorough entry-point mapping.',
@@ -99,14 +123,14 @@ export const SERVICES: PestService[] = [
     iconName: 'Rat',
     imageHint: 'rodent-control-melbourne',
     safetyNote: 'Lockable tamper-resistant external bait stations',
-    turnaroundTime: 'Same-Day Dispatch for Roof Noise Emergencies'
+    turnaroundTime: 'Same-Day Service for Roof Noise Emergencies'
   },
   {
     id: 'termite-inspection',
     name: 'Termite Inspection',
     category: 'specialist',
-    shortDesc: 'Comprehensive AS 4349.3 Timber Pest Inspection utilizing thermal imaging, moisture meters & sounding probes.',
-    fullDesc: '1 in 3 Australian properties will face subterranean termite activity in their lifetime. Our certified inspectors conduct thorough, non-invasive examinations of subfloors, roof voids, internal timber walls, and yard perimeters, generating an Australian Standard AS 4349.3 digital report with high-resolution imagery and prevention advice.',
+    shortDesc: 'Comprehensive Timber Pest Inspection utilizing thermal imaging, moisture meters & sounding probes.',
+    fullDesc: '1 in 3 Australian properties will face subterranean termite activity in their lifetime. Our certified inspectors conduct thorough, non-invasive examinations of subfloors, roof voids, internal timber walls, and yard perimeters, generating a comprehensive digital report with high-resolution imagery and prevention advice.',
     signsOfInfestation: [
       'Hollow-sounding timber skirting boards or door jambs',
       'Mud tubes or shelter tracks leading from ground to brick weep holes',
@@ -117,9 +141,9 @@ export const SERVICES: PestService[] = [
       'Non-invasive inspection of subfloors, wall framing, roof void, and yard perimeters',
       'FLIR thermal imaging scan to detect internal nest temperature differentials',
       'Tramex moisture meter detection to uncover concealed moisture pockets',
-      'Detailed 25+ page AS 4349.3 compliance report delivered same day'
+      'Detailed 25+ page digital compliance inspection report delivered same day'
     ],
-    warranty: 'Certified AS 4349.3 Compliance Report',
+    warranty: 'Fully Certified Compliance Report',
     popular: false,
     iconName: 'Building2',
     imageHint: 'termite-inspection-melbourne',
@@ -151,34 +175,10 @@ export const SERVICES: PestService[] = [
     turnaroundTime: 'Priority Same-Day Real Estate Booking'
   },
   {
-    id: 'wasp-bee-removal',
-    name: 'Wasp & Bee Nest Removal',
-    category: 'residential',
-    shortDesc: 'Same-day emergency removal of European wasps, mud daubers & beehives from eaves, roofs, and wall cavities.',
-    fullDesc: 'European wasps and bees can be extremely aggressive if their nest is disturbed. We provide same-day emergency knockdown and safe removal of nests from eaves, weep holes, chimneys, and garden sheds with protective suits and high-impact knockdown formulations.',
-    signsOfInfestation: [
-      'Constant stream of wasps entering under roof tiles or brick weep holes',
-      'Visible paper-like or mud nests on eaves, window sills, or sheds',
-      'Loud buzzing vibrating through ceiling plaster or hollow walls'
-    ],
-    treatmentProcess: [
-      'Technician dons full protective bee/wasp containment suit',
-      'Direct pressure injection into nest core for instant colony knockdown',
-      'Physical removal and sanitary disposal of the hive where accessible',
-      'Residual barrier treatment to stop re-nesting in the same cavity'
-    ],
-    warranty: 'Colony Elimination Guarantee',
-    popular: false,
-    iconName: 'Flame',
-    imageHint: 'wasp-nest-removal',
-    safetyNote: 'Complete colony knockdown with protective suit containment',
-    turnaroundTime: '⚡ 1–2 Hour Priority Dispatch Available'
-  },
-  {
     id: 'commercial-pest-control',
     name: 'Commercial Pest Management',
     category: 'commercial',
-    shortDesc: 'HACCP & Council Health compliant pest maintenance programs for cafes, restaurants, warehouses & corporate offices.',
+    shortDesc: 'Fully licensed and certified pest maintenance programs for cafes, restaurants, warehouses & corporate offices.',
     fullDesc: 'Pest sightings can destroy a commercial hospitality reputation and result in severe council fines. We design tailored Integrated Pest Management (IPM) programs for Victorian businesses with barcoded bait stations, trend analytics, and complete audit documentation.',
     signsOfInfestation: [
       'Cockroach or fly activity near food preparation surfaces',
@@ -191,11 +191,11 @@ export const SERVICES: PestService[] = [
       'Discreet after-hours or early morning treatment times',
       'Digital service logbook and compliance certificates for council health officers'
     ],
-    warranty: 'HACCP & Council Audit Pass Guarantee',
+    warranty: 'Commercial Council Health Audit Pass Guarantee',
     popular: false,
     iconName: 'Building',
     imageHint: 'commercial-kitchen-pest',
-    safetyNote: 'Food safety grade APVMA formulations with zero residue',
+    safetyNote: 'Food safety grade low-odour formulations with zero residue',
     turnaroundTime: 'Discreet After-Hours Servicing'
   }
 ];
@@ -268,7 +268,7 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     id: 't-3',
     author: 'David O\'Connor',
-    suburb: 'Lara, VIC',
+    suburb: 'Point Cook, VIC',
     service: 'Rodent & Roof Mice Treatment',
     rating: 5,
     date: '3 weeks ago',
@@ -289,7 +289,7 @@ export const TESTIMONIALS: Testimonial[] = [
     id: 't-5',
     author: 'Anthony Rossi',
     suburb: 'Hoppers Crossing, VIC',
-    service: 'Wasp Nest Removal',
+    service: 'Bee & Wasp Nest Removal',
     rating: 5,
     date: '4 days ago',
     text: 'A nasty European wasp nest was growing under our porch roof. Legend Pest Control answered the phone immediately on 0416 388 777, quoted upfront with no surprises, and removed it safely within 2 hours. Couldn\'t ask for better service.',
@@ -299,39 +299,49 @@ export const TESTIMONIALS: Testimonial[] = [
 
 export const FAQS: FaqItem[] = [
   {
-    category: 'safety',
-    question: 'What types of products do you use for pest control?',
-    answer: 'We exclusively use APVMA-approved, low-odour professional formulations engineered to bind directly to treated surfaces.'
+    category: 'general',
+    question: 'How quickly can you remove an active bee or wasp nest in Melbourne?',
+    answer: 'We retain emergency priority slots daily across Melbourne. In most cases, our licensed technician arrives within 1 to 2 hours with full containment gear for immediate safe removal.'
   },
   {
-    category: 'warranty',
-    question: 'How does your 6-month treatment warranty work?',
-    answer: 'If covered pests return within 6 months, we return and re-treat your property 100% free of charge.'
+    category: 'general',
+    question: 'How do you eliminate dead possum and animal smells from roof cavities?',
+    answer: 'We locate and safely extract the deceased carcass from your ceiling or subfloor, sanitize the contamination zone with hospital-grade disinfectant, and apply commercial enzymatic fogging that permanently breaks down biological odour molecules.'
   },
   {
     category: 'pricing',
-    question: 'How do your quotes work without hidden fees?',
-    answer: 'We provide clear, upfront fixed quotes over the phone or online before work begins with zero surprise callout fees.'
+    question: 'How does the $50 new customer coupon apply to my quote?',
+    answer: 'All quotes provided on our website and over the phone automatically have the $50 promotional coupon deducted upfront with zero hidden fees.'
   },
   {
-    category: 'general',
-    question: 'How quickly can you remove a dead animal from my roof?',
-    answer: 'We dispatch emergency technicians same-day within 1–3 hours to locate, remove, and sanitise the cavity.'
+    category: 'pricing',
+    question: 'Do you offer quotes over the phone?',
+    answer: 'Yes, we gather a few quick details about your pest issue and provide an immediate, fixed upfront estimate on the call.'
   },
   {
-    category: 'general',
-    question: 'What is involved in a professional Termite Inspection?',
-    answer: 'We inspect to AS 4349.3 standards using thermal cameras and moisture meters, delivering a comprehensive same-day digital report.'
+    category: 'safety',
+    question: 'Are your pest control treatments safe for pets and children?',
+    answer: 'Yes once dry; we provide clear safety precautions prior to application, and once settled (approx 2 hours) the formulations are completely non-toxic.'
   },
   {
-    category: 'general',
-    question: 'Do I need to leave my home or empty kitchen cupboards?',
-    answer: 'You only step outside for 1.5–2 hours during sprays, and cupboards do not need to be emptied for gel baiting.'
+    category: 'safety',
+    question: 'Do the premises need to be vacated after the treatment?',
+    answer: 'We recommend vacating for 2–3 hours after internal sprays so products dry completely for maximum effectiveness and safety.'
   },
   {
     category: 'warranty',
-    question: 'Are your technicians licensed and insured in Victoria?',
-    answer: 'Yes, our technicians are fully licensed and certified with full public liability insurance.'
+    question: 'What is the warranty period for your pest treatments?',
+    answer: 'We provide a 6-Month Warranty on general pest treatments with 100% free re-sprays if covered pests return.'
+  },
+  {
+    category: 'general',
+    question: 'Which Melbourne suburbs do you service?',
+    answer: 'We cover all suburbs across Greater Melbourne daily, including Northern, Eastern, Western, and Southern regions.'
+  },
+  {
+    category: 'warranty',
+    question: 'Are your pest control operators licensed and insured?',
+    answer: 'Yes, every technician is fully licensed and certified under Victorian regulations with full public liability coverage.'
   }
 ];
 

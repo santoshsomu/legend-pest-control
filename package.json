@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "rollback:seo": "node scripts/rollback-pre-seo.mjs",
+    "deploy:hostinger": "npm run build && node scripts/deploy-hostinger.mjs",
     "lint": "oxlint",
     "preview": "vite preview"
   },
@@ -23,6 +25,7 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
+    "basic-ftp": "^6.2.3",
     "canvas-confetti": "^1.9.4",
     "lightningcss-win32-x64-msvc": "^1.33.0",
     "lucide-react": "^1.61.0",

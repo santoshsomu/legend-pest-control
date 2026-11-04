@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { ChevronDown, HelpCircle, Phone, Sparkles } from 'lucide-react';
-import { FAQS, COMPANY_DETAILS } from '../data/pestData';
+import { ChevronDown, HelpCircle } from 'lucide-react';
+import { FAQS } from '../data/pestData';
 
 interface FaqSectionProps {
-  onOpenCallback: () => void;
+  onOpenCallback?: () => void;
 }
 
-export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenCallback }) => {
+export const FaqSection: React.FC<FaqSectionProps> = () => {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   const toggleFaq = (idx: number) => {
@@ -19,15 +19,15 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenCallback }) => {
         
         {/* Section Heading */}
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider">
-            <HelpCircle className="w-3.5 h-3.5 text-emerald-600" />
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FDF3EE] text-[#DE744C] border border-[#F5D5C6] text-xs font-black uppercase tracking-wider">
+            <HelpCircle className="w-3.5 h-3.5 text-[#DE744C]" />
             <span>Got Questions? We Have Answers</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             Frequently Asked Questions
           </h2>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
-            Everything you need to know about our products, 6-month warranties, emergency dispatch, and how our transparent quotes work.
+            Everything you need to know about our products, 6-month warranties, same-day service, and how our transparent quotes work.
           </p>
         </div>
 
@@ -40,7 +40,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenCallback }) => {
                 key={idx}
                 className={`rounded-2xl border transition-all ${
                   isOpen
-                    ? 'border-emerald-500 bg-emerald-50/20 shadow-sm'
+                    ? 'border-[#DE744C] bg-[#FDF3EE]/40 shadow-sm'
                     : 'border-slate-200 bg-slate-50/60 hover:bg-slate-50 hover:border-slate-300'
                 }`}
               >
@@ -54,49 +54,20 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenCallback }) => {
                     {faq.question}
                   </span>
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-transform duration-200 ${
-                    isOpen ? 'rotate-180 bg-emerald-700 text-white' : 'bg-slate-200 text-slate-600'
+                    isOpen ? 'rotate-180 bg-[#DE744C] text-white' : 'bg-slate-200 text-slate-600'
                   }`}>
                     <ChevronDown className="w-4 h-4" />
                   </div>
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 sm:px-6 pb-5 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-emerald-100/60 animate-in fade-in duration-200">
+                  <div className="px-5 sm:px-6 pb-5 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-[#F0DCD3] animate-in fade-in duration-200">
                     <p>{faq.answer}</p>
                   </div>
                 )}
               </div>
             );
           })}
-        </div>
-
-        {/* Help Contact Banner */}
-        <div className="mt-12 p-6 rounded-3xl bg-slate-900 text-white flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-          <div className="space-y-1">
-            <h4 className="font-bold text-base sm:text-lg flex items-center justify-center sm:justify-start gap-2">
-              <Sparkles className="w-4 h-4 text-amber-400" />
-              <span>Have a specific question about your infestation?</span>
-            </h4>
-            <p className="text-xs text-slate-300">
-              Speak directly with our senior duty technician for tailored advice.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-3 w-full sm:w-auto">
-            <a
-              href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-              className="flex-1 sm:flex-none px-6 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs sm:text-sm rounded-full transition shadow-md flex items-center justify-center gap-2"
-            >
-              <Phone className="w-4 h-4" />
-              <span>{COMPANY_DETAILS.phone}</span>
-            </a>
-            <button
-              onClick={onOpenCallback}
-              className="flex-1 sm:flex-none px-5 py-3 bg-amber-400 hover:bg-amber-500 text-slate-950 font-black text-xs sm:text-sm rounded-full transition shadow-md cursor-pointer"
-            >
-              Get Free Quote
-            </button>
-          </div>
         </div>
 
       </div>

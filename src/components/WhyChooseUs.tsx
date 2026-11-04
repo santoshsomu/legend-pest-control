@@ -11,13 +11,13 @@ export const WhyChooseUs: React.FC = () => {
     },
     {
       feature: 'Chemical Standards',
-      legend: '100% APVMA Low-Toxicity Formulations',
+      legend: '100% Low-Odour Certified Formulations',
       franchise: 'Standard commercial chemicals',
       budget: 'Unverified harsh solvent chemicals',
     },
     {
-      feature: 'Response Time & Dispatch',
-      legend: 'Same-day or next-morning dispatch',
+      feature: 'Response Time & Arrival',
+      legend: 'Same-day or next-morning service',
       franchise: '5 to 14 business days wait',
       budget: 'Unpredictable arrival windows',
     },
@@ -50,23 +50,23 @@ export const WhyChooseUs: React.FC = () => {
   const pillarCards = [
     {
       icon: Shield,
-      title: 'Ironclad 6-Month Guarantee',
+      title: '6-Month Guarantee',
       desc: 'If crawling pests return to your property inside 6 months, we re-treat the area completely free of charge. No debates.',
     },
     {
       icon: HeartHandshake,
-      title: 'APVMA Registered Formulations',
-      desc: 'We use low-odour water-based formulations that bind directly to surfaces once dry. Targeted protection with zero harsh fumes.',
+      title: 'Low-Odour Certified Formulations',
+      desc: 'We use low-odour water-based formulations and always share clear safety precautions prior to application for complete peace of mind.',
     },
     {
       icon: Zap,
       title: 'Rapid Local Response',
-      desc: 'Our vans are stationed in Melbourne daily, so you never have to wait weeks for an urgent spider, rodent, dead animal or wasp callout.',
+      desc: 'Our vans are stationed in Melbourne daily, so you never have to wait weeks for an urgent spider, rodent, dead animal, bee or wasp callout.',
     },
     {
       icon: Award,
-      title: 'Standards Compliant',
-      desc: 'All termite timber inspections strictly adhere to Australian Standard AS 4349.3 with high-resolution digital photographic reporting.',
+      title: 'Fully Licensed & Certified',
+      desc: 'All termite timber inspections include comprehensive high-resolution digital photographic reporting and thermal analysis.',
     },
   ];
 

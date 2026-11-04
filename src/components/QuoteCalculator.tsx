@@ -14,8 +14,8 @@ export const QuoteCalculator: React.FC<QuoteCalculatorProps> = ({ onOpenCallback
     { id: 'dead-animal', name: 'Dead Animal / Possum Carcass Removal (Roof or Subfloor)' },
     { id: 'rodents', name: 'Rodents (Rats & Mice in Roof / Cavities)' },
     { id: 'german-roach', name: 'German Cockroaches (Kitchen Eradication)' },
-    { id: 'wasps', name: 'Wasp or Bee Nest Removal' },
-    { id: 'termites', name: 'Termite Inspection (AS 4349.3 Timber Pest)' },
+    { id: 'wasps', name: 'Bees & Wasp Nest Removal' },
+    { id: 'termites', name: 'Termite & Timber Pest Inspection' },
     { id: 'end-of-lease', name: 'End-of-Lease Flea Spray + Bond Cert' },
   ];
 
@@ -30,11 +30,10 @@ export const QuoteCalculator: React.FC<QuoteCalculatorProps> = ({ onOpenCallback
   };
 
   const getSummaryString = () => {
-    const pestNames = selectedPests
+    return selectedPests
       .map((p) => pestOptions.find((o) => o.id === p)?.name.split(' (')[0])
       .filter(Boolean)
-      .join(' + ');
-    return `Assessment for: ${pestNames}`;
+      .join(', ');
   };
 
   return (
@@ -55,7 +54,7 @@ export const QuoteCalculator: React.FC<QuoteCalculatorProps> = ({ onOpenCallback
             Custom Pest Treatment &amp; Defense Plan
           </h2>
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-            Select your pest concerns below to generate a tailored eradication plan. Every service includes our <strong className="text-amber-400 font-bold">Complimentary 10-Point Termite &amp; Pest Inspection</strong>.
+            Select your pest concerns below to generate an immediate, tailored eradication plan.
           </p>
         </div>
 
@@ -103,9 +102,34 @@ export const QuoteCalculator: React.FC<QuoteCalculatorProps> = ({ onOpenCallback
                 <ShieldCheck className="w-4 h-4 text-emerald-400" />
                 Custom Treatment Plan
               </span>
-              <span className="text-xs font-bold bg-amber-400 text-slate-950 px-2.5 py-0.5 rounded-full shadow-xs">
-                Free Inspection Included
+              <span className="text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2.5 py-0.5 rounded-full shadow-xs">
+                Active Assessment
               </span>
+            </div>
+
+            {/* Dynamic Selected Services Pill Box */}
+            <div className="bg-slate-900/90 rounded-2xl p-4 border border-emerald-800/70 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-slate-400 font-bold uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  Selected Service{selectedPests.length > 1 ? 's' : ''} ({selectedPests.length}):
+                </span>
+                <span className="text-[10px] text-emerald-400 font-medium">Ready for Quote</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {selectedPests.map((id) => {
+                  const pestObj = pestOptions.find((p) => p.id === id);
+                  return (
+                    <span
+                      key={id}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-950 border border-emerald-500/50 text-white text-xs font-semibold shadow-xs"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      <span>{pestObj?.name.split(' (')[0] || id}</span>
+                    </span>
+                  );
+                })}
+              </div>
             </div>
 
             <div className="space-y-3">
@@ -135,29 +159,16 @@ export const QuoteCalculator: React.FC<QuoteCalculatorProps> = ({ onOpenCallback
                   {selectedPests.includes('termites') && (
                     <li className="flex items-center gap-2 text-emerald-300 font-semibold">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                      <span>Thermal imaging &amp; moisture scan (AS 4349.3 Report)</span>
+                      <span>Thermal imaging &amp; moisture scan (Comprehensive Report)</span>
                     </li>
                   )}
                 </ul>
               </div>
 
-              {/* Guarantees Box */}
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <div className="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
-                  <span className="text-slate-400 block text-[10px] uppercase">Warranty</span>
-                  <span className="font-extrabold text-emerald-400">6 Months Free</span>
-                </div>
-                <div className="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
-                  <span className="text-slate-400 block text-[10px] uppercase">Formulations</span>
-                  <span className="font-extrabold text-emerald-300">APVMA Approved</span>
-                </div>
-              </div>
-
-              <div className="p-3 bg-amber-950/40 border border-amber-500/30 rounded-xl text-xs text-amber-200 flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>
-                  <strong>Free 10-Point Termite &amp; Pest Inspection</strong> included with any confirmed treatment.
-                </span>
+              {/* Warranty Protection Box */}
+              <div className="bg-slate-900/60 p-3.5 rounded-xl border border-slate-700 flex items-center justify-between text-xs">
+                <span className="text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Warranty Guarantee</span>
+                <span className="font-extrabold text-emerald-400 text-xs">6 Months Free Re-treatment</span>
               </div>
             </div>
 
@@ -168,8 +179,7 @@ export const QuoteCalculator: React.FC<QuoteCalculatorProps> = ({ onOpenCallback
                 onClick={() => onOpenCallback(getSummaryString())}
                 className="w-full py-4 px-4 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 font-black rounded-xl text-sm transition shadow-lg shadow-amber-400/25 flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Sparkles className="w-4 h-4 text-slate-950" />
-                <span>Get Free Upfront Quote With Free Inspection</span>
+                <span>Get a quote now • {COMPANY_DETAILS.phone}</span>
                 <ArrowRight className="w-4 h-4 text-slate-950" />
               </button>
 
@@ -183,7 +193,7 @@ export const QuoteCalculator: React.FC<QuoteCalculatorProps> = ({ onOpenCallback
             </div>
 
             <div className="text-center text-[11px] text-slate-400">
-              ⚡ Over-the-phone quotes are 100% free with no obligation to book.
+              ⚡ Quotes provided include $50 coupon applied • Zero obligation to book.
             </div>
 
           </div>

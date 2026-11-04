@@ -1,9 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <circle cx="32" cy="32" r="30" fill="#1d4ed8" />
-  <circle cx="32" cy="24" r="11" fill="#fed7aa" />
-  <path d="M21 21 C21 14, 43 14, 43 21 Z" fill="#1e3a8a" />
-  <path d="M18 22 C23 19, 41 19, 46 22 Z" fill="#3b82f6" />
-  <path d="M18 52 C18 40, 24 36, 32 36 C40 36, 46 40, 46 52 Z" fill="#ffffff" />
-  <rect x="36" y="36" width="16" height="18" rx="2" fill="#fbbf24" stroke="#78350f" stroke-width="1.5" />
-  <path d="M39 44 L42 47 L47 41" stroke="#15803d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Shield Badge Outline -->
+  <path d="M 50 6 L 88 22 C 88 58 72 82 50 94 C 28 82 12 58 12 22 Z" fill="#064E3B" stroke="#10B981" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M 50 12 L 82 26 C 82 56 68 76 50 86 C 32 76 18 56 18 26 Z" fill="#047857" stroke="#34D399" stroke-width="2"/>
+  <!-- Technician Silhouette / Shield Core -->
+  <path d="M 50 20 L 76 32 C 76 58 64 74 50 82 C 36 74 24 58 24 32 Z" fill="#065F46" />
+  <!-- Cap & Head -->
+  <ellipse cx="50" cy="38" rx="14" ry="12" fill="#DE744C" />
+  <path d="M 38 34 Q 50 30 62 34 L 66 38 L 34 38 Z" fill="#1E293B" />
+  <path d="M 34 38 L 48 37 L 46 41 L 32 40 Z" fill="#0F172A" />
+  <!-- Face & Eyes -->
+  <circle cx="46" cy="40" r="2" fill="#FFFFFF" />
+  <circle cx="54" cy="40" r="2" fill="#FFFFFF" />
+  <!-- Protective Suit Collar & Shoulders -->
+  <path d="M 32 52 C 34 46 44 46 50 46 C 56 46 66 46 68 52 L 72 70 C 66 74 58 76 50 76 C 42 76 34 74 28 70 Z" fill="#FFFFFF" />
+  <!-- Sprayer Wand Accent -->
+  <line x1="62" y1="46" x2="80" y2="30" stroke="#FDE047" stroke-width="3" stroke-linecap="round" />
+  <circle cx="80" cy="30" r="2.5" fill="#EF4444" />
 </svg>

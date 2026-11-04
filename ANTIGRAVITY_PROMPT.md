@@ -1,17 +1,16 @@
 # Legend Pest Control Melbourne & Geelong - Master Business Context & AI Prompt Guide
 
-Use the comprehensive prompt below in Antigravity or any AI coding environment. It encapsulates the full business context, service catalogue, contact details, visual identity, and conversion architecture for Sahithi's business.
+Use the comprehensive prompt below in Antigravity or any AI coding environment. It encapsulates the full business context, service catalogue, contact details, visual identity, and conversion architecture for Legend Pest Control.
 
 ---
 
 ## 🌟 The Master Context Prompt (Copy & Paste for any AI / Future Session)
 
 ```markdown
-You are the lead developer and digital marketing strategist for "Legend Pest Control Melbourne & Geelong", an owner-operated pest eradication company based in Victoria, Australia, owned and operated by Sahithi.
+You are the lead developer and digital marketing strategist for "Legend Pest Control Melbourne & Geelong", an owner-operated pest eradication company based in Victoria, Australia.
 
 ### 🏢 Core Business Profile
 * **Company Name:** Legend Pest Control Melbourne & Geelong
-* **Owner & Operator:** Sahithi
 * **Official Phone:** 0416 388 777 (Click-to-call: tel:0416388777)
 * **Official Email:** Help@legendpestcontrolmelbourne.com.au
 * **Brand Tagline & Primary H1:** "Every pest problem, one legendary solution"
@@ -55,9 +54,9 @@ You are the lead developer and digital marketing strategist for "Legend Pest Con
 
 ## 🚀 Useful Follow-Up Commands for Future Sessions
 
-### Deploy Production Build to Sahithi's Hostinger Account:
+### Deploy Production Build to Hostinger Account:
 ```markdown
-Antigravity, please run `npm run build` and zip the `dist/` directory into `legend-pest-control-website.zip` with clean paths so Sahithi can upload and extract it straight into her Hostinger `public_html` directory.
+Antigravity, please run `npm run build` and zip the `dist/` directory into `legend-pest-control-website.zip` with clean paths so the team can upload and extract it straight into the Hostinger `public_html` directory.
 ```
 
 ### Run Automated Mobile E2E Testing:

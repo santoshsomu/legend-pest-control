@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, Clock, Shield, Menu, X, ChevronRight, Sparkles, MapPin } from 'lucide-react';
+import { Phone, Mail, Menu, X, ChevronRight, MapPin, Flame, ShieldAlert, Home } from 'lucide-react';
 import { LegendLogo } from './LegendLogo';
 import { COMPANY_DETAILS } from '../data/pestData';
 
 interface HeaderProps {
   onOpenCallback: (service?: string) => void;
+  currentRoute?: 'home' | 'bee-wasp-removal' | 'general-pest-control';
+  onNavigateHome?: () => void;
+  onNavigateService?: (serviceId: string) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
   onOpenCallback,
+  currentRoute = 'home',
+  onNavigateHome,
+  onNavigateService
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -21,69 +27,122 @@ export const Header: React.FC<HeaderProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleHomeClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onNavigateHome) {
+      onNavigateHome();
+    } else {
+      window.location.href = '/';
+    }
+  };
+
+  const handleServiceClick = (serviceId: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    if (onNavigateService) {
+      onNavigateService(serviceId);
+    } else {
+      window.location.href = `/services/${serviceId}`;
+    }
+  };
+
   const navLinks = [
-    { label: 'Services', href: '#services' },
-    { label: 'Free Quote Assessment', href: '#assessment' },
-    { label: 'Service Areas', href: '#areas' },
+    { label: 'All Services', href: '#services' },
+    { label: 'Gallery', href: '#gallery' },
     { label: 'Why Legend', href: '#why-us' },
     { label: 'Reviews', href: '#reviews' },
     { label: 'FAQ', href: '#faq' },
-    { label: 'Contact', href: '#contact' },
   ];
 
   return (
     <>
-      {/* Top Notification Bar */}
-      <div className="bg-slate-950 text-slate-200 text-xs py-2 px-4 border-b border-emerald-950">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1.5 text-amber-400 font-bold">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Special Offer: Free 10-Point Termite &amp; Pest Inspection</span>
-            </span>
-            <span className="hidden md:inline-flex items-center gap-1 text-emerald-300 font-medium">
-              <Shield className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Every pest problem, one legendary solution</span>
-            </span>
-          </div>
+      {/* Sleek Top Contact Bar for Tablets */}
+      <div className="hidden sm:block lg:hidden bg-[#0D0F13] border-b border-[#222632] py-2 px-3 sm:px-5">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
+          <a
+            href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
+            className="flex items-center gap-1.5 text-xs sm:text-sm font-black text-white hover:text-[#DE744C] transition-colors shrink-0"
+          >
+            <div className="w-5 h-5 rounded-full bg-[#DE744C]/20 flex items-center justify-center text-[#DE744C]">
+              <Phone className="w-3 h-3" />
+            </div>
+            <span>{COMPANY_DETAILS.phone}</span>
+          </a>
 
-          <div className="flex items-center gap-3 ml-auto">
-            <span className="hidden sm:inline-flex items-center gap-1.5 text-slate-300">
-              <Clock className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Available 7 Days</span>
-            </span>
-            <a
-              href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-              className="flex items-center gap-1 font-extrabold text-white hover:text-amber-400 transition"
-            >
-              <Phone className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Free Rapid Quote: {COMPANY_DETAILS.phone}</span>
-            </a>
-          </div>
+          <a
+            href={`mailto:${COMPANY_DETAILS.email}`}
+            className="flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-slate-300 hover:text-white transition-colors truncate min-w-0"
+            title={COMPANY_DETAILS.email}
+          >
+            <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-[#DE744C] shrink-0">
+              <Mail className="w-3 h-3" />
+            </div>
+            <span className="truncate">{COMPANY_DETAILS.email}</span>
+          </a>
         </div>
       </div>
 
-      {/* Main Sticky Header */}
+      {/* Main Sticky Header in Dark Charcoal (#14161B) */}
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${
           isScrolled
-            ? 'bg-white/95 backdrop-blur-md shadow-md py-2.5 border-b border-emerald-100'
-            : 'bg-white py-3.5 border-b border-slate-100'
+            ? 'bg-[#14161B]/95 backdrop-blur-md shadow-xl py-2 sm:py-2.5 border-b border-[#242833]'
+            : 'bg-[#14161B] py-2.5 sm:py-3 border-b border-[#232733]'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          {/* Logo with official brand design */}
-          <a href="#" className="flex items-center gap-2 group" aria-label="Legend Pest Control Home">
+          
+          {/* Logo with official shield design */}
+          <button 
+            onClick={handleHomeClick} 
+            className="flex items-center gap-2 group shrink-0 cursor-pointer text-left" 
+            aria-label="Legend Pest Control Home"
+          >
             <LegendLogo />
-          </a>
+          </button>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm font-semibold text-slate-700">
-            {navLinks.map((link) => (
+          <nav className="hidden lg:flex items-center gap-5 xl:gap-7 text-sm font-bold text-[#E5E7EB]">
+            {currentRoute !== 'home' ? (
+              <button
+                onClick={handleHomeClick}
+                className="flex items-center gap-1.5 hover:text-[#DE744C] transition-colors py-1 cursor-pointer"
+              >
+                <Home className="w-4 h-4 text-[#DE744C]" />
+                <span>Home</span>
+              </button>
+            ) : null}
+
+            {/* Dedicated Service Links */}
+            <button
+              onClick={(e) => handleServiceClick('bee-wasp-removal', e)}
+              className={`flex items-center gap-1.5 py-1 transition-colors cursor-pointer ${
+                currentRoute === 'bee-wasp-removal'
+                  ? 'text-[#DE744C] font-black'
+                  : 'hover:text-[#DE744C]'
+              }`}
+            >
+              <Flame className="w-4 h-4 text-[#DE744C]" />
+              <span>Bees &amp; Wasps</span>
+            </button>
+
+            <button
+              onClick={(e) => handleServiceClick('general-pest-control', e)}
+              className={`flex items-center gap-1.5 py-1 transition-colors cursor-pointer ${
+                currentRoute === 'general-pest-control'
+                  ? 'text-[#DE744C] font-black'
+                  : 'hover:text-[#DE744C]'
+              }`}
+            >
+              <ShieldAlert className="w-4 h-4 text-[#DE744C]" />
+              <span>General Pest</span>
+            </button>
+
+            {currentRoute === 'home' && navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="hover:text-emerald-700 transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-emerald-600 hover:after:w-full after:transition-all"
+                className="hover:text-[#DE744C] transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#DE744C] hover:after:w-full after:transition-all"
               >
                 {link.label}
               </a>
@@ -94,20 +153,17 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="hidden sm:flex items-center gap-3">
             <button
               onClick={() => onOpenCallback()}
-              className="px-4 py-2 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-full border border-emerald-200 transition shadow-xs cursor-pointer"
+              className="px-4 py-2 text-xs font-black text-[#14161B] bg-[#FAF9F6] hover:bg-white rounded-xl transition shadow-xs cursor-pointer flex items-center gap-1 group"
             >
-              Request Free Quote
+              <span>Get a quote now</span>
+              <span className="text-sm font-black transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
             </button>
 
             <a
               href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 active:bg-emerald-900 text-white font-extrabold text-sm rounded-full shadow-md shadow-emerald-700/25 transition-transform hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-[#DE744C] hover:bg-[#C85E36] active:bg-[#B8522B] text-white font-black text-xs sm:text-sm rounded-xl shadow-md shadow-[#DE744C]/25 transition-transform hover:scale-[1.02] active:scale-[0.98]"
             >
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-400"></span>
-              </span>
-              <Phone className="w-4 h-4" />
+              <Phone className="w-3.5 h-3.5" />
               <span>Call {COMPANY_DETAILS.phone}</span>
             </a>
           </div>
@@ -116,14 +172,14 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex sm:hidden items-center gap-2">
             <a
               href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-              className="p-2.5 bg-emerald-700 text-white rounded-full shadow-sm"
+              className="p-2.5 bg-[#DE744C] text-white rounded-xl shadow-sm"
               aria-label="Call Now"
             >
               <Phone className="w-4 h-4" />
             </a>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-slate-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg transition cursor-pointer"
+              className="p-2 text-[#E5E7EB] hover:text-[#DE744C] hover:bg-[#1E222A] rounded-xl transition cursor-pointer"
               aria-label="Toggle Navigation"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -133,36 +189,82 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Mobile Dropdown Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-b border-emerald-100 px-4 pt-3 pb-6 space-y-3 animate-in slide-in-from-top-2 duration-200 shadow-xl">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-100 text-xs text-slate-500">
-              <span className="flex items-center gap-1.5 text-emerald-700 font-bold">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+          <div className="lg:hidden bg-[#14161B] border-b border-[#242833] px-4 pt-3 pb-6 space-y-3 animate-in slide-in-from-top-2 duration-200 shadow-2xl">
+            <div className="flex items-center justify-between pb-2 border-b border-[#242833] text-xs text-[#9EA4B0]">
+              <span className="flex items-center gap-1.5 text-[#DE744C] font-bold">
+                <span className="w-2 h-2 rounded-full bg-[#DE744C] inline-block animate-pulse"></span>
                 Local Technicians On Road Today
               </span>
               <span className="flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5 text-emerald-600" />
+                <MapPin className="w-3.5 h-3.5 text-[#DE744C]" />
                 Across Greater Melbourne
               </span>
             </div>
 
+            {/* Dedicated Service Quick Jump Cards */}
+            <div className="grid grid-cols-2 gap-2 pt-1 pb-2">
+              <button
+                onClick={(e) => handleServiceClick('bee-wasp-removal', e)}
+                className={`p-3 rounded-xl border text-left transition cursor-pointer ${
+                  currentRoute === 'bee-wasp-removal'
+                    ? 'bg-[#DE744C]/20 border-[#DE744C] text-white'
+                    : 'bg-[#1C2028] border-white/10 text-slate-200 hover:border-[#DE744C]/40'
+                }`}
+              >
+                <div className="flex items-center gap-1.5 text-[#DE744C] font-black text-xs mb-1">
+                  <Flame className="w-3.5 h-3.5" />
+                  <span>Bees &amp; Wasps</span>
+                </div>
+                <div className="text-[10px] text-slate-400">Emergency removal</div>
+              </button>
+
+              <button
+                onClick={(e) => handleServiceClick('general-pest-control', e)}
+                className={`p-3 rounded-xl border text-left transition cursor-pointer ${
+                  currentRoute === 'general-pest-control'
+                    ? 'bg-[#DE744C]/20 border-[#DE744C] text-white'
+                    : 'bg-[#1C2028] border-white/10 text-slate-200 hover:border-[#DE744C]/40'
+                }`}
+              >
+                <div className="flex items-center gap-1.5 text-[#DE744C] font-black text-xs mb-1">
+                  <ShieldAlert className="w-3.5 h-3.5" />
+                  <span>General Pest</span>
+                </div>
+                <div className="text-[10px] text-slate-400">6-Month Warranty</div>
+              </button>
+            </div>
+
             <div className="grid grid-cols-1 gap-1">
-              {navLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between py-2.5 px-3 rounded-lg text-slate-800 font-semibold hover:bg-emerald-50 hover:text-emerald-700 transition"
+              {currentRoute !== 'home' ? (
+                <button
+                  onClick={handleHomeClick}
+                  className="flex items-center justify-between py-2.5 px-3 rounded-xl text-[#F8F9FA] font-bold hover:bg-[#1E222A] hover:text-[#DE744C] transition text-left cursor-pointer"
                 >
-                  <span>{link.label}</span>
-                  <ChevronRight className="w-4 h-4 text-slate-400" />
-                </a>
-              ))}
+                  <span className="flex items-center gap-2">
+                    <Home className="w-4 h-4 text-[#DE744C]" />
+                    <span>Return to Home Page</span>
+                  </span>
+                  <ChevronRight className="w-4 h-4 text-[#64748B]" />
+                </button>
+              ) : (
+                navLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center justify-between py-2.5 px-3 rounded-xl text-[#F8F9FA] font-bold hover:bg-[#1E222A] hover:text-[#DE744C] transition"
+                  >
+                    <span>{link.label}</span>
+                    <ChevronRight className="w-4 h-4 text-[#64748B]" />
+                  </a>
+                ))
+              )}
             </div>
 
             <div className="pt-2 space-y-2">
               <a
                 href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-                className="w-full flex items-center justify-center gap-2 py-3.5 bg-emerald-700 active:bg-emerald-800 text-white font-black rounded-xl shadow-md"
+                className="w-full flex items-center justify-center gap-2 py-3.5 bg-[#DE744C] active:bg-[#C85E36] text-white font-black rounded-xl shadow-md text-sm"
               >
                 <Phone className="w-4 h-4" />
                 Call {COMPANY_DETAILS.phone}
@@ -172,9 +274,9 @@ export const Header: React.FC<HeaderProps> = ({
                   setMobileMenuOpen(false);
                   onOpenCallback();
                 }}
-                className="w-full py-3 bg-amber-400 hover:bg-amber-500 active:bg-amber-600 text-slate-950 font-black rounded-xl text-sm transition shadow-sm cursor-pointer"
+                className="w-full py-3 bg-[#FAF9F6] hover:bg-white text-[#14161B] font-black rounded-xl text-sm transition shadow-sm cursor-pointer"
               >
-                ⚡ Get Free Rapid Quote
+                Get a quote now • {COMPANY_DETAILS.phone} ↗
               </button>
             </div>
           </div>

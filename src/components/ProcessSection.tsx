@@ -24,13 +24,13 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenCallback }
       step: '03',
       icon: Sparkles,
       title: 'Targeted Low-Toxicity Eradication',
-      desc: 'We deploy precision APVMA-certified formulations, micro-encapsulated sprays, gel matrices, or roof void dusters. Low-odour and quick-drying within 1.5 to 2 hours.',
+      desc: 'We deploy precision certified formulations, micro-encapsulated sprays, gel matrices, or roof void dusters. Low-odour and quick-drying within 1.5 to 2 hours.',
     },
     {
       step: '04',
       icon: ShieldCheck,
       title: '6-Month Warranty & Report',
-      desc: 'Receive your official Victorian pest compliance certificate and invoice. Enjoy ironclad peace of mind with our 6-month free re-treatment guarantee on crawling pests.',
+      desc: 'Receive your official Victorian pest compliance certificate and invoice. Enjoy complete peace of mind with our 6-month free re-treatment guarantee on crawling pests.',
     },
   ];
 
@@ -107,7 +107,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenCallback }
                 onClick={onOpenCallback}
                 className="flex-1 sm:flex-none px-5 py-2.5 bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold text-xs sm:text-sm rounded-full transition shadow-sm cursor-pointer"
               >
-                Get Free Quote
+                Get a quote now • {COMPANY_DETAILS.phone}
               </button>
             </div>
           </div>

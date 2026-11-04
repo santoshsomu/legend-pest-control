@@ -8,7 +8,7 @@
   }
   
   body {
-    @apply text-slate-800 bg-slate-50 antialiased selection:bg-emerald-700 selection:text-white;
+    @apply text-slate-900 bg-[#FBFBF9] antialiased selection:bg-[#DE744C] selection:text-white;
   }
 }
 
@@ -47,4 +47,114 @@
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Continuous GPU-Accelerated Marquee for Mobile/Tablet/Desktop Carousel */
+@keyframes continuousMarquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee-smooth {
+  display: flex;
+  width: max-content;
+  animation: continuousMarquee 50s linear infinite;
+  will-change: transform;
+}
+
+/* Color-changing glowing animation for "Legendary" brand word - vibrant, continuous & prominent */
+@keyframes legendaryShimmer {
+  0% {
+    background-position: 0% 50%;
+    filter: drop-shadow(0 0 14px rgba(222, 116, 76, 0.75));
+  }
+  25% {
+    background-position: 50% 100%;
+    filter: drop-shadow(0 0 18px rgba(245, 158, 11, 0.9));
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.85));
+  }
+  75% {
+    background-position: 50% 0%;
+    filter: drop-shadow(0 0 18px rgba(56, 189, 248, 0.85));
+  }
+  100% {
+    background-position: 0% 50%;
+    filter: drop-shadow(0 0 14px rgba(222, 116, 76, 0.75));
+  }
+}
+
+.anim-legendary-word {
+  background: linear-gradient(
+    135deg,
+    #DE744C 0%,
+    #F59E0B 20%,
+    #10B981 40%,
+    #38BDF8 60%,
+    #EC4899 80%,
+    #F97316 90%,
+    #DE744C 100%
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  padding-bottom: 0.18em;
+  margin-bottom: -0.18em;
+  padding-right: 0.08em;
+  line-height: 1.15;
+  overflow: visible;
+  letter-spacing: -0.02em;
+  animation: legendaryShimmer 4s ease-in-out infinite;
+}
+
+/* Animated Blood Splatter on Pest Squish */
+@keyframes splatBurst {
+  0% {
+    transform: scale(0.12);
+    opacity: 0.5;
+    filter: brightness(1.3) contrast(1.2);
+  }
+  32% {
+    transform: scale(1.18);
+    opacity: 1;
+    filter: brightness(1.1) contrast(1.15);
+  }
+  65% {
+    transform: scale(0.96);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.0);
+    opacity: 1;
+    filter: brightness(1) contrast(1.05);
+  }
+}
+
+@keyframes splatFadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+}
+
+.animate-splat-burst {
+  animation: splatBurst 0.32s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  transform-origin: center center;
+}
+
+.animate-splat-fadeout {
+  animation: splatFadeOut 0.5s ease-out forwards;
+  transform-origin: center center;
 }

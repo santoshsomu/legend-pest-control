@@ -11,6 +11,24 @@ node_modules
 dist
 dist-ssr
 *.local
+# Local environment & secrets
+.env
+.env.*
+.env.hostinger
+
+# Test artifacts and screenshot audits
+tests/
+backups/
+Gallery/
+*.zip
+public/*test*.png
+public/*verified*.png
+public/*preview*.png
+public/*challenge*.png
+public/*fixed*.png
+public/trustbar-cleaned.png
+public/hero-liquid-glass-full.png
+public/blood-splat-user.png
 
 # Editor directories and files
 .vscode/*

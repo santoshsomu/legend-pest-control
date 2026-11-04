@@ -24,13 +24,13 @@ export const ServiceAreas: React.FC<ServiceAreasProps> = ({ onOpenCallback }) =>
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider">
             <MapPin className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Local Victorian Dispatch Coverage</span>
+            <span>Local Victorian Service Coverage</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             Servicing Melbourne & Surrounding Suburbs
           </h2>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-            With fully stocked mobile units dispatched daily, our licensed technicians provide rapid response and same-day emergency callouts throughout Melbourne and surrounding communities.
+            With fully stocked mobile units operating daily, our licensed technicians provide rapid response and same-day emergency callouts throughout Melbourne and surrounding communities.
           </p>
         </div>
 
@@ -40,7 +40,6 @@ export const ServiceAreas: React.FC<ServiceAreasProps> = ({ onOpenCallback }) =>
             <Search className="w-5 h-5 text-slate-400 absolute left-4 top-3.5" />
             <input
               type="text"
-              placeholder="Search your suburb or postcode (e.g. Werribee, Belmont, 3030)..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/20 shadow-xs transition"
@@ -90,7 +89,7 @@ export const ServiceAreas: React.FC<ServiceAreasProps> = ({ onOpenCallback }) =>
               <div className="mt-3 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[11px]">
                 <span className="text-emerald-700 font-bold flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5" />
-                  Same-Day Dispatch
+                  Same-Day Service
                 </span>
                 <span className="text-slate-400 group-hover:text-emerald-700 transition font-bold">
                   Quote →
@@ -113,7 +112,7 @@ export const ServiceAreas: React.FC<ServiceAreasProps> = ({ onOpenCallback }) =>
           </div>
         )}
 
-        {/* Local Fast Dispatch Banner */}
+        {/* Local Fast Response Banner */}
         <div className="mt-12 p-6 rounded-3xl bg-emerald-50 border border-emerald-200 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3.5 text-center sm:text-left">
             <div className="w-12 h-12 rounded-2xl bg-emerald-700 text-white flex items-center justify-center shrink-0">
@@ -124,7 +123,7 @@ export const ServiceAreas: React.FC<ServiceAreasProps> = ({ onOpenCallback }) =>
                 Same-Day Emergency Service Guarantee
               </h4>
               <p className="text-xs text-slate-600">
-                Call before 12:00 PM for guaranteed same-day dispatch across Melbourne.
+                Call before 12:00 PM for guaranteed same-day service across Melbourne.
               </p>
             </div>
           </div>

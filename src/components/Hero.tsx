@@ -1,250 +1,241 @@
-import React, { useState } from 'react';
-import { Phone, CheckCircle2, ShieldCheck, MapPin, Sparkles, MessageSquare, ArrowRight, Shield } from 'lucide-react';
-import { COMPANY_DETAILS, SUBURBS, SERVICES } from '../data/pestData';
-import { HeroShieldAnimation } from './HeroShieldAnimation';
+import React, { useState, useEffect } from 'react';
+import { 
+  Clock,
+  ShieldCheck,
+  AlertTriangle,
+  BadgePercent
+} from 'lucide-react';
+import { COMPANY_DETAILS } from '../data/pestData';
+import { QuoteRequestForm } from './QuoteRequestForm';
 
 interface HeroProps {
-  onOpenCallback: (service?: string) => void;
+  onOpenCallback?: (service?: string) => void;
 }
 
 export const Hero: React.FC<HeroProps> = ({ onOpenCallback }) => {
-  const [selectedPest, setSelectedPest] = useState('general-pest-control');
-  const [selectedSuburb, setSelectedSuburb] = useState('Werribee');
+  const [selectedPest, setSelectedPest] = useState<string>('General Pest Treatment');
 
-  const currentService = SERVICES.find((s) => s.id === selectedPest) || SERVICES[0];
-
-  const handleQuickEstimate = (e: React.FormEvent) => {
-    e.preventDefault();
-    onOpenCallback(currentService.name);
-  };
+  // Check URL query parameters for dynamic Google Ads search term matching (?pest=wasp or ?search=wasp or ?utm_term=wasp)
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const query = params.get('pest') || params.get('search') || params.get('utm_term') || '';
+      if (query) {
+        const lower = query.toLowerCase();
+        if (lower.includes('wasp') || lower.includes('bee')) {
+          setSelectedPest('Bee & Wasp Nest Removal');
+        } else if (lower.includes('dead') || lower.includes('possum') || lower.includes('smell') || lower.includes('carcass')) {
+          setSelectedPest('Dead Animal & Carcass Removal');
+        } else if (lower.includes('spider') || lower.includes('ant')) {
+          setSelectedPest('General Pest Treatment');
+        } else if (lower.includes('roach') || lower.includes('cockroach')) {
+          setSelectedPest('Cockroach Eradication');
+        }
+      }
+    } catch {
+      // Ignore URL parsing errors
+    }
+  }, []);
 
   return (
-    <section id="hero-section" className="relative overflow-hidden bg-gradient-to-b from-slate-950 via-emerald-950/90 to-slate-900 text-white pt-8 pb-16 lg:pt-14 lg:pb-24">
-      {/* Interactive Bio-Defense Shield — live radar scanner, pest threats & expanding protection barrier */}
-      <HeroShieldAnimation />
+    <section 
+      id="hero-section" 
+      className="relative overflow-hidden bg-gradient-to-b from-[#13151A] via-[#161820] to-[#121418] text-[#F8F9FA] pt-8 pb-16 lg:pt-14 lg:pb-24 border-b border-[#232733]"
+    >
+      {/* Background pest animations removed per user request — Preserved in backups/flying-animals-snapshot/ */}
+      {/* Subtle warm ambient glow behind hero elements */}
+      <div className="absolute top-1/3 left-1/4 -translate-x-1/2 w-[600px] h-[400px] bg-[#DE744C]/10 blur-[140px] rounded-full pointer-events-none -z-0" />
 
-      {/* Vignette overlay ensuring 100% contrast for foreground text & mobile readability */}
-      <div className="absolute inset-0 z-0 pointer-events-none bg-gradient-to-r from-slate-950/70 via-slate-950/40 to-slate-950/70" />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           
-          {/* Left Column: Hero Content & Value Props */}
-          <div className="lg:col-span-7 space-y-6">
+          {/* Left Column: Hero Content & Direct Response Conversion Messaging */}
+          <div className="lg:col-span-7 space-y-4 sm:space-y-6">
             
-            {/* Promo Pill */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-900/60 border border-emerald-700/60 backdrop-blur-md text-xs sm:text-sm font-semibold tracking-wide">
-              <span className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
-              <span className="text-emerald-100">
-                <strong className="text-amber-300 font-bold">FREE 10-POINT INSPECTION</strong> WITH EVERY TREATMENT
-              </span>
-            </div>
-
-            {/* Main Headline */}
+            {/* Main Headline & Mobile Badges to its right */}
             <div className="space-y-2">
-              <span className="text-xs sm:text-sm font-bold uppercase tracking-widest text-emerald-400 block">
-                Melbourne Trusted Pest Specialists
-              </span>
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.12] sm:leading-[1.08]">
-                Every pest problem, <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-200 to-amber-300">
-                  one legendary solution
-                </span>
-              </h1>
+              <div className="flex items-center justify-between gap-2.5 sm:block">
+                <div>
+                  <h1 className="text-3xl sm:text-5xl lg:text-7xl font-black tracking-tight text-[#F8F9FA] leading-[1.08] select-none uppercase">
+                    PESTS OUT. <br />
+                    PEACE OF <br />
+                    <span className="text-[#DE744C]">MIND IN.</span>
+                  </h1>
+                </div>
+
+                {/* Mobile-Only: Positioned to the right of "PESTS OUT. PEACE OF MIND IN." */}
+                <div className="flex flex-col gap-1.5 sm:hidden shrink-0">
+                  <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-black/40 border border-amber-400/30 text-[10.5px] font-bold text-amber-300 shadow-xs whitespace-nowrap">
+                    <span>⭐</span>
+                    <span>4.9/5 (120+ Reviews)</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-black/40 border border-white/15 text-[10.5px] font-bold text-slate-100 shadow-xs whitespace-nowrap">
+                    <span>⏱️</span>
+                    <span>15-Min Response</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-black/40 border border-emerald-500/30 text-[10.5px] font-bold text-emerald-400 shadow-xs whitespace-nowrap">
+                    <span>🛡️</span>
+                    <span>6-Month Warranty</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* High-Converting $50 Voucher Badge (Clean, punchy, no visual noise) */}
+              <div className="pt-1.5 flex items-center">
+                <div className="inline-flex items-center px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#DE744C]/25 via-amber-500/20 to-[#DE744C]/15 border border-[#DE744C]/50 shadow-md">
+                  <span className="anim-legendary-word font-black text-xs sm:text-sm uppercase tracking-wide">
+                    $50 Off New Customer Voucher Auto-Applied
+                  </span>
+                </div>
+              </div>
             </div>
 
-            {/* Subtitle addressing real pain points */}
-            <p className="text-sm sm:text-lg text-slate-300 max-w-2xl leading-relaxed">
-              Spiders, ants, cockroaches, rats, wasps, dead animal removal or termites across melbourne? Tell us what you're seeing for an immediate, transparent estimate.
-            </p>
+            {/* Subtitle text - hidden on small mobile to reduce clutter, visible on tablet & desktop */}
+            <div className="hidden sm:block space-y-2">
+              <p className="text-xs sm:text-base text-[#C5CAD4] max-w-xl leading-relaxed font-normal">
+                Spiders, ants, cockroaches, rats, bees, wasps, dead animal removal or termites across Melbourne? Fast, transparent upfront estimate with clear safety precautions.
+              </p>
+            </div>
 
-            {/* The 4 Iconic Trust Cards in 2x2 Grid */}
-            <div className="grid grid-cols-2 gap-2 sm:gap-3 pt-2">
+            {/* CTAs: Direct conversion actions */}
+            <div className="flex flex-col sm:flex-row gap-3 pt-1">
+              <button
+                onClick={() => onOpenCallback && onOpenCallback(selectedPest)}
+                className="w-full sm:w-auto px-7 py-3.5 bg-[#DE744C] hover:bg-[#C85E36] active:bg-[#B8522B] text-white font-black text-sm sm:text-base rounded-xl shadow-lg shadow-[#DE744C]/30 flex items-center justify-center gap-2 cursor-pointer transition-transform hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <span>Get a free quote now</span>
+                <span className="text-base font-black">↗</span>
+              </button>
+
+              <a
+                href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
+                className="w-full sm:w-auto px-6 py-3.5 bg-[#1E222A] hover:bg-[#282E39] text-[#F8F9FA] font-bold text-sm sm:text-base rounded-xl border border-[#303746] flex items-center justify-center gap-2 transition-transform hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <Clock className="w-4 h-4 text-[#DE744C]" />
+                <span>Call {COMPANY_DETAILS.phone}</span>
+              </a>
+            </div>
+
+            {/* 4 Iconic Trust Cards in 2x2 Grid (Desktop only to prevent mobile clutter) */}
+            <div className="hidden lg:grid grid-cols-2 gap-2.5 sm:gap-3.5 pt-2">
               
-              {/* Card 1: 6-month warranty */}
-              <div className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-800/80 border border-emerald-900/60 backdrop-blur-xs text-white">
-                <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-                  <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
+              {/* Card 1: $50 Off For New Customers */}
+              <div className="flex items-center gap-2.5 sm:gap-3 p-3.5 sm:p-4 rounded-xl bg-[#DE744C] text-white font-black shadow-md border border-[#F4C7B4]/30 min-h-[58px]">
+                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-black/20 text-white flex items-center justify-center shrink-0">
+                  <BadgePercent className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
-                <span className="text-[11.5px] sm:text-sm font-bold tracking-tight leading-tight">6-month treatment warranty</span>
+                <div className="text-xs sm:text-sm font-black leading-tight">$50 Off For New Customers</div>
               </div>
 
-              {/* Card 2: Covering Greater Melbourne */}
-              <div className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-800/80 border border-emerald-900/60 backdrop-blur-xs text-white">
-                <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-                  <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
+              {/* Card 2: Same Day Availability */}
+              <div className="flex items-center gap-2.5 sm:gap-3 p-3.5 sm:p-4 rounded-xl bg-[#1A1D24] border border-[#2B303C] text-white shadow-sm hover:border-[#DE744C]/60 transition-all min-h-[58px]">
+                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-[#DE744C]/15 text-[#DE744C] flex items-center justify-center shrink-0">
+                  <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
-                <span className="text-[11.5px] sm:text-sm font-bold tracking-tight leading-tight">Covering Greater Melbourne</span>
+                <div className="text-xs sm:text-sm font-black leading-tight">Same Day Availability</div>
               </div>
 
-              {/* Card 3: Free 10-point inspection (Highlighted Gold Card) */}
-              <div className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-amber-400 text-slate-950 font-extrabold shadow-lg shadow-amber-400/20">
-                <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-slate-950/15 flex items-center justify-center shrink-0">
-                  <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-slate-950" />
+              {/* Card 3: 6-Month Treatment Warranty */}
+              <div className="flex items-center gap-2.5 sm:gap-3 p-3.5 sm:p-4 rounded-xl bg-[#1A1D24] border border-[#2B303C] text-white shadow-sm hover:border-[#DE744C]/60 transition-all min-h-[58px]">
+                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-[#DE744C]/15 text-[#DE744C] flex items-center justify-center shrink-0">
+                  <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
-                <span className="text-[11.5px] sm:text-sm font-black tracking-tight leading-tight">Free 10-point property check</span>
+                <div className="text-xs sm:text-sm font-black leading-tight">6-Month Warranty</div>
               </div>
 
-              {/* Card 4: Upfront estimate given on the call */}
-              <div className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-800/80 border border-emerald-900/60 backdrop-blur-xs text-white">
-                <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-                  <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
+              {/* Card 4: Emergency 24/7 Response */}
+              <div className="flex items-center gap-2.5 sm:gap-3 p-3.5 sm:p-4 rounded-xl bg-[#1A1D24] border border-[#2B303C] text-white shadow-sm hover:border-[#DE744C]/60 transition-all min-h-[58px]">
+                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-[#DE744C]/15 text-[#DE744C] flex items-center justify-center shrink-0">
+                  <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
-                <span className="text-[11.5px] sm:text-sm font-bold tracking-tight leading-tight">Upfront quote on the call</span>
+                <div className="text-xs sm:text-sm font-black leading-tight">Emergency 24/7</div>
               </div>
+
             </div>
 
-            {/* CTAs */}
-            <div className="pt-2 space-y-3">
-              <div className="flex flex-col sm:flex-row gap-3">
-                {/* Primary Call Button */}
-                <a
-                  href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-                  className="flex-1 flex items-center justify-center gap-2.5 px-6 py-4 rounded-full bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-black text-base shadow-xl shadow-emerald-600/30 transition-all hover:scale-[1.01] active:scale-[0.99]"
-                >
-                  <Phone className="w-5 h-5" />
-                  <span>Call {COMPANY_DETAILS.phone}</span>
-                </a>
-
-                {/* Secondary Callback Button */}
-                <button
-                  onClick={() => onOpenCallback()}
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-slate-900/80 hover:bg-slate-800 text-white font-bold text-base border border-emerald-700/60 transition-all cursor-pointer group"
-                >
-                  <MessageSquare className="w-5 h-5 text-amber-400 group-hover:scale-110 transition-transform" />
-                  <span>Request Free Quote</span>
-                </button>
+            {/* Floating Same-Day Callout (Desktop only) */}
+            <div className="hidden lg:flex rounded-xl bg-[#1A1D24] border-l-4 border-[#DE744C] border border-[#2B303C] p-3 sm:p-4 text-white shadow-xl items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <Clock className="w-5 h-5 text-[#DE744C] shrink-0" />
+                <div>
+                  <div className="text-[11px] sm:text-xs font-black uppercase tracking-wider text-white">
+                    PESTS DON'T WAIT. NEITHER DO WE.
+                  </div>
+                  <div className="text-[10px] sm:text-[11px] text-[#9EA4B0]">
+                    Same-day availability* • Emergency response 24 hours, 7 days
+                  </div>
+                </div>
               </div>
-
-              {/* Value proposition note (pricing numbers removed) */}
-              <div className="text-center sm:text-left text-xs sm:text-sm text-slate-300 font-medium flex items-center justify-center sm:justify-start gap-2">
-                <Shield className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Transparent fixed quotes with complimentary property check included. Zero hidden callout fees.</span>
-              </div>
+              <a
+                href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
+                className="hidden sm:inline-flex items-center gap-1.5 text-xs font-black text-[#DE744C] hover:underline shrink-0"
+              >
+                Call {COMPANY_DETAILS.phone} ↗
+              </a>
             </div>
 
           </div>
 
-          {/* Right Column: Interactive Quick Pest Assessment Tool */}
-          <div className="lg:col-span-5">
-            <div className="relative rounded-3xl bg-slate-900/95 border border-emerald-800/60 p-6 sm:p-7 shadow-2xl backdrop-blur-md">
+          {/* Right Column: Unified Quick Quote Form in Ultra-Transparent Liquid Glass Card */}
+          <div className="lg:col-span-5 space-y-2.5">
+            {/* Desktop & Tablet: High-Trust Badges directly ABOVE the quote form */}
+            <div className="hidden sm:flex items-center justify-between px-3.5 py-2.5 rounded-2xl bg-black/40 backdrop-blur-xs border border-white/20 text-xs font-bold text-slate-200 shadow-lg">
+              <span className="flex items-center gap-1.5 text-amber-300">
+                <span>⭐</span>
+                <span>4.9/5 (120+ Reviews)</span>
+              </span>
+              <span className="w-1 h-1 rounded-full bg-slate-500" />
+              <span className="flex items-center gap-1.5 text-slate-100">
+                <span>⏱️</span>
+                <span>15-Min Response</span>
+              </span>
+              <span className="w-1 h-1 rounded-full bg-slate-500" />
+              <span className="flex items-center gap-1.5 text-emerald-400">
+                <span>🛡️</span>
+                <span>6-Month Warranty</span>
+              </span>
+            </div>
+
+            <div className="relative rounded-3xl bg-black/20 backdrop-blur-[2px] border border-white/20 p-6 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_30px_rgba(222,116,76,0.12)] overflow-hidden transition-all duration-300 hover:border-white/30">
               
-              {/* Badge */}
-              <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-emerald-400 animate-ping" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
-                    Priority Dispatch
+              {/* Subtle Refraction Border Highlight */}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/[0.04] via-transparent to-transparent rounded-3xl" />
+
+              {/* Header: Get A Quote Now */}
+              <div className="relative z-10 border-b border-white/15 pb-3.5 mb-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight drop-shadow-md">
+                    Get A Quote Now
+                  </h3>
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 border border-white/20 text-white text-[10px] font-bold shadow-xs">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    Live Technicians
                   </span>
                 </div>
-                <span className="text-xs font-bold px-2.5 py-1 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30">
-                  ⚡ Free Inspection Active
-                </span>
+                <p className="text-xs text-white/80 font-medium mt-0.5">Fast 15-minute response across Melbourne • Quotes include $50 coupon</p>
               </div>
 
-              <form onSubmit={handleQuickEstimate} className="mt-5 space-y-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
-                    1. Select Pest Concern
-                  </label>
-                  <select
-                    value={selectedPest}
-                    onChange={(e) => setSelectedPest(e.target.value)}
-                    aria-label="Select pest type"
-                    className="w-full px-3.5 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 font-medium"
-                  >
-                    {SERVICES.map((s) => (
-                      <option key={s.id} value={s.id}>
-                        {s.name}
-                      </option>
-                    ))}
-                  </select>
+              {/* Form with variant="liquid-glass" and dynamic defaultService */}
+              <div className="relative z-10">
+                <QuoteRequestForm
+                  key={`hero-form-${selectedPest}`}
+                  defaultService={selectedPest}
+                  source="Hero Section Quick Quote"
+                  variant="liquid-glass"
+                />
+              </div>
+
+              {/* Payment Options at bottom of Hero Form */}
+              <div className="relative z-10 mt-3.5 pt-3 border-t border-white/15 flex flex-col items-center gap-1 text-center">
+                <div className="flex items-center justify-center gap-1.5 flex-wrap">
+                  <span className="text-[10px] font-bold text-white/80 uppercase tracking-wider">Payment Options:</span>
+                  <span className="px-2 py-0.5 rounded bg-white/10 text-white border border-white/20 text-[10px] font-extrabold">CASH</span>
+                  <span className="px-2 py-0.5 rounded bg-white/10 text-white border border-white/20 text-[10px] font-extrabold">CARD</span>
+                  <span className="px-2 py-0.5 rounded bg-white/10 text-white border border-white/20 text-[10px] font-extrabold">EFTPOS</span>
+                  <span className="px-2 py-0.5 rounded bg-[#DE744C]/30 text-[#FF9570] border border-[#DE744C]/50 text-[10px] font-extrabold">AFTERPAY</span>
+                  <span className="px-2 py-0.5 rounded bg-amber-500/25 text-amber-200 border border-amber-500/50 text-[10px] font-extrabold">ZIP PAY</span>
                 </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
-                    2. Your Suburb in Melbourne
-                  </label>
-                  <div className="relative">
-                    <MapPin className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
-                    <select
-                      value={selectedSuburb}
-                      onChange={(e) => setSelectedSuburb(e.target.value)}
-                      aria-label="Select suburb"
-                      className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 font-medium"
-                    >
-                      {SUBURBS.map((sub) => (
-                        <option key={sub.name} value={sub.name}>
-                          {sub.name} ({sub.postcode}) - {sub.sameDayAvailable ? '⚡ Same-Day Service' : 'Standard'}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                {/* Treatment Overview Result Box (No hardcoded prices) */}
-                <div className="rounded-2xl bg-gradient-to-br from-emerald-950/70 to-slate-800/90 p-4 border border-emerald-600/30 space-y-2.5">
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider block">
-                        Recommended Treatment Plan:
-                      </span>
-                      <h4 className="text-base font-bold text-white mt-0.5">
-                        {currentService.name}
-                      </h4>
-                    </div>
-                    <span className="text-[10px] font-extrabold text-amber-950 bg-amber-400 px-2 py-0.5 rounded-full shrink-0">
-                      FREE INSPECTION
-                    </span>
-                  </div>
-
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    {currentService.shortDesc}
-                  </p>
-
-                  <div className="pt-2 border-t border-slate-700/60 grid grid-cols-2 gap-2 text-[11px]">
-                    <div>
-                      <span className="text-slate-400 block">Warranty</span>
-                      <span className="font-bold text-emerald-300">{currentService.warranty}</span>
-                    </div>
-                    <div>
-                      <span className="text-slate-400 block">Turnaround</span>
-                      <span className="font-bold text-amber-300">Same-Day Available</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Quick Action Button */}
-                <div className="space-y-2 pt-1">
-                  <button
-                    type="button"
-                    onClick={() => onOpenCallback(currentService.name)}
-                    className="w-full py-3.5 px-4 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 font-black rounded-xl text-sm transition shadow-lg shadow-amber-400/20 flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    <Sparkles className="w-4 h-4 text-slate-950" />
-                    <span>Get Fast Free Quote &amp; Free Inspection</span>
-                    <ArrowRight className="w-4 h-4 text-slate-950" />
-                  </button>
-
-                  <a
-                    href={`tel:${COMPANY_DETAILS.phone.replace(/\s+/g, '')}`}
-                    className="w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl transition flex items-center justify-center gap-2 text-center"
-                  >
-                    <Phone className="w-3.5 h-3.5 text-emerald-400" />
-                    Or Speak Directly With Tech Team: {COMPANY_DETAILS.phone}
-                  </a>
-                </div>
-
-                <div className="flex items-center justify-center gap-4 text-[11px] text-slate-400 pt-1">
-                  <span className="flex items-center gap-1">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> Zero hidden fees
-                  </span>
-                  <span>•</span>
-                  <span>Pay after completion</span>
-                  <span>•</span>
-                  <span>Card / EFTPOS accepted</span>
-                </div>
-              </form>
+              </div>
 
             </div>
           </div>
