@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, Mail, Menu, X, ChevronRight, MapPin, Flame, ShieldAlert, Home } from 'lucide-react';
+import { Phone, Mail, Menu, X, ChevronRight, MapPin, Home } from 'lucide-react';
 import { LegendLogo } from './LegendLogo';
 import { COMPANY_DETAILS } from '../data/pestData';
 
@@ -14,7 +14,6 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenCallback,
   currentRoute = 'home',
   onNavigateHome,
-  onNavigateService
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -36,18 +35,8 @@ export const Header: React.FC<HeaderProps> = ({
     }
   };
 
-  const handleServiceClick = (serviceId: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    setMobileMenuOpen(false);
-    if (onNavigateService) {
-      onNavigateService(serviceId);
-    } else {
-      window.location.href = `/services/${serviceId}`;
-    }
-  };
-
   const navLinks = [
-    { label: 'All Services', href: '#services' },
+    { label: 'Services', href: '#services' },
     { label: 'Gallery', href: '#gallery' },
     { label: 'Why Legend', href: '#why-us' },
     { label: 'Reviews', href: '#reviews' },
@@ -102,7 +91,7 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-5 xl:gap-7 text-sm font-bold text-[#E5E7EB]">
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm font-bold text-[#E5E7EB]">
             {currentRoute !== 'home' ? (
               <button
                 onClick={handleHomeClick}
@@ -113,35 +102,10 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
             ) : null}
 
-            {/* Dedicated Service Links */}
-            <button
-              onClick={(e) => handleServiceClick('bee-wasp-removal', e)}
-              className={`flex items-center gap-1.5 py-1 transition-colors cursor-pointer ${
-                currentRoute === 'bee-wasp-removal'
-                  ? 'text-[#DE744C] font-black'
-                  : 'hover:text-[#DE744C]'
-              }`}
-            >
-              <Flame className="w-4 h-4 text-[#DE744C]" />
-              <span>Bees &amp; Wasps</span>
-            </button>
-
-            <button
-              onClick={(e) => handleServiceClick('general-pest-control', e)}
-              className={`flex items-center gap-1.5 py-1 transition-colors cursor-pointer ${
-                currentRoute === 'general-pest-control'
-                  ? 'text-[#DE744C] font-black'
-                  : 'hover:text-[#DE744C]'
-              }`}
-            >
-              <ShieldAlert className="w-4 h-4 text-[#DE744C]" />
-              <span>General Pest</span>
-            </button>
-
-            {currentRoute === 'home' && navLinks.map((link) => (
+            {navLinks.map((link) => (
               <a
                 key={link.label}
-                href={link.href}
+                href={currentRoute === 'home' ? link.href : `/${link.href}`}
                 className="hover:text-[#DE744C] transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#DE744C] hover:after:w-full after:transition-all"
               >
                 {link.label}
@@ -199,39 +163,6 @@ export const Header: React.FC<HeaderProps> = ({
                 <MapPin className="w-3.5 h-3.5 text-[#DE744C]" />
                 Across Greater Melbourne
               </span>
-            </div>
-
-            {/* Dedicated Service Quick Jump Cards */}
-            <div className="grid grid-cols-2 gap-2 pt-1 pb-2">
-              <button
-                onClick={(e) => handleServiceClick('bee-wasp-removal', e)}
-                className={`p-3 rounded-xl border text-left transition cursor-pointer ${
-                  currentRoute === 'bee-wasp-removal'
-                    ? 'bg-[#DE744C]/20 border-[#DE744C] text-white'
-                    : 'bg-[#1C2028] border-white/10 text-slate-200 hover:border-[#DE744C]/40'
-                }`}
-              >
-                <div className="flex items-center gap-1.5 text-[#DE744C] font-black text-xs mb-1">
-                  <Flame className="w-3.5 h-3.5" />
-                  <span>Bees &amp; Wasps</span>
-                </div>
-                <div className="text-[10px] text-slate-400">Emergency removal</div>
-              </button>
-
-              <button
-                onClick={(e) => handleServiceClick('general-pest-control', e)}
-                className={`p-3 rounded-xl border text-left transition cursor-pointer ${
-                  currentRoute === 'general-pest-control'
-                    ? 'bg-[#DE744C]/20 border-[#DE744C] text-white'
-                    : 'bg-[#1C2028] border-white/10 text-slate-200 hover:border-[#DE744C]/40'
-                }`}
-              >
-                <div className="flex items-center gap-1.5 text-[#DE744C] font-black text-xs mb-1">
-                  <ShieldAlert className="w-3.5 h-3.5" />
-                  <span>General Pest</span>
-                </div>
-                <div className="text-[10px] text-slate-400">6-Month Warranty</div>
-              </button>
             </div>
 
             <div className="grid grid-cols-1 gap-1">

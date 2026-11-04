@@ -102,13 +102,9 @@ const INFINITE_SERVICES = [
 
 interface ServicesSectionProps {
   onOpenCallback: (serviceName?: string) => void;
-  onNavigateService?: (serviceId: string) => void;
 }
 
-export const ServicesSection: React.FC<ServicesSectionProps> = ({ 
-  onOpenCallback,
-  onNavigateService 
-}) => {
+export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenCallback }) => {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [activeCardIndex, setActiveCardIndex] = useState(0);
   const [hoveredKey, setHoveredKey] = useState<string | null>(null);
@@ -478,27 +474,11 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                       </p>
                     </div>
 
-                    {/* Voucher Callout & Dedicated Page Link */}
-                    <div className="flex items-center justify-between gap-1.5 flex-wrap">
+                    {/* Voucher Callout */}
+                    <div>
                       <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2.5 py-1 rounded-md inline-block shadow-xs">
                         Quotes include $50 coupon
                       </span>
-
-                      {(service.id === 'bee-wasp-removal' || service.id === 'general-pest-control') && (
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (!hasMovedRef.current && onNavigateService) {
-                              onNavigateService(service.id);
-                            }
-                          }}
-                          className="text-[10px] font-bold text-[#DE744C] bg-[#DE744C]/10 hover:bg-[#DE744C] hover:text-white border border-[#DE744C]/30 px-2 py-1 rounded-md transition shadow-xs cursor-pointer inline-flex items-center gap-1"
-                        >
-                          <span>Full Details</span>
-                          <span>→</span>
-                        </button>
-                      )}
                     </div>
                   </div>
 

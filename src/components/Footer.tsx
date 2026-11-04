@@ -12,22 +12,7 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ 
   onOpenCallback,
   onNavigateHome,
-  onNavigateService,
 }) => {
-  const handleServiceClick = (serviceId: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    if (serviceId === 'bee-wasp-removal' || serviceId === 'general-pest-control') {
-      if (onNavigateService) {
-        onNavigateService(serviceId);
-      } else {
-        window.location.href = `/services/${serviceId}`;
-      }
-    } else {
-      const service = SERVICES.find(s => s.id === serviceId);
-      onOpenCallback(service?.name);
-    }
-  };
-
   const handleHomeClick = (e: React.MouseEvent) => {
     e.preventDefault();
     if (onNavigateHome) {
@@ -106,17 +91,9 @@ export const Footer: React.FC<FooterProps> = ({
             <ul className="space-y-2 text-xs">
               {SERVICES.map((s) => (
                 <li key={s.id}>
-                  <button
-                    onClick={(e) => handleServiceClick(s.id, e)}
-                    className="hover:text-[#DE744C] transition text-left cursor-pointer flex items-center gap-1.5"
-                  >
-                    <span>{s.name}</span>
-                    {(s.id === 'bee-wasp-removal' || s.id === 'general-pest-control') && (
-                      <span className="text-[9px] px-1.5 py-0.2 rounded bg-[#DE744C]/20 text-[#FF9570] font-bold">
-                        Dedicated Page
-                      </span>
-                    )}
-                  </button>
+                  <a href="#services" className="hover:text-[#DE744C] transition">
+                    {s.name}
+                  </a>
                 </li>
               ))}
             </ul>

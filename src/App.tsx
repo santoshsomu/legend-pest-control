@@ -152,10 +152,6 @@ export function App() {
             {/* Comprehensive Services Section (All 8 Services) */}
             <ServicesSection 
               onOpenCallback={handleOpenCallback}
-              onNavigateService={(serviceId) => {
-                if (serviceId === 'bee-wasp-removal') navigateTo('bee-wasp-removal');
-                else if (serviceId === 'general-pest-control') navigateTo('general-pest-control');
-              }}
             />
 
             {/* Authentic Field Gallery Carousel */}
